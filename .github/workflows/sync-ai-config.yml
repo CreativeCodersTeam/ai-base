@@ -1,0 +1,85 @@
+name: Sync AI Configuration
+
+on:
+  workflow_call:
+    inputs:
+      languages:
+        description: 'Comma-separated list of languages (e.g., csharp,typescript,angular,java)'
+        required: true
+        type: string
+      ai-systems:
+        description: 'Comma-separated list of AI systems (e.g., copilot,junie,claude)'
+        required: true
+        type: string
+      ai-base-version:
+        description: 'Version/branch of ai-base to use'
+        required: false
+        type: string
+        default: 'main'
+
+jobs:
+  sync-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          path: target-repo
+
+      - name: Checkout ai-base repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/ai-base
+          ref: ${{ inputs.ai-base-version }}
+          path: ai-base
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ai-base
+        run: npm install
+
+      - name: Generate AI configuration files
+        working-directory: ai-base
+        run: |
+          node scripts/generate-ai-config.js \
+            --languages="${{ inputs.languages }}" \
+            --ai-systems="${{ inputs.ai-systems }}" \
+            --output-dir="../target-repo"
+
+      - name: Check for changes
+        id: check_changes
+        working-directory: target-repo
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        working-directory: target-repo
+        run: |
+          git config user.name "AI Config Sync Bot"
+          git config user.email "ai-config-sync@users.noreply.github.com"
+          git commit -m "chore: sync AI configuration from ai-base
+
+          Languages: ${{ inputs.languages }}
+          AI Systems: ${{ inputs.ai-systems }}
+          AI Base Version: ${{ inputs.ai-base-version }}"
+          git push
+
+      - name: Summary
+        run: |
+          echo "## AI Configuration Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Languages:** ${{ inputs.languages }}" >> $GITHUB_STEP_SUMMARY
+          echo "**AI Systems:** ${{ inputs.ai-systems }}" >> $GITHUB_STEP_SUMMARY
+          echo "**AI Base Version:** ${{ inputs.ai-base-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Changes:** ${{ steps.check_changes.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
