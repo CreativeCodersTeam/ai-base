@@ -2,7 +2,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +14,8 @@ function parseArgs() {
     languages: [],
     aiSystems: [],
     outputDir: process.cwd(),
-    clearAiConfigs: false
+    clearAiConfigs: false,
+    createAgentsMd: false,
   };
 
   for (const arg of args) {
@@ -33,7 +34,7 @@ function parseArgs() {
 }
 
 function getAiConfigPaths(outputDir) {
-  const aiConfigPaths = {
+  return {
     copilot: {
       root: path.join(outputDir, '.github'),
       copilotFile: path.join(outputDir, '.github', 'copilot-instructions.md'),
@@ -43,6 +44,7 @@ function getAiConfigPaths(outputDir) {
     },
     junie: {
       root: path.join(outputDir, '.junie'),
+      guidelinesFile: path.join(outputDir, '.junie', 'guidelines.md'),
       agentsFile: path.join(outputDir, 'AGENTS.md')
     },
     claude: {
@@ -52,8 +54,6 @@ function getAiConfigPaths(outputDir) {
       agents: path.join(outputDir, '.claude', 'agents')
     }
   };
-
-  return aiConfigPaths;
 }
 
 // Read all Markdown files from a directory
@@ -73,7 +73,7 @@ async function readMarkdownFiles(dir) {
       }
     }
   } catch (error) {
-    // Directory doesn't exist, return empty array
+    console.error('Error reading markdown files:', error);
   }
 
   return files;
@@ -112,106 +112,44 @@ async function combineInstructions(languages, baseDir) {
 }
 
 // Generate GitHub Copilot configuration
-async function generateCopilotConfig(languages, baseDir, outputDir) {
+async function generateCopilotConfig(languages, baseDir, outputDir, copilotPaths) {
   console.log('Generating GitHub Copilot configuration...');
 
   const githubDir = path.join(outputDir, '.github');
   await fs.mkdir(githubDir, { recursive: true });
 
-  const skillsDir = path.join(githubDir, 'skills');
-  await fs.mkdir(skillsDir, { recursive: true });
-
-  // Copy general skills
-  const generalSkillsDir = path.join(baseDir, 'src/skills/general');
-  await copySkills(generalSkillsDir, skillsDir);
-
-  // Copy language-specific skills
-  for (const lang of languages) {
-    const langSkillsDir = path.join(baseDir, 'src/skills', lang);
-    await copySkills(langSkillsDir, skillsDir);
-  }
-
-  // Copy agents
-  const agentsDir = path.join(githubDir, 'agents');
-  await fs.mkdir(agentsDir, { recursive: true });
-
-  // Copy general agents
-  const generalAgentsDir = path.join(baseDir, 'src/agents/general');
-  await copyAgents(generalAgentsDir, agentsDir);
-
-  // Copy language-specific agents
-  for (const lang of languages) {
-    const langAgentsDir = path.join(baseDir, 'src/agents', lang);
-    await copyAgents(langAgentsDir, agentsDir);
-  }
+  await createAllSkills(baseDir, copilotPaths.skills, languages);
+  await createAllAgents(baseDir, copilotPaths.agents, languages);
 
   // Copilot doesn't support language-specific instruction files.
   // So we combine all instructions into one file
-  const combinedInstructions = await combineInstructions(languages, baseDir);
+  await createAllInstructions(baseDir, copilotPaths.instructions, languages, copilotPaths.copilotFile);
 
-  const copilotFile = path.join(githubDir, 'copilot-instructions.md');
-  await fs.writeFile(copilotFile, combinedInstructions);
-
-  console.log(`✓ Created ${copilotFile}`);
-  console.log(`✓ Created skills in ${skillsDir}`);
-  console.log(`✓ Created agents in ${agentsDir}`);
+  console.log(`✓ Created ${copilotPaths.copilotFile}`);
+  console.log(`✓ Created skills in ${copilotPaths.skills}`);
+  console.log(`✓ Created agents in ${copilotPaths.agents}`);
 }
 
 // Generate Junie configuration
-async function generateJunieConfig(languages, baseDir, outputDir) {
+async function generateJunieConfig(languages, baseDir, outputDir, juniePaths, createAgentsMd) {
   console.log('Generating Junie configuration...');
 
-  // Junie supports AGENTS.md in root
+  await fs.mkdir(juniePaths.root, { recursive: true });
+
   const agentsContent = await combineInstructions(languages, baseDir);
-  const agentsFile = path.join(outputDir, 'AGENTS.md');
-  await fs.writeFile(agentsFile, agentsContent);
+  const instructionsFile = createAgentsMd ? juniePaths.agentsFile : juniePaths.guidelinesFile;
+  await fs.writeFile(instructionsFile, agentsContent);
 
-  console.log(`✓ Created ${agentsFile}`);
-
-  // Also create .junie/guidelines.md
-  const junieDir = path.join(outputDir, '.junie');
-  await fs.mkdir(junieDir, { recursive: true });
-
-  const guidelinesFile = path.join(junieDir, 'guidelines.md');
-  await fs.writeFile(guidelinesFile, agentsContent);
-
-  console.log(`✓ Created ${guidelinesFile}`);
+  console.log(`✓ Created ${instructionsFile}`);
 }
 
 // Generate Claude Code configuration
-async function generateClaudeConfig(languages, baseDir, outputDir) {
+async function generateClaudeConfig(languages, baseDir, outputDir, claudePaths) {
   console.log('Generating Claude Code configuration...');
 
-  const claudeDir = path.join(outputDir, '.claude');
-  await fs.mkdir(claudeDir, { recursive: true });
+  await createAllSkills(baseDir, claudePaths.skills, languages);
 
-  // Copy skills
-  const skillsDir = path.join(claudeDir, 'skills');
-  await fs.mkdir(skillsDir, { recursive: true });
-
-  // Copy general skills
-  const generalSkillsDir = path.join(baseDir, 'src/skills/general');
-  await copySkills(generalSkillsDir, skillsDir);
-
-  // Copy language-specific skills
-  for (const lang of languages) {
-    const langSkillsDir = path.join(baseDir, 'src/skills', lang);
-    await copySkills(langSkillsDir, skillsDir);
-  }
-
-  // Copy agents
-  const agentsDir = path.join(claudeDir, 'agents');
-  await fs.mkdir(agentsDir, { recursive: true });
-
-  // Copy general agents
-  const generalAgentsDir = path.join(baseDir, 'src/agents/general');
-  await copyAgents(generalAgentsDir, agentsDir);
-
-  // Copy language-specific agents
-  for (const lang of languages) {
-    const langAgentsDir = path.join(baseDir, 'src/agents', lang);
-    await copyAgents(langAgentsDir, agentsDir);
-  }
+  await createAllAgents(baseDir, claudePaths.agents, languages);
 
   // Create CLAUDE.md with instructions
   const combinedInstructions = await combineInstructions(languages, baseDir);
@@ -219,8 +157,39 @@ async function generateClaudeConfig(languages, baseDir, outputDir) {
   await fs.writeFile(claudeFile, combinedInstructions);
 
   console.log(`✓ Created ${claudeFile}`);
-  console.log(`✓ Created skills in ${skillsDir}`);
-  console.log(`✓ Created agents in ${agentsDir}`);
+  console.log(`✓ Created skills in ${claudePaths.skills}`);
+  console.log(`✓ Created agents in ${claudePaths.agents}`);
+}
+
+async function createAllSkills(baseDir, skillsDir, languages) {
+  await fs.mkdir(skillsDir, { recursive: true });
+
+  for (const lang of languages.concat("general")) {
+    const langSkillsDir = path.join(baseDir, 'src/skills', lang);
+    await copySkills(langSkillsDir, skillsDir);
+  }
+}
+
+async function createAllAgents(baseDir, agentsDir, languages) {
+  await fs.mkdir(agentsDir, { recursive: true });
+
+  for (const lang of languages.concat("general")) {
+    const langAgentsDir = path.join(baseDir, 'src/agents', lang);
+    await copyAgents(langAgentsDir, agentsDir);
+  }
+}
+
+async function createAllInstructions(baseDir, instructionsDir, languages, generalInstructionFile) {
+  await fs.mkdir(instructionsDir, { recursive: true });
+
+  const generalInstructionsFile = path.join(baseDir, 'src', 'instructions', 'general', 'general.instructions.md');
+  await fs.copyFile(generalInstructionsFile, generalInstructionFile);
+
+  for (const lang of languages) {
+    const langInstructionsDir = path.join(baseDir, 'src/instructions', lang);
+    console.log(`Copying instructions for ${lang}... from ${langInstructionsDir} to ${instructionsDir}`);
+    await copyAgents(langInstructionsDir, instructionsDir);
+  }
 }
 
 // Copy skills maintaining directory structure
@@ -280,10 +249,8 @@ async function copyDirectory(source, target) {
   }
 }
 
-async function clearAiConfigs(outputDir, aiSystems) {
+async function clearAiConfigs(outputDir, aiSystems, aiConfigPaths) {
   console.log('Clearing existing AI configurations...');
-
-  const aiConfigPaths = getAiConfigPaths(outputDir);
 
   if (aiSystems.includes('copilot')) {
     console.log('Clearing Copilot configurations...');
@@ -326,11 +293,11 @@ async function main() {
     process.exit(1);
   }
 
-  if (config.clearAiConfigs) {
-    await clearAiConfigs(config.outputDir, config.aiSystems);
-  }
+  const aiConfigPaths = getAiConfigPaths(config.outputDir);
 
-  return;
+  if (config.clearAiConfigs) {
+    await clearAiConfigs(config.outputDir, config.aiSystems, aiConfigPaths);
+  }
 
   console.log('AI Configuration Generator');
   console.log('==========================');
@@ -343,13 +310,13 @@ async function main() {
   for (const aiSystem of config.aiSystems) {
     switch (aiSystem.toLowerCase()) {
       case 'copilot':
-        await generateCopilotConfig(config.languages, baseDir, config.outputDir);
+        await generateCopilotConfig(config.languages, baseDir, config.outputDir, aiConfigPaths.copilot);
         break;
       case 'junie':
-        await generateJunieConfig(config.languages, baseDir, config.outputDir);
+        await generateJunieConfig(config.languages, baseDir, config.outputDir, aiConfigPaths.junie, config.createAgentsMd);
         break;
       case 'claude':
-        await generateClaudeConfig(config.languages, baseDir, config.outputDir);
+        await generateClaudeConfig(config.languages, baseDir, config.outputDir, aiConfigPaths.claude);
         break;
       default:
         console.warn(`⚠ Unknown AI system: ${aiSystem}`);
