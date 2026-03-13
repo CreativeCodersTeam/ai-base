@@ -38,7 +38,8 @@ function getAiConfigPaths(outputDir) {
       root: path.join(outputDir, '.github'),
       copilotFile: path.join(outputDir, '.github', 'copilot-instructions.md'),
       skills: path.join(outputDir, '.github', 'skills'),
-      agents: path.join(outputDir, '.github', 'agents')
+      agents: path.join(outputDir, '.github', 'agents'),
+      instructions: path.join(outputDir, '.github', 'instructions')
     },
     junie: {
       root: path.join(outputDir, '.junie'),
@@ -300,21 +301,20 @@ async function clearAiConfigs(outputDir, aiSystems) {
   if (aiSystems.includes('claude')) {
     console.log('Clearing Claude configurations...');
     await clearAiConfigFile(aiConfigPaths.claude.claudeFile);
-    await clearAiConfigDirectory(aiConfigPaths.claude.agents);
-    await clearAiConfigDirectory(aiConfigPaths.claude.skills);
+    await clearAiConfigDirectory(aiConfigPaths.claude.root);
   }
 }
 
 async function clearAiConfigDirectory(dir) {
-  console.log(`Clearing directory: ${dir}`);
-
   await fs.rm(dir, { recursive: true, force: true });
+
+  console.log(`✓ Directory cleared: ${dir}`);
 }
 
 async function clearAiConfigFile(fileName) {
-  console.log(`Clearing file: ${fileName}`);
-
   await fs.rm(fileName, { force: true });
+
+  console.log(`✓ File cleared: ${fileName}`);
 }
 
 // Main function
