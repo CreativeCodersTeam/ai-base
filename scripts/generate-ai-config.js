@@ -13,20 +13,46 @@ function parseArgs() {
   const config = {
     languages: [],
     aiSystems: [],
-    outputDir: process.cwd()
+    outputDir: process.cwd(),
+    clearAiConfigs: false
   };
 
   for (const arg of args) {
     if (arg.startsWith('--languages=')) {
-      config.languages = arg.substring('--languages='.length).split(',').map(l => l.trim());
+      config.languages = arg.substring('--languages='.length).split(',').map(l => l.trim().toLowerCase());
     } else if (arg.startsWith('--ai-systems=')) {
-      config.aiSystems = arg.substring('--ai-systems='.length).split(',').map(s => s.trim());
+      config.aiSystems = arg.substring('--ai-systems='.length).split(',').map(s => s.trim().toLowerCase());
     } else if (arg.startsWith('--output-dir=')) {
       config.outputDir = arg.substring('--output-dir='.length);
+    } else if (arg === '--clear') {
+      config.clearAiConfigs = true;
     }
   }
 
   return config;
+}
+
+function getAiConfigPaths(outputDir) {
+  const aiConfigPaths = {
+    copilot: {
+      root: path.join(outputDir, '.github'),
+      copilotFile: path.join(outputDir, '.github', 'copilot-instructions.md'),
+      skills: path.join(outputDir, '.github', 'skills'),
+      agents: path.join(outputDir, '.github', 'agents')
+    },
+    junie: {
+      root: path.join(outputDir, '.junie'),
+      agentsFile: path.join(outputDir, 'AGENTS.md')
+    },
+    claude: {
+      root: path.join(outputDir, '.claude'),
+      claudeFile: path.join(outputDir, 'CLAUDE.md'),
+      skills: path.join(outputDir, '.claude', 'skills'),
+      agents: path.join(outputDir, '.claude', 'agents')
+    }
+  };
+
+  return aiConfigPaths;
 }
 
 // Read all Markdown files from a directory
@@ -104,6 +130,20 @@ async function generateCopilotConfig(languages, baseDir, outputDir) {
     await copySkills(langSkillsDir, skillsDir);
   }
 
+  // Copy agents
+  const agentsDir = path.join(githubDir, 'agents');
+  await fs.mkdir(agentsDir, { recursive: true });
+
+  // Copy general agents
+  const generalAgentsDir = path.join(baseDir, 'src/agents/general');
+  await copyAgents(generalAgentsDir, agentsDir);
+
+  // Copy language-specific agents
+  for (const lang of languages) {
+    const langAgentsDir = path.join(baseDir, 'src/agents', lang);
+    await copyAgents(langAgentsDir, agentsDir);
+  }
+
   // Copilot doesn't support language-specific instruction files.
   // So we combine all instructions into one file
   const combinedInstructions = await combineInstructions(languages, baseDir);
@@ -113,6 +153,7 @@ async function generateCopilotConfig(languages, baseDir, outputDir) {
 
   console.log(`✓ Created ${copilotFile}`);
   console.log(`✓ Created skills in ${skillsDir}`);
+  console.log(`✓ Created agents in ${agentsDir}`);
 }
 
 // Generate Junie configuration
@@ -157,6 +198,20 @@ async function generateClaudeConfig(languages, baseDir, outputDir) {
     await copySkills(langSkillsDir, skillsDir);
   }
 
+  // Copy agents
+  const agentsDir = path.join(claudeDir, 'agents');
+  await fs.mkdir(agentsDir, { recursive: true });
+
+  // Copy general agents
+  const generalAgentsDir = path.join(baseDir, 'src/agents/general');
+  await copyAgents(generalAgentsDir, agentsDir);
+
+  // Copy language-specific agents
+  for (const lang of languages) {
+    const langAgentsDir = path.join(baseDir, 'src/agents', lang);
+    await copyAgents(langAgentsDir, agentsDir);
+  }
+
   // Create CLAUDE.md with instructions
   const combinedInstructions = await combineInstructions(languages, baseDir);
   const claudeFile = path.join(outputDir, 'CLAUDE.md');
@@ -164,6 +219,7 @@ async function generateClaudeConfig(languages, baseDir, outputDir) {
 
   console.log(`✓ Created ${claudeFile}`);
   console.log(`✓ Created skills in ${skillsDir}`);
+  console.log(`✓ Created agents in ${agentsDir}`);
 }
 
 // Copy skills maintaining directory structure
@@ -181,7 +237,28 @@ async function copySkills(sourceDir, targetDir) {
       }
     }
   } catch (error) {
-    // Directory doesn't exist, skip
+    console.error('Error copying skills:', error);
+  }
+}
+
+// Copy agents maintaining directory structure
+async function copyAgents(sourceDir, targetDir) {
+  try {
+    const entries = await fs.readdir(sourceDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const sourcePath = path.join(sourceDir, entry.name);
+      const targetPath = path.join(targetDir, entry.name);
+
+      if (entry.isDirectory()) {
+        await fs.mkdir(targetPath, { recursive: true });
+        await copyDirectory(sourcePath, targetPath);
+      } else if (entry.name.endsWith('.md')) {
+        await fs.copyFile(sourcePath, targetPath);
+      }
+    }
+  } catch (error) {
+    console.error('Error copying agents:', error);
   }
 }
 
@@ -202,6 +279,44 @@ async function copyDirectory(source, target) {
   }
 }
 
+async function clearAiConfigs(outputDir, aiSystems) {
+  console.log('Clearing existing AI configurations...');
+
+  const aiConfigPaths = getAiConfigPaths(outputDir);
+
+  if (aiSystems.includes('copilot')) {
+    console.log('Clearing Copilot configurations...');
+    await clearAiConfigFile(aiConfigPaths.copilot.copilotFile);
+    await clearAiConfigDirectory(aiConfigPaths.copilot.agents);
+    await clearAiConfigDirectory(aiConfigPaths.copilot.skills);
+  }
+
+  if (aiSystems.includes('junie')) {
+    console.log('Clearing Junie configurations...');
+    await clearAiConfigDirectory(aiConfigPaths.junie.root);
+    await clearAiConfigFile(aiConfigPaths.junie.agentsFile);
+  }
+
+  if (aiSystems.includes('claude')) {
+    console.log('Clearing Claude configurations...');
+    await clearAiConfigFile(aiConfigPaths.claude.claudeFile);
+    await clearAiConfigDirectory(aiConfigPaths.claude.agents);
+    await clearAiConfigDirectory(aiConfigPaths.claude.skills);
+  }
+}
+
+async function clearAiConfigDirectory(dir) {
+  console.log(`Clearing directory: ${dir}`);
+
+  await fs.rm(dir, { recursive: true, force: true });
+}
+
+async function clearAiConfigFile(fileName) {
+  console.log(`Clearing file: ${fileName}`);
+
+  await fs.rm(fileName, { force: true });
+}
+
 // Main function
 async function main() {
   const config = parseArgs();
@@ -210,6 +325,12 @@ async function main() {
     console.error('Usage: node generate-ai-config.js --languages=csharp,typescript --ai-systems=copilot,junie,claude [--output-dir=./output]');
     process.exit(1);
   }
+
+  if (config.clearAiConfigs) {
+    await clearAiConfigs(config.outputDir, config.aiSystems);
+  }
+
+  return;
 
   console.log('AI Configuration Generator');
   console.log('==========================');

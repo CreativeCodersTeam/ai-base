@@ -16,6 +16,11 @@ on:
         required: false
         type: string
         default: 'main'
+      clear-ai-configs:
+        description: 'Clear existing AI configuration files before syncing'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   sync-config:
@@ -49,13 +54,14 @@ jobs:
           node scripts/generate-ai-config.js \
             --languages="${{ inputs.languages }}" \
             --ai-systems="${{ inputs.ai-systems }}" \
+            ${{ inputs.clear-ai-configs && '--clear' || '' }} \
             --output-dir="../target-repo"
 
       - name: Check for changes
         id: check_changes
         working-directory: target-repo
         run: |
-          git add -A
+          git add -A AGENTS.md CLAUDE.md ./.claude ./.copilot ./.junie
           if git diff --staged --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
