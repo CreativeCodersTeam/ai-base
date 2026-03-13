@@ -1,49 +1,49 @@
 # AI Base Configuration Repository
 
-Zentrales Repository für die Verwaltung von AI Instructions, Skills und Agents, das von verschiedenen AI-Systemen genutzt werden kann.
+Central repository for managing AI Instructions, Skills, and Agents that can be used by various AI systems.
 
-## 🎯 Überblick
+## 🎯 Overview
 
-Dieses Repository dient als zentrale Quelle für:
-- **Instructions**: Allgemeine und sprachenspezifische Coding-Richtlinien
-- **Skills**: Wiederverwendbare Fähigkeiten für AI-Agents
-- **Agents**: Spezialisierte Agent-Definitionen für verschiedene Rollen
+This repository serves as a central source for:
+- **Instructions**: General and language-specific coding guidelines
+- **Skills**: Reusable capabilities for AI agents
+- **Agents**: Specialized agent definitions for different roles
 
-## 🏗️ Struktur
+## 🏗️ Structure
 
 ```
 ai-base/
 ├── src/
-│   ├── instructions/          # Coding-Richtlinien
-│   │   ├── general/          # Allgemeine Instructions
-│   │   ├── csharp/           # C#-spezifische Instructions
-│   │   ├── typescript/       # TypeScript-spezifische Instructions
-│   │   ├── angular/          # Angular-spezifische Instructions
-│   │   └── java/             # Java-spezifische Instructions
-│   ├── skills/               # Wiederverwendbare Skills
-│   │   ├── general/          # Allgemeine Skills (z.B. code-review)
-│   │   ├── csharp/           # C#-spezifische Skills (z.B. ef-core)
-│   │   ├── typescript/       # TypeScript-spezifische Skills (z.B. rxjs)
-│   │   ├── angular/          # Angular-spezifische Skills
-│   │   └── java/             # Java-spezifische Skills
-│   └── agents/               # Agent-Definitionen
-│       ├── general/          # Allgemeine Agents (z.B. backend-developer)
-│       ├── csharp/           # C#-spezifische Agents
-│       ├── typescript/       # TypeScript-spezifische Agents
-│       ├── angular/          # Angular-spezifische Agents
-│       └── java/             # Java-spezifische Agents
+│   ├── instructions/          # Coding guidelines
+│   │   ├── general/          # General instructions
+│   │   ├── csharp/           # C#-specific instructions
+│   │   ├── typescript/       # TypeScript-specific instructions
+│   │   ├── angular/          # Angular-specific instructions
+│   │   └── java/             # Java-specific instructions
+│   ├── skills/               # Reusable skills
+│   │   ├── general/          # General skills (e.g., code-review)
+│   │   ├── csharp/           # C#-specific skills (e.g., ef-core)
+│   │   ├── typescript/       # TypeScript-specific skills (e.g., rxjs)
+│   │   ├── angular/          # Angular-specific skills
+│   │   └── java/             # Java-specific skills
+│   └── agents/               # Agent definitions
+│       ├── general/          # General agents (e.g., backend-developer)
+│       ├── csharp/           # C#-specific agents
+│       ├── typescript/       # TypeScript-specific agents
+│       ├── angular/          # Angular-specific agents
+│       └── java/             # Java-specific agents
 ├── scripts/
-│   └── generate-ai-config.js # Generator-Script
+│   └── generate-ai-config.js # Generator script
 └── .github/
     └── workflows/
         └── sync-ai-config.yml # Reusable GitHub Action
 ```
 
-## 🚀 Verwendung
+## 🚀 Usage
 
-### In anderen Repositories verwenden
+### Using in Other Repositories
 
-Erstelle eine Workflow-Datei in deinem Repository (z.B. `.github/workflows/sync-ai-config.yml`):
+Create a workflow file in your repository (e.g., `.github/workflows/sync-ai-config.yml`):
 
 ```yaml
 name: Sync AI Configuration
@@ -51,132 +51,132 @@ name: Sync AI Configuration
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'  # Wöchentlich sonntags
+    - cron: '0 0 * * 0'  # Weekly on Sundays
 
 jobs:
   sync:
-    uses: <DEIN-GITHUB-USERNAME>/ai-base/.github/workflows/sync-ai-config.yml@main
+    uses: <YOUR-GITHUB-USERNAME>/ai-base/.github/workflows/sync-ai-config.yml@main
     with:
       languages: 'csharp,typescript'
       ai-systems: 'copilot,claude'
       ai-base-version: 'main'
 ```
 
-### Lokal testen
+### Local Testing
 
 ```bash
 # Installation
 npm install
 
-# Generiere Konfiguration
+# Generate configuration
 node scripts/generate-ai-config.js \
   --languages=csharp,typescript \
   --ai-systems=copilot,junie,claude \
   --output-dir=./output
 ```
 
-## 🤖 Unterstützte AI-Systeme
+## 🤖 Supported AI Systems
 
 ### GitHub Copilot
-- **Ausgabe-Dateien**: `.github/copilot-instructions.md`
-- **Features**: Kombinierte Instructions (da keine sprachenspezifischen Files unterstützt werden)
+- **Output files**: `.github/copilot-instructions.md`
+- **Features**: Combined instructions (as language-specific files are not supported)
 
 ### Junie (JetBrains)
-- **Ausgabe-Dateien**:
+- **Output files**:
   - `AGENTS.md` (root)
   - `.junie/guidelines.md`
-- **Features**: Kombinierte Instructions
+- **Features**: Combined instructions
 
 ### Claude Code
-- **Ausgabe-Dateien**:
+- **Output files**:
   - `CLAUDE.md` (Instructions)
-  - `.claude/skills/` (Skills mit SKILL.md Files)
+  - `.claude/skills/` (Skills with SKILL.md files)
 - **Features**:
-  - Sprachenspezifische Skills
-  - Kombinierte Instructions
+  - Language-specific skills
+  - Combined instructions
 
-## 📝 Verfügbare Sprachen
+## 📝 Available Languages
 
 - `csharp` - C# / .NET
 - `typescript` - TypeScript
 - `angular` - Angular Framework
 - `java` - Java
 
-## ⚙️ Parameter
+## ⚙️ Parameters
 
 ### GitHub Action Inputs
 
-| Parameter | Beschreibung | Erforderlich | Standard |
-|-----------|--------------|--------------|----------|
-| `languages` | Komma-getrennte Liste von Sprachen | Ja | - |
-| `ai-systems` | Komma-getrennte Liste von AI-Systemen | Ja | - |
-| `ai-base-version` | Version/Branch von ai-base | Nein | `main` |
+| Parameter | Description | Required | Default |
+|-----------|-------------|----------|---------|
+| `languages` | Comma-separated list of languages | Yes | - |
+| `ai-systems` | Comma-separated list of AI systems | Yes | - |
+| `ai-base-version` | Version/branch of ai-base | No | `main` |
 
-### Script Parameter
+### Script Parameters
 
 ```bash
---languages=<lang1,lang2>    # Sprachen (komma-getrennt)
---ai-systems=<sys1,sys2>     # AI-Systeme (komma-getrennt)
---output-dir=<path>          # Ausgabe-Verzeichnis (Standard: aktuelles Verzeichnis)
+--languages=<lang1,lang2>    # Languages (comma-separated)
+--ai-systems=<sys1,sys2>     # AI systems (comma-separated)
+--output-dir=<path>          # Output directory (default: current directory)
 ```
 
-## 📦 Hinzufügen neuer Inhalte
+## 📦 Adding New Content
 
-### Neue Instruction hinzufügen
+### Adding a New Instruction
 
-1. Erstelle eine `.md` Datei in `src/instructions/<sprache>/`
-2. Folge dem Format der existierenden Instructions
-3. Bei sprachenspezifischen Instructions: Füge `**Scope: <Sprache> Projects**` hinzu
+1. Create a `.md` file in `src/instructions/<language>/`
+2. Follow the format of existing instructions
+3. For language-specific instructions: Add `**Scope: <Language> Projects**`
 
-### Neuen Skill hinzufügen
+### Adding a New Skill
 
-1. Erstelle ein Verzeichnis in `src/skills/<sprache>/<skill-name>/`
-2. Füge eine `SKILL.md` Datei hinzu mit:
+1. Create a directory in `src/skills/<language>/<skill-name>/`
+2. Add a `SKILL.md` file with:
    ```markdown
    ---
    name: skill-name
-   description: Beschreibung wann der Skill verwendet wird
+   description: Description of when the skill should be used
    ---
 
-   # Skill-Inhalt
+   # Skill content
    ```
 
-### Neuen Agent hinzufügen
+### Adding a New Agent
 
-1. Erstelle eine `.md` Datei in `src/agents/<sprache>/`
-2. Definiere Rolle, Verantwortlichkeiten, Skills und Guidelines
+1. Create a `.md` file in `src/agents/<language>/`
+2. Define role, responsibilities, skills, and guidelines
 
-## 🔄 Wie es funktioniert
+## 🔄 How It Works
 
-1. **Quell-Files**: Instructions, Skills und Agents werden einmal in `src/` definiert
-2. **Generator-Script**: `generate-ai-config.js` liest die Source-Files
+1. **Source files**: Instructions, Skills, and Agents are defined once in `src/`
+2. **Generator script**: `generate-ai-config.js` reads the source files
 3. **Transformation**:
-   - Für AI-Systeme ohne sprachenspezifische Unterstützung werden Files kombiniert
-   - Header werden hinzugefügt mit Sprach-Scope
-   - Files werden in AI-System spezifische Formate konvertiert
-4. **Deployment**: GitHub Action kopiert generierte Files ins Ziel-Repository
+   - For AI systems without language-specific support, files are combined
+   - Headers are added with language scope
+   - Files are converted to AI system-specific formats
+4. **Deployment**: GitHub Action copies generated files to target repository
 
-## 🎨 Kombinations-Logik
+## 🎨 Combination Logic
 
-Für AI-Systeme die keine sprachenspezifischen Instructions unterstützen:
+For AI systems that don't support language-specific instructions:
 
-1. **General Instructions** zuerst
+1. **General Instructions** first
    ```markdown
    # General Instructions
-   <Inhalt>
+   <Content>
    ```
 
-2. **Sprachenspezifische Instructions** danach (für jede Sprache)
+2. **Language-specific Instructions** after (for each language)
    ```markdown
-   # <SPRACHE> Specific Instructions
-   **Scope: <sprache> projects only**
-   <Inhalt>
+   # <LANGUAGE> Specific Instructions
+   **Scope: <language> projects only**
+   <Content>
    ```
 
-## 📄 Lizenz
+## 📄 License
 
 MIT
 
-## 🤝 Beitragen
+## 🤝 Contributing
 
-Contributions sind willkommen! Bitte erstelle einen Pull Request mit deinen Änderungen.
+Contributions are welcome! Please create a pull request with your changes.
