@@ -13,5 +13,10 @@ public class JunieAiSystem() : AiSystemBase("junie", "Junie")
     public override async Task CleanupAsync(DeploymentSetup setup)
     {
         AnsiConsole.WriteLine($"Cleaning up {DisplayName}...");
+
+        var paths = new JuniePaths(setup.OutputDir);
+
+        await CleanupFileAsync(paths.GuidelinesFile);
+        await CleanupFileAsync(paths.AgentsFile);
     }
 }

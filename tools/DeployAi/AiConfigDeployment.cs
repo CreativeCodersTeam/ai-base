@@ -27,13 +27,14 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
         var setup = new DeploymentSetup
         {
             OutputDir = FileSys.Path.GetFullPath(arguments.OutputDir),
+            SourceBaseDir = FileSys.Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "..")),
             PreferAgentsMd = arguments.PreferAgentsMd,
             LanguageTypes = languagesToDeploy,
             General = languageTypes.General
         };
 
         AnsiConsole.WriteLine(
-            $"Deployment setup: OutputDir={setup.OutputDir}, PreferAgentsMd={setup.PreferAgentsMd}, Languages={string.Join(", ", setup.LanguageTypes.Select(x => x.Name))}");
+            $"Deployment setup: OutputDir={setup.OutputDir}, SourceBaseDir={setup.SourceBaseDir}, PreferAgentsMd={setup.PreferAgentsMd}, Languages={string.Join(", ", setup.LanguageTypes.Select(x => x.Name))}");
 
         if (arguments.CleanupBeforeDeployment)
         {

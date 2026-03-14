@@ -13,5 +13,11 @@ public class ClaudeAiSystem() : AiSystemBase("claude", "Claude")
     public override async Task CleanupAsync(DeploymentSetup setup)
     {
         AnsiConsole.WriteLine($"Cleaning up {DisplayName}...");
+
+        var paths = new ClaudePaths(setup.OutputDir);
+
+        await CleanupFileAsync(paths.ClaudeMdFile);
+        await CleanupDirAsync(paths.AgentsDir);
+        await CleanupDirAsync(paths.SkillsDir);
     }
 }

@@ -39,23 +39,17 @@ jobs:
           ref: ${{ inputs.ai-base-version }}
           path: ai-base
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        working-directory: ai-base
-        run: npm install
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
 
       - name: Generate AI configuration files
-        working-directory: ai-base
+        working-directory: ai-base/tools
         run: |
-          node scripts/generate-ai-config.js \
+          bash deploy-ai-config.sh \
             --languages="${{ inputs.languages }}" \
-            --ai-systems="${{ inputs.ai-systems }}" \
-            ${{ inputs.clear-ai-configs && '--clear' || '' }} \
-            --output-dir="../target-repo"
+            --ai="${{ inputs.ai-systems }}" \
+            ${{ inputs.clear-ai-configs && '--cleanup' || '' }} \
+            --output="../target-repo"
 
       - name: Check for changes
         id: check_changes
