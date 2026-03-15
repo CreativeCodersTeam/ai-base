@@ -21,6 +21,11 @@ on:
         required: false
         type: boolean
         default: false
+      create-pull-request:
+        description: 'Create a pull request instead of committing directly to the branch'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   sync-config:
@@ -41,29 +46,6 @@ jobs:
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
-
-      - name: Debug output
-        working-directory: ai-base/tools
-        run: |
-          pwd
-          ls -l
-          cd ..
-          pwd
-          ls -l
-          cd ..
-          pwd
-          ls -l
-          cd ..
-          pwd
-          ls -l
-          cd ..
-          pwd
-          ls -l
-
-          cd /home/runner/work/GitHubPlayground/GitHubPlayground/ai-base/src/agents/
-          pwd
-          ls -l
-
 
       - name: Generate AI configuration files
         working-directory: ai-base/tools
@@ -88,7 +70,15 @@ jobs:
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push changes
+      - name: Create branch for pull request
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request
+        working-directory: target-repo
+        run: |
+          BRANCH_NAME="sync-ai-config-$(date +%Y%m%d-%H%M%S)"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+          git checkout -b "$BRANCH_NAME"
+
+      - name: Commit changes
         if: steps.check_changes.outputs.has_changes == 'true'
         working-directory: target-repo
         run: |
@@ -99,7 +89,39 @@ jobs:
           Languages: ${{ inputs.languages }}
           AI Systems: ${{ inputs.ai-systems }}
           AI Base Version: ${{ inputs.ai-base-version }}"
-          git push
+
+      - name: Push changes (direct commit)
+        if: steps.check_changes.outputs.has_changes == 'true' && !inputs.create-pull-request
+        working-directory: target-repo
+        run: git push
+
+      - name: Push changes (new branch)
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request
+        working-directory: target-repo
+        run: git push origin "${{ env.branch_name }}"
+
+      - name: Create pull request
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request
+        working-directory: target-repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr create \
+            --title "chore: sync AI configuration from ai-base" \
+            --body "## AI Configuration Sync
+
+          This PR synchronizes AI configuration files from the ai-base repository.
+
+          **Configuration:**
+          - Languages: ${{ inputs.languages }}
+          - AI Systems: ${{ inputs.ai-systems }}
+          - AI Base Version: ${{ inputs.ai-base-version }}
+
+          **Changes include:**
+          - Updated agent skills and configurations
+          - Synchronized AI system settings" \
+            --base "${{ github.ref_name }}" \
+            --head "${{ env.branch_name }}"
 
       - name: Summary
         run: |
@@ -109,3 +131,7 @@ jobs:
           echo "**AI Systems:** ${{ inputs.ai-systems }}" >> $GITHUB_STEP_SUMMARY
           echo "**AI Base Version:** ${{ inputs.ai-base-version }}" >> $GITHUB_STEP_SUMMARY
           echo "**Changes:** ${{ steps.check_changes.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** ${{ inputs.create-pull-request && 'Pull Request' || 'Direct Commit' }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ] && [ "${{ inputs.create-pull-request }}" == "true" ]; then
+            echo "**Branch:** ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
+          fi
