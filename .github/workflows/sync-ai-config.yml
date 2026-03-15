@@ -78,7 +78,8 @@ jobs:
         id: check_changes
         working-directory: target-repo
         run: |
-          git add -A AGENTS.md CLAUDE.md ./.claude ./.copilot ./.junie
+          git add AGENTS.md CLAUDE.md .claude/ .github/ .junie/
+          #git add -A
           if git diff --staged --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
