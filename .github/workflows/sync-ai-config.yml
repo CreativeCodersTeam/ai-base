@@ -78,7 +78,9 @@ jobs:
         id: check_changes
         working-directory: target-repo
         run: |
-          git add AGENTS.md CLAUDE.md .claude/ .github/ .junie/
+          for item in AGENTS.md CLAUDE.md .claude .github .junie; do
+            [ -e "$item" ] && git add "$item"
+          done
           #git add -A
           if git diff --staged --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
