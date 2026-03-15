@@ -45,12 +45,16 @@ jobs:
       - name: Debug output
         working-directory: ai-base/tools
         run: |
+          pwd
           ls -l
           cd ..
+          pwd
           ls -l
           cd ..
+          pwd
           ls -l
           cd ..
+          pwd
           ls -l
 
       - name: Generate AI configuration files
