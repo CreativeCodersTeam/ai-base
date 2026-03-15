@@ -22,8 +22,6 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         foreach (var skill in skills)
         {
-            AnsiConsole.WriteLine($"Copying skill '{skill.Name}' from file '{skill.FileName}'...");
-
             CopyFile(skill.FileName, FileSys.Path.Combine(targetDir, skill.Name, "SKILL.md"));
         }
     }
@@ -36,7 +34,6 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         foreach (var agentFile in agentFiles)
         {
-            AnsiConsole.WriteLine($"Copying agent file '{agentFile}'...");
             CopyFile(agentFile, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(agentFile)));
         }
     }
@@ -49,7 +46,6 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         foreach (var instructionFile in instructionFiles)
         {
-            AnsiConsole.WriteLine($"Copying instruction file '{instructionFile}'...");
             CopyFile(instructionFile, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(instructionFile)));
         }
     }
