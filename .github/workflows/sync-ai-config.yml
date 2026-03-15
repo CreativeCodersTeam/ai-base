@@ -35,7 +35,7 @@ jobs:
       - name: Checkout ai-base repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/ai-base
+          repository: https://github.com/CreativeCodersTeam/ai-base
           ref: ${{ inputs.ai-base-version }}
           path: ai-base
 
