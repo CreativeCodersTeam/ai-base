@@ -24,6 +24,8 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
             return;
         }
 
+        AnsiConsole.WriteLine("Current directory: " + Environment.CurrentDirectory);
+
         var setup = new DeploymentSetup
         {
             OutputDir = FileSys.Path.GetFullPath(arguments.OutputDir),
