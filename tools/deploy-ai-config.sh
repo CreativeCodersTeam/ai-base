@@ -13,6 +13,8 @@ BUILD_PROJECT_FILE="$SCRIPT_DIR/DeployAi/DeployAi.csproj"
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_NOLOGO=1
+export TERM=xterm
+export DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION=1
 
 ###########################################################################
 # EXECUTION
