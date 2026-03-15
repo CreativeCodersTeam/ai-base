@@ -1,0 +1,62 @@
+using CreativeCoders.Core.IO;
+using CreativeCoders.SysConsole.Core;
+using DeployAi.AiSystems;
+using DeployAi.Languages;
+using Spectre.Console;
+
+namespace DeployAi;
+
+public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTypes)
+{
+    public void Deploy(ToolArguments arguments)
+    {
+        var aiSystemsToDeploy = aiSystems.GetAiSystems()
+            .Where(s => arguments.AiSystems.Contains(s.Name, StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+
+        var languagesToDeploy = languageTypes.GetLanguageTypes()
+            .Where(x => arguments.Languages.Contains(x.Name, StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+
+        if (aiSystemsToDeploy.Length == 0)
+        {
+            AnsiConsole.WriteLine("No AI systems to deploy based on the configuration.");
+            return;
+        }
+
+        AnsiConsole.WriteLine("Current directory: " + Environment.CurrentDirectory);
+
+        var setup = new DeploymentSetup
+        {
+            OutputDir = FileSys.Path.GetFullPath(arguments.OutputDir),
+            SourceBaseDir = FileSys.Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "..")),
+            PreferAgentsMd = arguments.PreferAgentsMd,
+            LanguageTypes = languagesToDeploy,
+            General = languageTypes.General
+        };
+
+        AnsiConsole.WriteLine(
+            $"Deployment setup: OutputDir={setup.OutputDir}, SourceBaseDir={setup.SourceBaseDir}, PreferAgentsMd={setup.PreferAgentsMd}, Languages={string.Join(", ", setup.LanguageTypes.Select(x => x.Name))}");
+
+        if (arguments.CleanupBeforeDeployment)
+        {
+            AnsiConsole.WriteLine("Cleaning up existing deployments...");
+            foreach (var aiSystem in aiSystemsToDeploy)
+            {
+                aiSystem.Cleanup(setup);
+            }
+
+            AnsiConsole.MarkupLine("Cleanup completed.".ToSuccessMarkup());
+        }
+
+        AnsiConsole.WriteLine(
+            $"Deploying {aiSystemsToDeploy.Length} AI system(s): {string.Join(", ", aiSystemsToDeploy.Select(s => s.DisplayName))}");
+
+        foreach (var aiSystem in aiSystemsToDeploy)
+        {
+            AnsiConsole.WriteLine($"Deploying {aiSystem.DisplayName}...");
+            aiSystem.Deploy(setup);
+            AnsiConsole.MarkupLine($"{aiSystem.DisplayName} deployed successfully.".ToSuccessMarkup());
+        }
+    }
+}
