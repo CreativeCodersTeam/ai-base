@@ -56,6 +56,9 @@ jobs:
           cd ..
           pwd
           ls -l
+          cd ..
+          pwd
+          ls -l
 
       - name: Generate AI configuration files
         working-directory: ai-base/tools
