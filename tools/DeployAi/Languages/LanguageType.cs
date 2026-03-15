@@ -25,17 +25,38 @@ public class LanguageType(string name, string displayName)
 
     public IEnumerable<string> GetAgentFiles(DeploymentSetup setup)
     {
+        var agentsDir = GetAgentsDir(setup);
+
+        if (!FileSys.Directory.Exists(agentsDir))
+        {
+            return Array.Empty<string>();
+        }
+
         return FileSys.Directory.EnumerateFiles(GetAgentsDir(setup), "*.md");
     }
 
     public IEnumerable<string> GetInstructionFiles(DeploymentSetup setup)
     {
-        return FileSys.Directory.EnumerateFiles(GetInstructionsDir(setup), "*.instructions.md");
+        var instructionsDir = GetInstructionsDir(setup);
+
+        if (!FileSys.Directory.Exists(instructionsDir))
+        {
+            return Array.Empty<string>();
+        }
+
+        return FileSys.Directory.EnumerateFiles(instructionsDir, "*.instructions.md");
     }
 
     public IEnumerable<LanguageSkill> GetSkills(DeploymentSetup setup)
     {
-        return from skillDir in FileSys.Directory.EnumerateDirectories(GetSkillsDir(setup))
+        var skillsDir = GetSkillsDir(setup);
+
+        if (!FileSys.Directory.Exists(skillsDir))
+        {
+            return Array.Empty<LanguageSkill>();
+        }
+
+        return from skillDir in FileSys.Directory.EnumerateDirectories(skillsDir)
             let skillName = FileSys.Path.GetFileName(skillDir)
             let skillFile = FileSys.Path.Combine(skillDir, "SKILL.md")
             where FileSys.File.Exists(skillFile)
