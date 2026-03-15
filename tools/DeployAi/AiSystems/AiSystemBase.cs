@@ -1,3 +1,4 @@
+using System.Text;
 using CreativeCoders.Core.IO;
 using Spectre.Console;
 
@@ -9,49 +10,73 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
     public string Name { get; } = name;
 
-    public abstract Task DeployAsync(DeploymentSetup setup);
+    public abstract void Deploy(DeploymentSetup setup);
 
-    public abstract Task CleanupAsync(DeploymentSetup setup);
+    public abstract void Cleanup(DeploymentSetup setup);
 
-    protected async Task CopySkillFilesAsync(string sourceDir, string targetDir)
+    protected void CopySkillFiles(DeploymentSetup setup, string targetDir)
     {
-        AnsiConsole.WriteLine($"Copying skills from {sourceDir} to {targetDir}...");
-    }
+        AnsiConsole.WriteLine($"Copying skills for {DisplayName}...");
 
-    protected async Task CopyAgentFilesAsync(string sourceDir, string targetDir)
-    {
-        AnsiConsole.WriteLine($"Copying agents from {sourceDir} to {targetDir}...");
+        var skills = setup.GetAllLanguageTypes().SelectMany(x => x.GetSkills(setup));
 
-        var files = FileSys.Directory.GetFiles(sourceDir, "*.md", SearchOption.AllDirectories);
-
-        foreach (var file in files)
+        foreach (var skill in skills)
         {
-            AnsiConsole.WriteLine($"Copying agent file '{file}'...");
-            FileSys.File.Copy(file, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(file)), true);
+            AnsiConsole.WriteLine($"Copying skill '{skill.Name}' from file '{skill.FileName}'...");
+
+            CopyFile(skill.FileName, FileSys.Path.Combine(targetDir, skill.Name, "SKILL.md"));
         }
     }
 
-    protected async Task CopyInstructionFilesAsync(string sourceDir, string targetDir)
+    protected void CopyAgentFiles(DeploymentSetup setup, string targetDir)
     {
-        AnsiConsole.WriteLine($"Copying instructions from {sourceDir} to {targetDir}...");
+        AnsiConsole.WriteLine($"Copying agents for {DisplayName}...");
 
-        var files = FileSys.Directory.GetFiles(sourceDir, "*.instructions.md", SearchOption.AllDirectories);
+        var agentFiles = setup.GetAllLanguageTypes().SelectMany(x => x.GetAgentFiles(setup));
 
-        foreach (var file in files)
+        foreach (var agentFile in agentFiles)
         {
-            // AnsiConsole.WriteLine($"Copying agent file '{file}'...");
-            // FileSys.File.Copy(file, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(file)), true);
+            AnsiConsole.WriteLine($"Copying agent file '{agentFile}'...");
+            CopyFile(agentFile, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(agentFile)));
         }
     }
 
-    protected async Task CopyFileAsync(string sourceFile, string targetFile)
+    protected void CopyInstructionFiles(DeploymentSetup setup, string targetDir)
+    {
+        AnsiConsole.WriteLine($"Copying instructions for {DisplayName}...");
+
+        var instructionFiles = setup.LanguageTypes.SelectMany(x => x.GetInstructionFiles(setup));
+
+        foreach (var instructionFile in instructionFiles)
+        {
+            AnsiConsole.WriteLine($"Copying instruction file '{instructionFile}'...");
+            CopyFile(instructionFile, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(instructionFile)));
+        }
+    }
+
+    protected static void CopyFile(string sourceFile, string targetFile)
     {
         AnsiConsole.WriteLine($"Copying file from {sourceFile} to {targetFile}...");
+
+        FileSys.Directory.CreateDirectory(FileSys.Path.GetDirectoryName(targetFile) ??
+                                          throw new InvalidOperationException(
+                                              $"Cannot get directory name from path '{targetFile}'"));
 
         FileSys.File.Copy(sourceFile, targetFile, true);
     }
 
-    protected async Task CleanupFileAsync(string filePath)
+    protected static void WriteFile(string filePath, string content)
+    {
+        AnsiConsole.WriteLine($"Writing file '{filePath}'...");
+
+        FileSys.Directory.CreateDirectory(FileSys.Path.GetDirectoryName(filePath) ??
+                                          throw new InvalidOperationException(
+                                              $"Cannot get directory name from path '{filePath}'"));
+
+        FileSys.File.WriteAllText(filePath, content);
+    }
+
+    protected static void CleanupFile(string filePath)
     {
         if (!FileSys.File.Exists(filePath))
         {
@@ -65,7 +90,7 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         AnsiConsole.MarkupLine(" done.");
     }
 
-    protected async Task CleanupDirAsync(string dirPath)
+    protected static void CleanupDir(string dirPath)
     {
         if (!FileSys.Directory.Exists(dirPath))
         {
@@ -79,28 +104,37 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         AnsiConsole.MarkupLine(" done.");
     }
 
-    protected string GetDirPath(string baseDir, string pathKind, string langName)
+    private static string GetDirPath(string baseDir, string pathKind, string langName)
     {
         return FileSys.Path.Combine(baseDir, "src", pathKind, langName);
     }
 
-    protected string GetGeneralInstructionFilePath(string baseDir)
+    protected static string GetGeneralInstructionFilePath(string baseDir)
     {
         return FileSys.Path.Combine(GetDirPath(baseDir, "instructions", "general"), "general.instructions.md");
     }
 
-    protected string GetAgentsSourceDir(string baseDir)
+    protected static string CombineInstructionFiles(DeploymentSetup setup)
     {
-        return FileSys.Path.Combine(baseDir, "src", "agents");
-    }
+        var files = setup.LanguageTypes.SelectMany(x => x.GetInstructionFiles(setup)).ToArray();
 
-    protected string GetSkillsSourceDir(string baseDir)
-    {
-        return FileSys.Path.Combine(baseDir, "src", "skills");
-    }
+        var generalFile = GetGeneralInstructionFilePath(setup.SourceBaseDir);
 
-    protected string GetInstructionsSourceDir(string baseDir)
-    {
-        return FileSys.Path.Combine(baseDir, "src", "instructions");
+        var contentBuilder = new StringBuilder();
+
+        contentBuilder.AppendLine(FileSys.File.ReadAllText(generalFile));
+        contentBuilder.AppendLine("-----------------------------------------------------------");
+        contentBuilder.AppendLine();
+        contentBuilder.AppendLine();
+
+        foreach (var file in files)
+        {
+            contentBuilder.AppendLine(FileSys.File.ReadAllText(file));
+            contentBuilder.AppendLine("-----------------------------------------------------------");
+            contentBuilder.AppendLine();
+            contentBuilder.AppendLine();
+        }
+
+        return contentBuilder.ToString();
     }
 }

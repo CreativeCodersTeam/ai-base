@@ -8,7 +8,7 @@ namespace DeployAi;
 
 public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTypes)
 {
-    public async Task DeployAsync(ToolArguments arguments)
+    public void Deploy(ToolArguments arguments)
     {
         var aiSystemsToDeploy = aiSystems.GetAiSystems()
             .Where(s => arguments.AiSystems.Contains(s.Name, StringComparer.OrdinalIgnoreCase))
@@ -41,7 +41,7 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
             AnsiConsole.WriteLine("Cleaning up existing deployments...");
             foreach (var aiSystem in aiSystemsToDeploy)
             {
-                await aiSystem.CleanupAsync(setup);
+                aiSystem.Cleanup(setup);
             }
 
             AnsiConsole.MarkupLine("Cleanup completed.".ToSuccessMarkup());
@@ -53,7 +53,7 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
         foreach (var aiSystem in aiSystemsToDeploy)
         {
             AnsiConsole.WriteLine($"Deploying {aiSystem.DisplayName}...");
-            await aiSystem.DeployAsync(setup);
+            aiSystem.Deploy(setup);
             AnsiConsole.MarkupLine($"{aiSystem.DisplayName} deployed successfully.".ToSuccessMarkup());
         }
     }

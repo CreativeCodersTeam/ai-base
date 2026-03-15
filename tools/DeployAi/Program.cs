@@ -1,16 +1,17 @@
 ﻿using DeployAi.Languages;
+using Spectre.Console;
 
 namespace DeployAi;
 
 internal static class Program
 {
-    internal static async Task<int> Main(string[] args)
+    internal static int Main(string[] args)
     {
         var arguments = ReadArguments(args);
 
         var deployment = new AiConfigDeployment(new AiSystems.AiSystems(), new LanguageTypes());
 
-        await deployment.DeployAsync(arguments);
+        deployment.Deploy(arguments);
 
         return 0;
     }
@@ -23,15 +24,15 @@ internal static class Program
         {
             if (arg.StartsWith("--ai="))
             {
-                config.AiSystems = arg.Substring("--ai=".Length).Split(",");
+                config.AiSystems = arg["--ai=".Length..].Split(",");
             }
             else if (arg.StartsWith("--languages="))
             {
-                config.Languages = arg.Substring("--languages=".Length).Split(",");
+                config.Languages = arg["--languages=".Length..].Split(",");
             }
             else if (arg.StartsWith("--output="))
             {
-                config.OutputDir = arg.Substring("--output=".Length);
+                config.OutputDir = arg["--output=".Length..];
             }
             else if (arg.StartsWith("--cleanup"))
             {
@@ -41,6 +42,14 @@ internal static class Program
             {
                 config.PreferAgentsMd = true;
             }
+        }
+
+        if (config.Languages.Contains("copilot", StringComparer.OrdinalIgnoreCase) && config.PreferAgentsMd)
+        {
+            AnsiConsole.WriteLine(
+                "Disable --agents-md because Copilot is also configured and will be have duplicate instructions.");
+
+            config.PreferAgentsMd = false;
         }
 
         return config;

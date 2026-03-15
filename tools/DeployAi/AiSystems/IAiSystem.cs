@@ -6,7 +6,7 @@ public interface IAiSystem
 
     string Name { get; }
 
-    Task DeployAsync(DeploymentSetup setup);
+    void Deploy(DeploymentSetup setup);
 
-    Task CleanupAsync(DeploymentSetup setup);
+    void Cleanup(DeploymentSetup setup);
 }

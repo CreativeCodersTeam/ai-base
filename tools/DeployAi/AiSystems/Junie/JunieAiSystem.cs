@@ -4,19 +4,25 @@ namespace DeployAi.AiSystems.Junie;
 
 public class JunieAiSystem() : AiSystemBase("junie", "Junie")
 {
-    public override async Task DeployAsync(DeploymentSetup setup)
+    public override void Deploy(DeploymentSetup setup)
     {
         AnsiConsole.WriteLine(
             $"Deploying {DisplayName} with the following languages: {string.Join(", ", setup.LanguageTypes.Select(l => l.DisplayName))}");
+
+        var paths = new JuniePaths(setup.OutputDir);
+
+        var instructionsFile = setup.PreferAgentsMd ? paths.AgentsFile : paths.GuidelinesFile;
+
+        WriteFile(instructionsFile, CombineInstructionFiles(setup));
     }
 
-    public override async Task CleanupAsync(DeploymentSetup setup)
+    public override void Cleanup(DeploymentSetup setup)
     {
         AnsiConsole.WriteLine($"Cleaning up {DisplayName}...");
 
         var paths = new JuniePaths(setup.OutputDir);
 
-        await CleanupFileAsync(paths.GuidelinesFile);
-        await CleanupFileAsync(paths.AgentsFile);
+        CleanupFile(paths.GuidelinesFile);
+        CleanupFile(paths.AgentsFile);
     }
 }
