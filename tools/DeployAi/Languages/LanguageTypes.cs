@@ -8,7 +8,8 @@ public class LanguageTypes : ILanguageTypes
         new LanguageType("angular", "Angular"),
         new LanguageType("javascript", "JavaScript"),
         new LanguageType("typescript", "TypeScript"),
-        new LanguageType("java", "Java")
+        new LanguageType("java", "Java"),
+        new LanguageType("docker", "Docker")
     ];
 
     public IEnumerable<LanguageType> GetLanguageTypes() => _languageTypes;
