@@ -64,7 +64,7 @@ on:
         type: string
         default: 'main'
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # Every day at midnight
 
 jobs:
   sync-scheduled:
