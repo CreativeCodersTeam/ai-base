@@ -42,6 +42,17 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
 
+      - name: Debug output
+        working-directory: ai-base/tools
+        run: |
+          ls -l
+          cd ..
+          ls -l
+          cd ..
+          ls -l
+          cd ..
+          ls -l
+
       - name: Generate AI configuration files
         working-directory: ai-base/tools
         run: |
