@@ -52,16 +52,38 @@ name: Sync AI Configuration
 
 on:
   workflow_dispatch:
+    inputs:
+      create-pull-request:
+        description: 'Create a pull request instead of committing directly to the branch'
+        required: false
+        type: boolean
+        default: true
+      ai-base-version:
+        description: 'Version/branch of ai-base to use'
+        required: false
+        type: string
+        default: 'main'
   schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays
+    - cron: '0 0 * * *'
 
 jobs:
-  sync:
-    uses: <YOUR-GITHUB-USERNAME>/ai-base/.github/workflows/sync-ai-config.yml@main
+  sync-scheduled:
+    if: github.event_name == 'schedule'
+    uses: CreativeCodersTeam/ai-base/.github/workflows/sync-ai-config.yml@main
     with:
       languages: 'csharp,typescript'
-      ai-systems: 'copilot,claude'
+      ai-systems: 'copilot,claude,junie'
       ai-base-version: 'main'
+      create-pull-request: true
+
+  sync-manual:
+    if: github.event_name == 'workflow_dispatch'
+    uses: CreativeCodersTeam/ai-base/.github/workflows/sync-ai-config.yml@main
+    with:
+      languages: 'csharp,typescript'
+      ai-systems: 'copilot,claude,junie'
+      ai-base-version: ${{ inputs.ai-base-version }}
+      create-pull-request: ${{ inputs.create-pull-request }}
 ```
 
 ### Local Testing
