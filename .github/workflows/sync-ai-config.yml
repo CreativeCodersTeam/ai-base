@@ -49,7 +49,7 @@ jobs:
             --languages="${{ inputs.languages }}" \
             --ai="${{ inputs.ai-systems }}" \
             ${{ inputs.clear-ai-configs && '--cleanup' || '' }} \
-            --output="../target-repo"
+            --output="../../target-repo"
 
       - name: Check for changes
         id: check_changes
