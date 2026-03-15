@@ -14,12 +14,13 @@ This repository serves as a central source for:
 ```
 ai-base/
 ├── src/
-│   ├── instructions/          # Coding guidelines
+│   ├── instructions/         # Coding guidelines (*.instructions.md)
 │   │   ├── general/          # General instructions
 │   │   ├── csharp/           # C#-specific instructions
 │   │   ├── typescript/       # TypeScript-specific instructions
 │   │   ├── angular/          # Angular-specific instructions
-│   │   └── java/             # Java-specific instructions
+│   │   ├── java/             # Java-specific instructions
+│   │   └── docker/           # Docker-specific instructions
 │   ├── skills/               # Reusable skills
 │   │   ├── general/          # General skills (e.g., code-review)
 │   │   ├── csharp/           # C#-specific skills (e.g., ef-core)
@@ -32,8 +33,9 @@ ai-base/
 │       ├── typescript/       # TypeScript-specific agents
 │       ├── angular/          # Angular-specific agents
 │       └── java/             # Java-specific agents
-├── scripts/
-│   └── generate-ai-config.js # Generator script
+├── tools/
+│   ├── DeployAi/             # .NET deployment tool
+│   └── deploy-ai-config.sh   # Deployment script (calls DeployAi)
 └── .github/
     └── workflows/
         └── sync-ai-config.yml # Reusable GitHub Action
@@ -65,15 +67,14 @@ jobs:
 ### Local Testing
 
 ```bash
-# Installation
-npm install
-
-# Generate configuration
-node scripts/generate-ai-config.js \
+# Deploy AI configuration using the DeployAi .NET program
+sh ./tools/deploy-ai-config.sh \
   --languages=csharp,typescript \
   --ai-systems=copilot,junie,claude \
   --output-dir=./output
 ```
+
+The `deploy-ai-config.sh` script invokes the `DeployAi` .NET program which generates and deploys the AI configuration files.
 
 ## 🤖 Supported AI Systems
 
@@ -101,6 +102,7 @@ node scripts/generate-ai-config.js \
 - `typescript` - TypeScript
 - `angular` - Angular Framework
 - `java` - Java
+- `docker` - Docker
 
 ## ⚙️ Parameters
 
@@ -124,9 +126,11 @@ node scripts/generate-ai-config.js \
 
 ### Adding a New Instruction
 
-1. Create a `.md` file in `src/instructions/<language>/`
+1. Create a file matching the pattern `*.instructions.md` in `src/instructions/<language>/`
+   - Example: `coding-standards.instructions.md`, `best-practices.instructions.md`
 2. Follow the format of existing instructions
 3. For language-specific instructions: Add `**Scope: <Language> Projects**`
+4. All instruction files must follow the `*.instructions.md` naming pattern to be recognized by the deployment system
 
 ### Adding a New Skill
 
