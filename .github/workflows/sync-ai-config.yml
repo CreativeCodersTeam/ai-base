@@ -127,7 +127,7 @@ jobs:
           echo "pr_numbers=$EXISTING_PRS" >> $GITHUB_OUTPUT
 
           # Generate diff of our new branch, stripping blob-hash index lines
-          git diff "origin/${{ github.ref_name }}...origin/${{ env.branch_name }}" \
+          git diff "origin/${{ github.ref_name }}...HEAD" \
             | grep -v "^index " > /tmp/new_diff.patch
 
           IDENTICAL=false
