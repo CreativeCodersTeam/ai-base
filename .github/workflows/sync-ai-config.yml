@@ -109,6 +109,7 @@ jobs:
         run: |
           # Collect all open sync PRs (space-separated list of numbers)
           EXISTING_PRS=$(gh pr list --state open \
+            --base "${{ github.ref_name }}" --author "@me" \
             --search "chore: sync AI configuration from ai-base in:title" \
             --json number --jq '[.[].number] | join(" ")')
 
