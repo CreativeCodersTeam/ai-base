@@ -100,8 +100,24 @@ jobs:
         working-directory: target-repo
         run: git push origin "${{ env.branch_name }}"
 
-      - name: Create pull request
+      - name: Check for existing sync pull request
         if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request
+        id: check_pr
+        working-directory: target-repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING_PR=$(gh pr list --state open --search "chore: sync AI configuration from ai-base in:title" --json number --jq '.[0].number')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "pr_number=$EXISTING_PR" >> $GITHUB_OUTPUT
+            echo "Existing open sync PR found: #$EXISTING_PR – skipping PR creation."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create pull request
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request && steps.check_pr.outputs.exists == 'false'
         working-directory: target-repo
         env:
           GH_TOKEN: ${{ github.token }}
@@ -133,5 +149,9 @@ jobs:
           echo "**Changes:** ${{ steps.check_changes.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
           echo "**Mode:** ${{ inputs.create-pull-request && 'Pull Request' || 'Direct Commit' }}" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ] && [ "${{ inputs.create-pull-request }}" == "true" ]; then
-            echo "**Branch:** ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.check_pr.outputs.exists }}" == "true" ]; then
+              echo "**PR creation skipped:** Open sync PR #${{ steps.check_pr.outputs.pr_number }} already exists." >> $GITHUB_STEP_SUMMARY
+            else
+              echo "**Branch:** ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
+            fi
           fi
