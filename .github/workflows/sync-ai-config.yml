@@ -107,17 +107,63 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          EXISTING_PR=$(gh pr list --state open --search "chore: sync AI configuration from ai-base in:title" --json number --jq '.[0].number')
-          if [ -n "$EXISTING_PR" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            echo "pr_number=$EXISTING_PR" >> $GITHUB_OUTPUT
-            echo "Existing open sync PR found: #$EXISTING_PR – skipping PR creation."
-          else
+          # Collect all open sync PRs (space-separated list of numbers)
+          EXISTING_PRS=$(gh pr list --state open \
+            --search "chore: sync AI configuration from ai-base in:title" \
+            --json number --jq '[.[].number] | join(" ")')
+
+          if [ -z "$EXISTING_PRS" ]; then
             echo "exists=false" >> $GITHUB_OUTPUT
+            echo "identical=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
+          echo "exists=true" >> $GITHUB_OUTPUT
+          echo "pr_numbers=$EXISTING_PRS" >> $GITHUB_OUTPUT
+
+          # Generate diff of our new branch, stripping blob-hash index lines
+          git diff "origin/${{ github.ref_name }}...origin/${{ env.branch_name }}" \
+            | grep -v "^index " > /tmp/new_diff.patch
+
+          IDENTICAL=false
+          for PR_NUM in $EXISTING_PRS; do
+            gh pr diff "$PR_NUM" | grep -v "^index " > /tmp/existing_diff.patch
+            if diff -q /tmp/new_diff.patch /tmp/existing_diff.patch > /dev/null 2>&1; then
+              IDENTICAL=true
+              echo "PR #$PR_NUM already contains identical changes – skipping PR creation."
+              break
+            fi
+          done
+
+          if [ "$IDENTICAL" == "true" ]; then
+            echo "identical=true" >> $GITHUB_OUTPUT
+          else
+            echo "identical=false" >> $GITHUB_OUTPUT
+            echo "Existing sync PRs ($EXISTING_PRS) have different content – will close and recreate."
+          fi
+
+      - name: Delete branch (identical to existing PR)
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request && steps.check_pr.outputs.identical == 'true'
+        working-directory: target-repo
+        run: |
+          git push origin --delete "${{ env.branch_name }}"
+          echo "Deleted branch ${{ env.branch_name }} – no new PR needed."
+
+      - name: Close outdated sync pull requests
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request && steps.check_pr.outputs.exists == 'true' && steps.check_pr.outputs.identical == 'false'
+        working-directory: target-repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for PR_NUM in ${{ steps.check_pr.outputs.pr_numbers }}; do
+            gh pr close "$PR_NUM" \
+              --comment "Closing: a new sync PR with updated AI configuration changes will be created." \
+              --delete-branch
+            echo "Closed outdated sync PR #$PR_NUM"
+          done
+
       - name: Create pull request
-        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request && steps.check_pr.outputs.exists == 'false'
+        if: steps.check_changes.outputs.has_changes == 'true' && inputs.create-pull-request && steps.check_pr.outputs.identical == 'false'
         working-directory: target-repo
         env:
           GH_TOKEN: ${{ github.token }}
@@ -149,9 +195,12 @@ jobs:
           echo "**Changes:** ${{ steps.check_changes.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
           echo "**Mode:** ${{ inputs.create-pull-request && 'Pull Request' || 'Direct Commit' }}" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ] && [ "${{ inputs.create-pull-request }}" == "true" ]; then
-            if [ "${{ steps.check_pr.outputs.exists }}" == "true" ]; then
-              echo "**PR creation skipped:** Open sync PR #${{ steps.check_pr.outputs.pr_number }} already exists." >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.check_pr.outputs.identical }}" == "true" ]; then
+              echo "**PR creation skipped:** An open sync PR with identical changes already exists." >> $GITHUB_STEP_SUMMARY
             else
-              echo "**Branch:** ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
+              if [ "${{ steps.check_pr.outputs.exists }}" == "true" ]; then
+                echo "**Closed outdated PRs:** ${{ steps.check_pr.outputs.pr_numbers }}" >> $GITHUB_STEP_SUMMARY
+              fi
+              echo "**New PR branch:** ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
             fi
           fi
