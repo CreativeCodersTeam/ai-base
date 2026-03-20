@@ -120,7 +120,7 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         contentBuilder.AppendLine("-----------------------------------------------------------");
         contentBuilder.AppendLine(
-            "GitHub Copilot must ignore the following content in this file, cause Copilot gets this infos from the files in the instructions:");
+            "GitHub Copilot must ignore the following content in this file, cause Copilot gets this infos from the files in the .github/instructions directory:");
         contentBuilder.AppendLine();
 
         contentBuilder.AppendLine(FileSys.File.ReadAllText(generalFile));
