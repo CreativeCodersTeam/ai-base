@@ -30,5 +30,6 @@ public class CopilotAiSystem() : AiSystemBase("copilot", "Copilot")
         CleanupDir(paths.AgentsDir);
         CleanupDir(paths.InstructionsDir);
         CleanupDir(paths.SkillsDir);
+        CleanupDir(paths.OldSkillsDir);
     }
 }

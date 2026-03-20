@@ -118,6 +118,11 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         var contentBuilder = new StringBuilder();
 
+        contentBuilder.AppendLine("-----------------------------------------------------------");
+        contentBuilder.AppendLine(
+            "GitHub Copilot must ignore the following content in this file, cause Copilot gets this infos from the files in the instructions:");
+        contentBuilder.AppendLine();
+
         contentBuilder.AppendLine(FileSys.File.ReadAllText(generalFile));
         contentBuilder.AppendLine("-----------------------------------------------------------");
         contentBuilder.AppendLine();
