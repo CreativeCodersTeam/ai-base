@@ -6,11 +6,15 @@ public class CopilotPaths(string outputDir)
 {
     private const string GitHubRootDir = ".github";
 
+    private const string ClaudeRootDir = ".claude";
+
     public string Root { get; } = FileSys.Path.Combine(outputDir, GitHubRootDir);
 
     public string CopilotFile { get; } = FileSys.Path.Combine(outputDir, GitHubRootDir, "copilot-instructions.md");
 
-    public string SkillsDir { get; } = FileSys.Path.Combine(outputDir, GitHubRootDir, "skills");
+    public string OldSkillsDir { get; } = FileSys.Path.Combine(outputDir, GitHubRootDir, "skills");
+
+    public string SkillsDir { get; } = FileSys.Path.Combine(outputDir, ClaudeRootDir, "skills");
 
     public string AgentsDir { get; } = FileSys.Path.Combine(outputDir, GitHubRootDir, "agents");
 
