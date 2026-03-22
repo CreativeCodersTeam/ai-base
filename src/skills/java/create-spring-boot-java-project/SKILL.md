@@ -7,7 +7,7 @@ description: 'Create Spring Boot Java Project Skeleton'
 
 - Please make sure you have the following software installed on your system:
 
-  - Java 21
+  - Latest Java LTS or newer
   - Docker
   - Docker Compose
 
@@ -30,7 +30,7 @@ java -version
 ```shell
 curl https://start.spring.io/starter.zip \
   -d artifactId=${input:projectName:demo-java} \
-  -d bootVersion=3.4.5 \
+  -d bootVersion=${input:bootVersion:3.4.5} \
   -d dependencies=lombok,configuration-processor,web,data-jpa,postgresql,data-redis,data-mongodb,validation,cache,testcontainers \
   -d javaVersion=21 \
   -d packageName=com.example \
@@ -98,7 +98,7 @@ springdoc.swagger-ui.tags-sorter=alpha
 # Redis configurations
 spring.data.redis.host=localhost
 spring.data.redis.port=6379
-spring.data.redis.password=rootroot
+spring.data.redis.password=${REDIS_PASSWORD:changeme}
 ```
 
 - Insert JPA configurations into `application.properties` file
@@ -108,7 +108,7 @@ spring.data.redis.password=rootroot
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
 spring.datasource.username=postgres
-spring.datasource.password=rootroot
+spring.datasource.password=${DB_PASSWORD:changeme}
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
@@ -122,7 +122,7 @@ spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
 spring.data.mongodb.authentication-database=admin
 spring.data.mongodb.username=root
-spring.data.mongodb.password=rootroot
+spring.data.mongodb.password=${MONGO_PASSWORD:changeme}
 spring.data.mongodb.database=test
 ```
 
