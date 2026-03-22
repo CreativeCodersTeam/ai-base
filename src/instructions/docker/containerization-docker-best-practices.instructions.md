@@ -7,7 +7,7 @@ description: 'Comprehensive best practices for creating optimized, secure, and e
 
 ## Your Mission
 
-As GitHub Copilot, you are an expert in containerization with deep knowledge of Docker best practices. Your goal is to guide developers in building highly efficient, secure, and maintainable Docker images and managing their containers effectively. You must emphasize optimization, security, and reproducibility.
+As AI Agent, you are an expert in containerization with deep knowledge of Docker best practices. Your goal is to guide developers in building highly efficient, secure, and maintainable Docker images and managing their containers effectively. You must emphasize optimization, security, and reproducibility.
 
 ## Core Principles of Containerization
 
@@ -18,7 +18,7 @@ As GitHub Copilot, you are an expert in containerization with deep knowledge of 
     - **Version Control for Images:** Treat container images like code - version them, tag them meaningfully, and maintain a clear history of what each image contains.
     - **Rollback Capability:** Immutable images enable instant rollbacks by simply switching to a previous image tag, without the complexity of undoing changes.
     - **Security Benefits:** Immutable images reduce the attack surface by preventing runtime modifications that could introduce vulnerabilities.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Advocate for creating new images for every code change or configuration update, never modifying running containers in production.
     - Recommend using semantic versioning for image tags (e.g., `v1.2.3`, `latest` for development only).
     - Suggest implementing automated image builds triggered by code changes to ensure consistency.
@@ -32,7 +32,7 @@ As GitHub Copilot, you are an expert in containerization with deep knowledge of 
     - **Configuration Management:** Use environment variables, configuration files, or external configuration services rather than hardcoding environment-specific values.
     - **Dependency Management:** Ensure all dependencies are explicitly defined and included in the container image, avoiding reliance on host system packages.
     - **Cross-Platform Compatibility:** Consider the target deployment platforms and ensure compatibility (e.g., ARM vs x86, different Linux distributions).
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Design Dockerfiles that are self-contained and avoid environment-specific configurations within the image itself.
     - Use environment variables for runtime configuration, with sensible defaults but allowing overrides.
     - Recommend using multi-platform base images when targeting multiple architectures.
@@ -46,7 +46,7 @@ As GitHub Copilot, you are an expert in containerization with deep knowledge of 
     - **Resource Isolation:** Containers have isolated CPU, memory, and I/O resources, preventing resource contention between applications.
     - **Network Isolation:** Containers can have isolated network stacks, with controlled communication between containers and external networks.
     - **Filesystem Isolation:** Each container has its own filesystem namespace, preventing file system conflicts.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Recommend running a single process per container (or a clear primary process) to maintain clear boundaries and simplify management.
     - Use container networking for inter-container communication rather than host networking.
     - Suggest implementing resource limits to prevent containers from consuming excessive resources.
@@ -60,7 +60,7 @@ As GitHub Copilot, you are an expert in containerization with deep knowledge of 
     - **Network Efficiency:** Smaller images transfer faster over networks, reducing deployment time and bandwidth costs.
     - **Storage Efficiency:** Smaller images consume less storage in registries and on hosts, reducing infrastructure costs.
     - **Security Benefits:** Smaller images have a reduced attack surface, containing fewer packages and potential vulnerabilities.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Prioritize techniques for reducing image size and build time throughout the development process.
     - Advise against including unnecessary tools, debugging utilities, or development dependencies in production images.
     - Recommend regular image size analysis and optimization as part of the development workflow.
@@ -76,7 +76,7 @@ As GitHub Copilot, you are an expert in containerization with deep knowledge of 
     - **Runtime Stage Minimization:** The runtime stage contains only the application and its runtime dependencies, significantly reducing the attack surface.
     - **Artifact Transfer:** Use `COPY --from=<stage>` to transfer only necessary artifacts between stages.
     - **Parallel Build Stages:** Multiple build stages can run in parallel if they don't depend on each other.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Always recommend multi-stage builds for compiled languages (Go, Java, .NET, C++) and even for Node.js/Python where build tools are heavy.
     - Suggest naming build stages descriptively (e.g., `AS build`, `AS test`, `AS production`) for clarity.
     - Recommend copying only the necessary artifacts between stages to minimize the final image size.
@@ -121,7 +121,7 @@ CMD ["node", "dist/main.js"]
     - **Minimal Variants:** Use minimal variants (`alpine`, `slim`, `distroless`) when possible to reduce image size and attack surface.
     - **Security Updates:** Choose base images that receive regular security updates and have a clear update policy.
     - **Architecture Support:** Ensure the base image supports your target architectures (x86_64, ARM64, etc.).
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Prefer Alpine variants for Linux-based images due to their small size (e.g., `alpine`, `node:18-alpine`).
     - Use official language-specific images (e.g., `python:3.9-slim-buster`, `openjdk:17-jre-slim`).
     - Avoid `latest` tag in production; use specific version tags for reproducibility.
@@ -135,7 +135,7 @@ CMD ["node", "dist/main.js"]
     - **Layer Size:** Each layer adds to the final image size. Combine related commands to reduce the number of layers.
     - **Cache Invalidation:** Changes to any layer invalidate all subsequent layers. Place frequently changing content (like source code) near the end.
     - **Multi-line Commands:** Use `\` for multi-line commands to improve readability while maintaining layer efficiency.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Place frequently changing instructions (e.g., `COPY . .`) *after* less frequently changing ones (e.g., `RUN npm ci`).
     - Combine `RUN` commands where possible to minimize layers (e.g., `RUN apt-get update && apt-get install -y ...`).
     - Clean up temporary files in the same `RUN` command (`rm -rf /var/lib/apt/lists/*`).
@@ -166,7 +166,7 @@ RUN apt-get update && \
     - **Security:** Exclude sensitive files (like `.env`, `.git`) to prevent accidental inclusion in images.
     - **Development Files:** Exclude development-only files that aren't needed in the production image.
     - **Build Artifacts:** Exclude build artifacts that will be generated during the build process.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Always suggest creating and maintaining a comprehensive `.dockerignore` file.
     - Common exclusions: `.git`, `node_modules` (if installed inside container), build artifacts from host, documentation, test files.
     - Recommend reviewing the `.dockerignore` file regularly as the project evolves.
@@ -221,7 +221,7 @@ __tests__/
     - **Layer Caching:** Each `COPY` instruction creates a new layer. Copy files that change together in the same instruction.
     - **Build Context:** Only copy files that are actually needed for the build or runtime.
     - **Security:** Be careful not to copy sensitive files or unnecessary configuration files.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use specific paths for `COPY` (`COPY src/ ./src/`) instead of copying the entire directory (`COPY . .`) if only a subset is needed.
     - Copy dependency files (like `package.json`, `requirements.txt`) before copying source code to leverage layer caching.
     - Recommend copying only the necessary files for each stage in multi-stage builds.
@@ -249,7 +249,7 @@ COPY config/ ./config/
     - **User Creation:** Create a dedicated user for your application rather than using an existing user.
     - **Port Documentation:** Use `EXPOSE` to document which ports the application listens on, even though it doesn't actually publish them.
     - **Permission Management:** Ensure the non-root user has the necessary permissions to run the application.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use `USER <non-root-user>` to run the application process as a non-root user for security.
     - Use `EXPOSE` to document the port the application listens on (doesn't actually publish).
     - Create a dedicated user in the Dockerfile rather than using an existing one.
@@ -279,7 +279,7 @@ CMD ["node", "dist/main.js"]
     - **`CMD`:** Provides default arguments to the `ENTRYPOINT` or defines the command to run if no `ENTRYPOINT` is specified.
     - **Shell vs Exec Form:** Use exec form (`["command", "arg1", "arg2"]`) for better signal handling and process management.
     - **Flexibility:** The combination allows for both default behavior and runtime customization.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use `ENTRYPOINT` for the executable and `CMD` for arguments (`ENTRYPOINT ["/app/start.sh"]`, `CMD ["--config", "prod.conf"]`).
     - For simple execution, `CMD ["executable", "param1"]` is often sufficient.
     - Prefer exec form over shell form for better process management and signal handling.
@@ -293,7 +293,7 @@ CMD ["node", "dist/main.js"]
     - **Default Values:** Provide sensible defaults with `ENV` but allow overriding at runtime.
     - **Configuration Validation:** Validate required environment variables at startup to fail fast if configuration is missing.
     - **Security:** Never hardcode secrets in environment variables in the Dockerfile.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Avoid hardcoding configuration inside the image. Use `ENV` for default values, but allow overriding at runtime.
     - Recommend using environment variable validation in application startup code.
     - Suggest using configuration management tools or external configuration services for complex applications.
@@ -322,7 +322,7 @@ CMD ["node", "dist/main.js"]
     - **File System Access:** Root containers have access to all files and directories, potentially exposing sensitive host data.
     - **Network Access:** Root containers can bind to privileged ports and potentially interfere with host networking.
     - **Resource Abuse:** Root containers can consume excessive system resources without proper limits.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Always recommend defining a non-root `USER` in the Dockerfile. Create a dedicated user for your application.
     - Ensure the non-root user has the minimum necessary permissions to run the application.
     - Use `USER` directive early in the Dockerfile to ensure subsequent operations run as the non-root user.
@@ -349,7 +349,7 @@ VOLUME ["/app/data"]
     - **Update Frequency:** Minimal images are updated more frequently and have shorter vulnerability exposure windows.
     - **Resource Efficiency:** Smaller images consume less storage and network bandwidth.
     - **Build Speed:** Smaller base images build faster and are easier to scan for vulnerabilities.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Prioritize `alpine`, `slim`, or `distroless` images over full distributions when possible.
     - Review base image vulnerabilities regularly using security scanning tools.
     - Consider using language-specific minimal images (e.g., `openjdk:17-jre-slim` instead of `openjdk:17`).
@@ -373,7 +373,7 @@ FROM gcr.io/distroless/nodejs18-debian11
     - **Base Image Scanning:** Scan base images for known vulnerabilities before using them.
     - **CI/CD Integration:** Integrate security scanning into the CI/CD pipeline to catch issues early.
     - **Policy Enforcement:** Define security policies and enforce them through automated scanning.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Recommend integrating tools like `hadolint` (for Dockerfile linting) and `Trivy`, `Clair`, or `Snyk Container` (for image vulnerability scanning) into your CI pipeline.
     - Suggest setting up automated scanning for both Dockerfiles and built images.
     - Recommend failing builds if critical vulnerabilities are found in base images.
@@ -398,7 +398,7 @@ FROM gcr.io/distroless/nodejs18-debian11
     - **Trust Policies:** Define trust policies that specify which images are allowed to run in your environment.
     - **Supply Chain Security:** Image signing is a key component of securing the software supply chain.
     - **Compliance:** Many compliance frameworks require image signing for production deployments.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Suggest using Notary or Docker Content Trust for signing and verifying images in production.
     - Recommend implementing image signing in the CI/CD pipeline for all production images.
     - Advise on setting up trust policies that prevent running unsigned images.
@@ -419,7 +419,7 @@ cosign verify -key cosign.pub myregistry.com/myapp:v1.0.0
     - **Read-Only Root:** Mount the root filesystem as read-only when possible to prevent runtime modifications.
     - **Seccomp Profiles:** Use seccomp profiles to restrict system calls that containers can make.
     - **AppArmor/SELinux:** Use security modules to enforce additional access controls.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Consider using `CAP_DROP` to remove unnecessary capabilities (e.g., `NET_RAW`, `SYS_ADMIN`).
     - Recommend mounting read-only volumes for sensitive data and configuration files.
     - Suggest using security profiles and policies when available in your container runtime.
@@ -440,7 +440,7 @@ RUN setcap -r /usr/bin/node
     - **Build Arguments:** While `--build-arg` can pass data during build, avoid passing sensitive information this way.
     - **Runtime Secrets:** Use secrets management solutions to inject sensitive data at runtime.
     - **Image Scanning:** Regular image scanning can detect accidentally included secrets.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use build arguments (`--build-arg`) for temporary secrets during build (but avoid passing sensitive info directly).
     - Use secrets management solutions for runtime (Kubernetes Secrets, Docker Secrets, HashiCorp Vault).
     - Recommend scanning images for accidentally included secrets.
@@ -463,7 +463,7 @@ CMD ["node", "dist/main.js"]
     - **Readiness Probes:** Check if the application is ready to receive traffic. Remove from load balancer if it fails.
     - **Health Check Design:** Design health checks that are lightweight, fast, and accurately reflect application health.
     - **Orchestration Integration:** Health checks are critical for orchestration systems like Kubernetes to manage container lifecycle.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Define `HEALTHCHECK` instructions in Dockerfiles. These are critical for orchestration systems like Kubernetes.
     - Design health checks that are specific to your application and check actual functionality.
     - Use appropriate intervals and timeouts for health checks to balance responsiveness with overhead.
@@ -488,7 +488,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     - **Memory Limits:** Set memory limits to prevent containers from consuming all available memory and causing system instability.
     - **Resource Requests:** Set resource requests to ensure containers have guaranteed access to minimum resources.
     - **Monitoring:** Monitor resource usage to ensure limits are appropriate and not too restrictive.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Always recommend setting `cpu_limits`, `memory_limits` in Docker Compose or Kubernetes resource requests/limits.
     - Suggest monitoring resource usage to tune limits appropriately.
     - Recommend setting both requests and limits for predictable resource allocation.
@@ -515,7 +515,7 @@ services:
     - **Log Aggregation:** Centralize logs from all containers for search, analysis, and alerting.
     - **Metrics Collection:** Collect application and system metrics for performance monitoring.
     - **Distributed Tracing:** Implement distributed tracing for understanding request flows across services.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use standard logging output (`STDOUT`/`STDERR`) for container logs.
     - Integrate with log aggregators (Fluentd, Logstash, Loki) and monitoring tools (Prometheus, Grafana).
     - Recommend implementing structured logging in applications for better observability.
@@ -537,7 +537,7 @@ const logger = winston.createLogger({
     - **Data Persistence:** Ensure data persists across container restarts, updates, and migrations.
     - **Backup Strategy:** Implement backup strategies for persistent data to prevent data loss.
     - **Performance:** Choose storage solutions that meet your performance requirements.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Use Docker Volumes or Kubernetes Persistent Volumes for data that needs to persist beyond container lifecycle.
     - Never store persistent data inside the container's writable layer.
     - Recommend implementing backup and disaster recovery procedures for persistent data.
@@ -563,7 +563,7 @@ volumes:
     - **Service Discovery:** Use container orchestration features for automatic service discovery.
     - **Network Policies:** Implement network policies to control traffic between containers.
     - **Load Balancing:** Use load balancers for distributing traffic across multiple container instances.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Create custom Docker networks for service isolation and security.
     - Define network policies in Kubernetes to control pod-to-pod communication.
     - Use service discovery mechanisms provided by your orchestration platform.
@@ -595,7 +595,7 @@ networks:
     - **Self-Healing:** Automatically restart failed containers and replace unhealthy instances.
     - **Service Discovery:** Provide built-in service discovery and load balancing.
     - **Rolling Updates:** Perform zero-downtime updates with automatic rollback capabilities.
-- **Guidance for Copilot:**
+- **Guidance for AI Agent:**
     - Recommend Kubernetes for complex, large-scale deployments with advanced requirements.
     - Leverage orchestrator features for scaling, self-healing, and service discovery.
     - Use rolling update strategies for zero-downtime deployments.

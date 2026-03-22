@@ -1,3 +1,8 @@
+---
+description: 'Guidelines for Angular applications'
+applyTo: '**/*.ts,**/*.html,**/*.scss'
+---
+
 # Angular Specific Instructions
 
 **Scope: Angular Projects**
@@ -19,6 +24,9 @@
 - Use dependency injection
 - Keep services stateless when possible
 - Use RxJS operators for complex async operations
+
+## RxJS & Observables
+Use the `rxjs` skill for observable lifecycle management and best practices.
 
 ## State Management
 - Use signals for reactive state management

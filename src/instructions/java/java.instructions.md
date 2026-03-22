@@ -1,3 +1,8 @@
+---
+description: 'Guidelines for Java applications'
+applyTo: '**/*.java'
+---
+
 # Java Specific Instructions
 
 **Scope: Java Projects**
@@ -20,6 +25,7 @@
 - Use dependency injection with @Autowired or constructor injection
 - Follow RESTful principles for API design
 - Use Spring Data JPA for database access
+- Use the `java-springboot` skill for Spring Boot best practices.
 
 ## Error Handling
 - Use checked exceptions for recoverable conditions
