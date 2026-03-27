@@ -63,6 +63,28 @@ Before generating HTTP client code, ask:
 
 If yes → add the Polly-based resilience pipeline. See [http-client-patterns.md](references/http-client-patterns.md#resilience).
 
+### Step 5b: Ask About Existing Types Used as Arguments or Return Values
+
+When wrapping existing C# classes, identify all types that appear directly as method parameters or return values in the wrapped API (e.g. classes, records, enums from the source assembly).
+
+For each such type, ask the user **once** (grouped into a single question):
+
+> "The following types from the source are used directly as parameters or return values:
+> - `OrderRequest` (argument of `PlaceOrder`)
+> - `ProductDto` (return value of `GetProduct`)
+> - ...
+>
+> Should these types be passed through as-is (reused from the source), or should new equivalents be generated in the SDK library?"
+
+**Options and consequences:**
+
+| Choice | When to recommend | What to generate |
+|---|---|---|
+| **Pass through** | Source types are already in a shared/public assembly that consumers will reference | No new model code; use source types directly in the interface and implementation |
+| **Generate new types** | Source types are internal, in a non-distributable assembly, or consumers should not depend on the source project | New model classes/records in `Models/`; add mapping logic between source and SDK types in the implementation |
+
+If the user chooses to generate new types, apply the same conventions as for response DTOs (see [http-client-patterns.md](references/http-client-patterns.md)). Add a private mapping method or a `XxxMapper` internal class to the implementation to convert between the source type and the SDK type.
+
 ### Step 6: Generate Library Code
 
 Generate all components. See [di-patterns.md](references/di-patterns.md) and [http-client-patterns.md](references/http-client-patterns.md) for full patterns.
