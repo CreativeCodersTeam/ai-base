@@ -5,6 +5,8 @@ description: Refactors existing code to improve structure, readability, and main
 
 # Refactoring Skill
 
+Unless you are explicitly asked to refactor code directly, generate a refactoring plan first and only apply it if the user says they want you to apply it~~~~.
+~~~~
 When refactoring code, follow these principles:
 
 ## Refactoring Approach
