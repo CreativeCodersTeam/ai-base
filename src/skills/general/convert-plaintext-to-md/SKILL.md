@@ -1,6 +1,6 @@
 ---
 name: convert-plaintext-to-md
-description: 'Convert a text-based document to markdown following instructions from prompt, or if a documented option is passed, follow the instructions for that option.'
+description: Converts plain text or legacy documentation files to properly formatted Markdown. Use when asked to convert, migrate, or reformat a plaintext file to .md format. Supports reference-guided conversion, formatting options (headers, code blocks, indentation), and finalization/cleanup of existing .md files.
 ---
 
 # Convert Plaintext Documentation to Markdown

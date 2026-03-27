@@ -1,6 +1,6 @@
 ---
 name: javascript-typescript-jest
-description: 'Best practices for writing JavaScript/TypeScript tests using Jest, including mocking strategies, test structure, and common patterns.'
+description: 'Best practices for writing JavaScript and TypeScript tests with Jest. Use when asked to write unit tests, improve test coverage, set up mocking, test async code, or test React components with Testing Library. Covers test structure, mock strategies, snapshot testing, and common Jest matchers.'
 ---
 
 ### Test Structure

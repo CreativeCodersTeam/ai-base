@@ -110,9 +110,10 @@ Generate all components. See [di-patterns.md](references/di-patterns.md) and [ht
 <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="*" />
 ```
 
-Always use the latest stable version compatible with the target .NET version.
+Always use the latest stable, compatible with target framework version.
+Always use skill 'nuget-manager' for managing NuGet packages and package versions~~~~. 
 
-### Step 7: Document the Code
+### Step 7: Document the Code~~~~
 
 After generating all source files, invoke the `csharp-docs` skill to add XML documentation comments to all public types and members.
 
@@ -128,7 +129,7 @@ After documentation is complete, invoke the `tester` skill to generate unit and 
 - **Typed exceptions**: HTTP errors become typed exceptions with status code, reason, and response body properties.
 - **Nullable**: Follow the project's nullable settings (see Step 2).
 - **No static state**: All state via DI; no singleton anti-patterns.
-
+~~~~
 ## Additional Resources
 
 - **[di-patterns.md](references/di-patterns.md)** — DI registration, Options pattern, extension method patterns

@@ -1,6 +1,6 @@
 ---
 name: rxjs
-description: Work with RxJS for reactive programming in TypeScript projects
+description: RxJS reactive programming patterns and best practices for TypeScript and Angular projects. Use when working with Observables, Subjects, operators (switchMap, combineLatest, etc.), subscription management, error handling with catchError/retry, or performance optimization (shareReplay, debounce). Includes Angular-specific patterns like async pipe and takeUntil.
 ---
 
 # RxJS Skill

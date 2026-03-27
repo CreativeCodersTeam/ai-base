@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Refactor code to improve structure, readability, and maintainability while preserving functionality
+description: Refactors existing code to improve structure, readability, and maintainability without changing behavior. Use when asked to clean up code, reduce duplication, apply SOLID principles, or address code smells (long methods, tight coupling, poor naming). Always verifies existing tests pass before and after changes.
 ---
 
 # Refactoring Skill
