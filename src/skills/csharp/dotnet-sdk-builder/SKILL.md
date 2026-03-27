@@ -63,7 +63,7 @@ Before generating HTTP client code, ask:
 
 If yes → add the Polly-based resilience pipeline. See [http-client-patterns.md](references/http-client-patterns.md#resilience).
 
-### Step 5b: Ask About Existing Types Used as Arguments or Return Values
+### Step 6: Ask About Existing Types Used as Arguments or Return Values
 
 When wrapping existing C# classes, identify all types that appear directly as method parameters or return values in the wrapped API (e.g. classes, records, enums from the source assembly).
 
@@ -85,7 +85,7 @@ For each such type, ask the user **once** (grouped into a single question):
 
 If the user chooses to generate new types, apply the same conventions as for response DTOs (see [http-client-patterns.md](references/http-client-patterns.md)). Add a private mapping method or a `XxxMapper` internal class to the implementation to convert between the source type and the SDK type.
 
-### Step 6: Generate Library Code
+### Step 7: Generate Library Code
 
 Generate all components. See [di-patterns.md](references/di-patterns.md) and [http-client-patterns.md](references/http-client-patterns.md) for full patterns.
 
@@ -111,13 +111,13 @@ Generate all components. See [di-patterns.md](references/di-patterns.md) and [ht
 ```
 
 Always use the latest stable, compatible with target framework version.
-Always use skill 'nuget-manager' for managing NuGet packages and package versions~~~~. 
+Always use skill 'nuget-manager' for managing NuGet packages and package versions. 
 
-### Step 7: Document the Code~~~~
+### Step 8: Document the Code
 
 After generating all source files, invoke the `csharp-docs` skill to add XML documentation comments to all public types and members.
 
-### Step 8: Write Tests
+### Step 9: Write Tests
 
 After documentation is complete, invoke the `tester` skill to generate unit and integration tests for the library.
 
@@ -129,7 +129,7 @@ After documentation is complete, invoke the `tester` skill to generate unit and 
 - **Typed exceptions**: HTTP errors become typed exceptions with status code, reason, and response body properties.
 - **Nullable**: Follow the project's nullable settings (see Step 2).
 - **No static state**: All state via DI; no singleton anti-patterns.
-~~~~
+
 ## Additional Resources
 
 - **[di-patterns.md](references/di-patterns.md)** — DI registration, Options pattern, extension method patterns

@@ -30,7 +30,7 @@ description: RxJS reactive programming patterns and best practices for TypeScrip
 ### 4. Error Handling
 - Use retry/retryWhen for transient failures
 - Use catchError operator for error handling
-- Decide whether to rec~~~~over or propagate errors
+- Decide whether to recover or propagate errors
 - Always handle errors to prevent stream termination
 
 ### 5. Performance
