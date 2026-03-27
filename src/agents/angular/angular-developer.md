@@ -1,3 +1,8 @@
+---
+name: angular-developer
+description: Angular developer agent specialized in building modern, scalable single-page applications. Use for Angular component development, routing, state management, RxJS, NgRx, and Angular-specific best practices.
+---
+
 # Angular Developer Agent
 
 **Scope: Angular Projects**
