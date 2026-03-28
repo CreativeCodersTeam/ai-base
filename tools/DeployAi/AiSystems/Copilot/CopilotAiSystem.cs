@@ -17,7 +17,7 @@ public class CopilotAiSystem() : AiSystemBase("copilot", "Copilot")
 
         CopyInstructionFiles(setup, paths.InstructionsDir);
 
-        CopySkillFiles(setup, paths.SkillsDir);
+        CopySkillFiles(setup, paths.OldSkillsDir);
     }
 
     public override void Cleanup(DeploymentSetup setup)
