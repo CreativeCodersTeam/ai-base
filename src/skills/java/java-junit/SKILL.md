@@ -5,14 +5,6 @@ description: Writes and improves JUnit 5 unit tests for Java projects. Use when 
 
 # JUnit 5+ Best Practices
 
-## When to Use This Skill
-
-- Writing unit tests for Java classes or methods
-- Creating parameterized or data-driven tests
-- Setting up test infrastructure with JUnit 5 and Mockito
-- Improving test coverage or test quality
-- Migrating tests from JUnit 4 to JUnit 5
-
 ## Project Setup
 
 - Use a standard Maven or Gradle project structure.

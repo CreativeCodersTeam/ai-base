@@ -5,13 +5,6 @@ description: Adds and reviews Javadoc documentation comments following Java best
 
 # Java Documentation (Javadoc) Best Practices
 
-## When to Use This Skill
-
-- Adding Javadoc comments to Java classes, methods, or fields
-- Reviewing existing Javadoc for completeness and correctness
-- Documenting public APIs in a Java library or module
-- Ensuring Javadoc follows Oracle's standard conventions
-
 ## Guidelines
 
 - Public and protected members should be documented with Javadoc comments.

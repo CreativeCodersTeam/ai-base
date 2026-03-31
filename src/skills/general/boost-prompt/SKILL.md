@@ -7,22 +7,12 @@ description: Refines and improves user prompts interactively before execution. U
 
 Refine and improve task prompts before execution. DO NOT WRITE ANY CODE.
 
-## When to Use This Skill
-
-- A task request is vague, underspecified, or overly broad
-- A complex prompt needs structure, scope, and success criteria
-- Clarifying questions are needed before starting implementation
-
 Iteratively refine the user’s prompt by:
 
-- Understanding the task scope and objectives
-- At all times when you need clarification on details, ask specific questions to the user.
-- Defining expected deliverables and success criteria
-- Perform project explorations, using available tools, to further your understanding of the task
-- Clarifying technical and procedural requirements
-- Organizing the prompt into clear sections or steps
-- Ensuring the prompt is easy to understand and follow
+1. Understanding task scope and objectives
+2. Asking specific clarifying questions
+3. Exploring the project with available tools for additional context
+4. Defining deliverables and success criteria
+5. Organizing the prompt into clear sections or steps
 
-After gathering sufficient information, produce the improved prompt as markdown, as well as typing it out in the chat.
-
-Ask the user if they want any changes or additions. Repeat the copy + chat + ask after any revisions of the prompt.
+Produce the improved prompt as markdown and type it out in the chat. Ask the user if they want changes. Repeat after any revisions.

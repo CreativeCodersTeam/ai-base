@@ -5,15 +5,6 @@ description: RxJS reactive programming patterns and best practices for TypeScrip
 
 # RxJS Skill
 
-## When to Use This Skill
-
-- Working with Observables, Subjects, or reactive streams
-- Choosing or chaining RxJS operators (switchMap, mergeMap, combineLatest, etc.)
-- Managing subscriptions and preventing memory leaks
-- Implementing error handling with catchError or retry strategies
-- Optimizing performance with shareReplay, debounceTime, or distinctUntilChanged
-- Using the async pipe or takeUntil patterns in Angular components
-
 ## Best Practices
 
 ### 1. Observable Creation

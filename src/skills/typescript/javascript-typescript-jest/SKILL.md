@@ -5,14 +5,6 @@ description: Best practices for writing JavaScript and TypeScript tests with Jes
 
 # Jest Testing Best Practices
 
-## When to Use This Skill
-
-- Writing unit tests for JavaScript or TypeScript code
-- Setting up mocks for external dependencies with Jest
-- Testing async functions, promises, or event-driven code
-- Testing React components with Testing Library
-- Improving test coverage or test quality in a Jest project
-
 ## Test Structure
 - Name test files with `.test.ts` or `.test.js` suffix
 - Place test files next to the code they test or in a dedicated `__tests__` directory

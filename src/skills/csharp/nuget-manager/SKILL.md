@@ -5,17 +5,6 @@ description: Manages NuGet packages in .NET projects and solutions. Use when add
 
 # NuGet Manager
 
-## When to Use This Skill
-
-- Adding or removing NuGet package references in a .NET project
-- Updating package versions in `.csproj` or `Directory.Packages.props`
-- Listing outdated packages across a solution
-- Verifying package version existence on NuGet.org
-
-## Overview
-
-This skill ensures consistent and safe management of NuGet packages across .NET projects. It prioritizes using the `dotnet` CLI to maintain project integrity and enforces a strict verification and restoration workflow for version updates.
-
 ## Prerequisites
 
 - .NET SDK installed (typically .NET 8.0 SDK or later, or a version compatible with the target solution).
@@ -79,14 +68,3 @@ dotnet list package --outdated
 
 The output shows the current version, the latest resolved version, and the latest available version for each package. Use this as the basis for deciding which packages to update, then follow the **Updating Package Versions** workflow for each.
 
-## Examples
-
-### User: "Add Serilog to the WebApi project"
-**Action**: Execute `dotnet add src/WebApi/WebApi.csproj package Serilog`.
-
-### User: "Update Newtonsoft.Json to 13.0.3 in the whole solution"
-**Action**:
-1. Verify 13.0.3 exists: `dotnet package search Newtonsoft.Json --exact-match --format json` (and parse output to confirm "13.0.3" is present).
-2. Find where it's defined (e.g., `Directory.Packages.props`).
-3. Edit the file to update the version.
-4. Run `dotnet restore`.

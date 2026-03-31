@@ -5,15 +5,6 @@ description: Best practices for building Spring Boot applications in Java. Use w
 
 # Spring Boot Best Practices
 
-## When to Use This Skill
-
-- Building or extending a Spring Boot application
-- Designing REST API endpoints with controllers and DTOs
-- Configuring dependency injection, profiles, or externalized configuration
-- Implementing data access with Spring Data JPA
-- Writing unit or integration tests for Spring components
-- Setting up Spring Security for authentication and authorization
-
 ## Project Setup & Structure
 
 - **Build Tool:** Use Maven (`pom.xml`) or Gradle (`build.gradle`) for dependency management.

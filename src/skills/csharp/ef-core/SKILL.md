@@ -5,14 +5,6 @@ description: Entity Framework Core best practices for .NET projects. Use when de
 
 # Entity Framework Core Best Practices
 
-## When to Use This Skill
-
-- Designing or reviewing DbContext and entity configurations
-- Writing LINQ queries or optimizing EF Core performance
-- Creating or managing database migrations
-- Implementing repository or specification patterns with EF Core
-- Troubleshooting N+1 queries, tracking issues, or concurrency conflicts
-
 ## Data Context Design
 
 - Keep DbContext classes focused and cohesive
@@ -146,5 +138,3 @@ catch (DbUpdateConcurrencyException ex)
 - Mock DbContext and DbSet only for pure unit tests that do not execute queries
 - Test migrations in isolated environments
 - Consider snapshot testing for model changes
-
-When reviewing my EF Core code, identify issues and suggest improvements that follow these best practices.

@@ -5,16 +5,6 @@ description: Performs thorough code reviews covering quality, security, performa
 
 # Code Review Skill
 
-## When to Use This Skill
-
-- Reviewing pull requests or code diffs
-- Auditing code for security vulnerabilities
-- Assessing code quality before merging
-- Checking adherence to coding standards and best practices
-- Identifying performance bottlenecks in changed code
-
-When performing code reviews, follow this systematic approach:
-
 ## Review Checklist
 
 ### 1. Code Quality

@@ -5,13 +5,6 @@ description: Adds and reviews C# XML documentation comments following Microsoft'
 
 # C# Documentation Best Practices
 
-## When to Use This Skill
-
-- Adding XML documentation comments to C# classes, methods, or properties
-- Reviewing existing XML docs for completeness and Microsoft style compliance
-- Documenting public APIs in a .NET library or NuGet package
-- Writing `<summary>`, `<param>`, `<returns>`, or `<exception>` tags
-
 ## General Guidelines
 
 - Public members should be documented with XML comments.
