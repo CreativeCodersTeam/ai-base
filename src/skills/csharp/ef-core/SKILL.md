@@ -88,3 +88,4 @@ See [concurrency-control.md](./references/concurrency-control.md) for `[Timestam
 - Mock DbContext and DbSet only for pure unit tests that do not execute queries
 - Test migrations in isolated environments
 - Consider snapshot testing for model changes
+- Use the `dotnet-tester` skill for generating unit and integration tests after schema changes

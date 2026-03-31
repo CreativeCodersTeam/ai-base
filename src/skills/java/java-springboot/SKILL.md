@@ -51,10 +51,11 @@ description: Best practices for building Spring Boot applications in Java. Use w
 
 ## Testing
 
-- **Unit Tests:** Write unit tests for services and components using JUnit 5 and a mocking framework like Mockito.
+- **Unit Tests:** Write unit tests for services and components using JUnit 5 and Mockito. Use the `java-junit` skill for detailed testing conventions.
 - **Integration Tests:** Use `@SpringBootTest` for integration tests that load the Spring application context.
 - **Test Slices:** Use test slice annotations like `@WebMvcTest` (for controllers) or `@DataJpaTest` (for repositories) to test specific parts of the application in isolation.
 - **Testcontainers:** Consider using Testcontainers for reliable integration tests with real databases, message brokers, etc.
+- **Documentation:** Use the `java-docs` skill to add Javadoc to public APIs.
 
 ## Security
 
