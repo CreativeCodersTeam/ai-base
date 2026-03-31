@@ -72,10 +72,10 @@ race([obs1$, obs2$]).subscribe();
 ### Error Handling
 ```typescript
 this.service.getData().pipe(
+  retry(3),
   catchError(error => {
     console.error('Error:', error);
     return of(defaultValue);
-  }),
-  retry(3)
+  })
 ).subscribe();
 ```

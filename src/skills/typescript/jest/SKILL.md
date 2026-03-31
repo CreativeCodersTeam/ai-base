@@ -35,12 +35,3 @@ description: Best practices for writing JavaScript and TypeScript tests with Jes
 - Query elements by accessibility roles, labels, or text content
 - Use `userEvent` over `fireEvent` for more realistic user interactions
 
-## Common Jest Matchers
-- Basic: `expect(value).toBe(expected)`, `expect(value).toEqual(expected)`
-- Truthiness: `expect(value).toBeTruthy()`, `expect(value).toBeFalsy()`
-- Numbers: `expect(value).toBeGreaterThan(3)`, `expect(value).toBeLessThanOrEqual(3)`
-- Strings: `expect(value).toMatch(/pattern/)`, `expect(value).toContain('substring')`
-- Arrays: `expect(array).toContain(item)`, `expect(array).toHaveLength(3)`
-- Objects: `expect(object).toHaveProperty('key', value)`
-- Exceptions: `expect(fn).toThrow()`, `expect(fn).toThrow(Error)`
-- Mock functions: `expect(mockFn).toHaveBeenCalled()`, `expect(mockFn).toHaveBeenCalledWith(arg1, arg2)`
