@@ -1,9 +1,16 @@
 ---
 name: nuget-manager
-description: 'Manage NuGet packages in .NET projects/solutions. Use this skill when adding, removing, or updating NuGet package versions. It enforces using `dotnet` CLI for package management and provides strict procedures for direct file edits only when updating versions.'
+description: Manages NuGet packages in .NET projects and solutions. Use when adding, removing, or updating NuGet package references or versions. Enforces dotnet CLI for package operations, supports Directory.Packages.props central version management, and provides version verification workflows. Handles dotnet add/remove package, dotnet list package --outdated, and dotnet restore.
 ---
 
 # NuGet Manager
+
+## When to Use This Skill
+
+- Adding or removing NuGet package references in a .NET project
+- Updating package versions in `.csproj` or `Directory.Packages.props`
+- Listing outdated packages across a solution
+- Verifying package version existence on NuGet.org
 
 ## Overview
 

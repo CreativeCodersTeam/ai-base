@@ -1,7 +1,6 @@
 ---
 name: dotnet-sdk-builder
 description: This skill should be used when the user asks to "create a .NET SDK", "build a .NET library", "generate an SDK from classes", "create an API wrapper in C#", "build a .NET integration library", "create a .NET client library", "wrap a REST API in .NET", "generate a .NET HTTP client", or "create a typed HTTP client". Generates complete .NET SDK libraries with Dependency Injection support, interfaces, typed HTTP clients, Options pattern, typed exceptions, XML documentation (via csharp-docs skill), and tests (via tester skill).
-version: 0.1.0
 ---
 
 # .NET SDK Library Builder

@@ -1,11 +1,19 @@
 ---
 name: create-spring-boot-java-project
-description: 'Create Spring Boot Java Project Skeleton'
+description: Scaffolds a new Spring Boot Java project from Spring Initializr with PostgreSQL, Redis, MongoDB, Docker Compose, and OpenAPI/Swagger support. Use when asked to create a new Java project, bootstrap a Spring Boot app, generate a project skeleton, or set up a Java microservice from scratch.
 ---
 
-# Create Spring Boot Java project prompt
+# Create Spring Boot Java Project
 
-- Please make sure you have the following software installed on your system:
+## When to Use This Skill
+
+- Creating a new Spring Boot project from scratch
+- Bootstrapping a Java microservice with common dependencies
+- Setting up a project skeleton with database and cache support
+
+## Prerequisites
+
+Ensure the following software is installed:
 
   - Latest Java LTS or newer
   - Docker

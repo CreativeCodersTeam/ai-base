@@ -1,11 +1,17 @@
 ---
 name: java-junit
-description: 'Get best practices for JUnit 5 unit testing, including data-driven tests'
+description: Writes and improves JUnit 5 unit tests for Java projects. Use when asked to create unit tests, write parameterized/data-driven tests, improve test coverage, set up mocking with Mockito, or follow testing best practices with JUnit Jupiter. Covers test structure, assertions, @ParameterizedTest, @ValueSource, @CsvSource, and @MethodSource.
 ---
 
 # JUnit 5+ Best Practices
 
-Your goal is to help me write effective unit tests with JUnit 5, covering both standard and data-driven testing approaches.
+## When to Use This Skill
+
+- Writing unit tests for Java classes or methods
+- Creating parameterized or data-driven tests
+- Setting up test infrastructure with JUnit 5 and Mockito
+- Improving test coverage or test quality
+- Migrating tests from JUnit 4 to JUnit 5
 
 ## Project Setup
 

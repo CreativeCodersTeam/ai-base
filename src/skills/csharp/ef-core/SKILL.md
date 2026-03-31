@@ -5,7 +5,13 @@ description: Entity Framework Core best practices for .NET projects. Use when de
 
 # Entity Framework Core Best Practices
 
-Your goal is to help me follow best practices when working with Entity Framework Core.
+## When to Use This Skill
+
+- Designing or reviewing DbContext and entity configurations
+- Writing LINQ queries or optimizing EF Core performance
+- Creating or managing database migrations
+- Implementing repository or specification patterns with EF Core
+- Troubleshooting N+1 queries, tracking issues, or concurrency conflicts
 
 ## Data Context Design
 
@@ -107,6 +113,8 @@ catch (DbUpdateConcurrencyException ex)
     // Reload the entity and resolve the conflict, or inform the user
     await ex.Entries.Single().ReloadAsync();
 }
+
+```
 
 ## Security
 

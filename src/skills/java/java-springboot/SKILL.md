@@ -1,11 +1,18 @@
 ---
 name: java-springboot
-description: 'Get best practices for developing applications with Spring Boot.'
+description: Best practices for building Spring Boot applications in Java. Use when developing REST APIs, configuring dependency injection, setting up JPA repositories, implementing security with Spring Security, writing integration tests with @SpringBootTest, or structuring a Spring Boot project. Covers controllers, services, configuration, profiles, and testing.
 ---
 
 # Spring Boot Best Practices
 
-Your goal is to help me write high-quality Spring Boot applications by following established best practices.
+## When to Use This Skill
+
+- Building or extending a Spring Boot application
+- Designing REST API endpoints with controllers and DTOs
+- Configuring dependency injection, profiles, or externalized configuration
+- Implementing data access with Spring Data JPA
+- Writing unit or integration tests for Spring components
+- Setting up Spring Security for authentication and authorization
 
 ## Project Setup & Structure
 

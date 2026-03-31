@@ -5,7 +5,15 @@ description: Refactors existing code to improve structure, readability, and main
 
 # Refactoring Skill
 
-Unless you are explicitly asked to refactor code directly, generate a refactoring plan first and only apply it if the user says they want you to apply it.
+## When to Use This Skill
+
+- Cleaning up code to improve readability or maintainability
+- Reducing code duplication across a codebase
+- Applying SOLID principles or design patterns
+- Addressing code smells (long methods, tight coupling, poor naming)
+- Restructuring code without changing external behavior
+
+Unless explicitly asked to refactor code directly, generate a refactoring plan first and only apply it if the user approves.
 
 When refactoring code, follow these principles:
 
