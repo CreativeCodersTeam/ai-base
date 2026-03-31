@@ -1,6 +1,6 @@
 ---
-name: tester
-description: Writes, executes, and completes unit tests for C#/.NET code. Uses a second agent to identify missing test cases. Use this skill when you are asked to create tests or improve test coverage.
+name: dotnet-tester
+description: Writes, executes, and completes unit tests for C#/.NET code using xUnit, FakeItEasy, and AwesomeAssertions. Uses a second agent to identify missing test cases. Use when asked to create .NET tests or improve test coverage.
 ---
 
 Write comprehensive unit tests for the specified code. Follow a multi-step process with automatic identification of missing test cases.

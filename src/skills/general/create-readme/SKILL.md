@@ -1,6 +1,6 @@
 ---
 name: create-readme
-description: Creates a comprehensive, professional README.md for a project. Use when a project has no README, when the existing README is outdated or incomplete, or when asked to document a project. Follows OSS conventions with GFM formatting, project logo detection, and concise writing style.
+description: Creates a comprehensive, professional README.md for a project. Use when a project has no README, when the existing README is outdated, or when asked to generate project documentation. Follows OSS conventions with GFM formatting, project logo detection, and concise writing style.
 ---
 
 ## Workflow
