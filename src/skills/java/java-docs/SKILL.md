@@ -1,9 +1,11 @@
 ---
 name: java-docs
-description: 'Ensure that Java types are documented with Javadoc comments and follow best practices for documentation.'
+description: Adds and reviews Javadoc documentation comments following Java best practices. Use when writing or reviewing Java code that needs Javadoc for public APIs, complex logic, or when documentation is missing. Covers @param, @return, @throws, @see, {@code}, {@inheritDoc}, and all standard Javadoc tags.
 ---
 
 # Java Documentation (Javadoc) Best Practices
+
+## Guidelines
 
 - Public and protected members should be documented with Javadoc comments.
 - It is encouraged to document package-private and private members as well, especially if they are complex or not self-explanatory.

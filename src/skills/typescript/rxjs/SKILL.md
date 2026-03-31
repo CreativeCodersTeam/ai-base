@@ -5,8 +5,6 @@ description: RxJS reactive programming patterns and best practices for TypeScrip
 
 # RxJS Skill
 
-**Scope: TypeScript/Angular Projects using RxJS**
-
 ## Best Practices
 
 ### 1. Observable Creation
@@ -74,10 +72,10 @@ race([obs1$, obs2$]).subscribe();
 ### Error Handling
 ```typescript
 this.service.getData().pipe(
+  retry(3),
   catchError(error => {
     console.error('Error:', error);
     return of(defaultValue);
-  }),
-  retry(3)
+  })
 ).subscribe();
 ```

@@ -1,11 +1,9 @@
 ---
 name: java-junit
-description: 'Get best practices for JUnit 5 unit testing, including data-driven tests'
+description: Writes and improves JUnit 5 unit tests for Java projects. Use when asked to create unit tests, write parameterized/data-driven tests, improve test coverage, set up mocking with Mockito, or follow testing best practices with JUnit Jupiter. Covers test structure, assertions, @ParameterizedTest, @ValueSource, @CsvSource, and @MethodSource.
 ---
 
 # JUnit 5+ Best Practices
-
-Your goal is to help me write effective unit tests with JUnit 5, covering both standard and data-driven testing approaches.
 
 ## Project Setup
 
@@ -42,11 +40,9 @@ Your goal is to help me write effective unit tests with JUnit 5, covering both s
 
 ## Assertions
 
-- Use the static methods from `org.junit.jupiter.api.Assertions` (e.g., `assertEquals`, `assertTrue`, `assertNotNull`).
-- For more fluent and readable assertions, consider using a library like AssertJ (`assertThat(...).is...`).
-- Use `assertThrows` or `assertDoesNotThrow` to test for exceptions.
-- Group related assertions with `assertAll` to ensure all assertions are checked before the test fails.
-- Use descriptive messages in assertions to provide clarity on failure.
+- Use `org.junit.jupiter.api.Assertions` or AssertJ for more fluent assertions.
+- Use `assertThrows` / `assertDoesNotThrow` for exception testing.
+- Group related assertions with `assertAll`.
 
 ## Mocking and Isolation
 
