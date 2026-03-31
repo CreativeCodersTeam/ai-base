@@ -10,7 +10,9 @@ description: Scaffolds a new Spring Boot Java project from Spring Initializr wit
 - Latest Java LTS or newer
 - Docker and Docker Compose
 
-To customize the project name, change `artifactId` and `packageName` in the download step. To update the Spring Boot version, change `bootVersion`.
+To customize the project name, change `artifactId` and `packageName` in the download step.
+
+> **Versions:** Always use the latest stable versions for Java LTS, Spring Boot, springdoc, archunit, and Docker images unless the user explicitly requests specific versions. Verify current versions on [Maven Central](https://central.sonatype.com/) before scaffolding.
 
 ## Step 1: Check Java version
 
@@ -23,9 +25,9 @@ java -version
 ```shell
 curl https://start.spring.io/starter.zip \
   -d artifactId=${input:projectName:demo-java} \
-  -d bootVersion=${input:bootVersion:3.4.5} \
+  -d bootVersion=${input:bootVersion:LATEST_STABLE} \
   -d dependencies=lombok,configuration-processor,web,data-jpa,postgresql,data-redis,data-mongodb,validation,cache,testcontainers \
-  -d javaVersion=21 \
+  -d javaVersion=${input:javaVersion:LATEST_LTS} \
   -d packageName=com.example \
   -d packaging=jar \
   -d type=maven-project \
@@ -43,12 +45,12 @@ Insert into `pom.xml`:
 <dependency>
   <groupId>org.springdoc</groupId>
   <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-  <version>2.8.6</version>
+  <version>LATEST_STABLE</version>
 </dependency>
 <dependency>
   <groupId>com.tngtech.archunit</groupId>
   <artifactId>archunit-junit5</artifactId>
-  <version>1.2.1</version>
+  <version>LATEST_STABLE</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -92,9 +94,9 @@ Create `docker-compose.yaml` at project root with these services:
 
 | Service | Image | Port | Volume | Auth |
 |---------|-------|------|--------|------|
-| redis | redis:6 | 6379:6379 | `./redis_data:/data` | password: `rootroot` |
-| postgresql | postgresql:17 | 5432:5432 | `./postgres_data:/var/lib/postgresql/data` | password: `rootroot` |
-| mongo | mongo:8 | 27017:27017 | `./mongo_data:/data/db` | root/`rootroot` |
+| redis | redis:LATEST_STABLE | 6379:6379 | `./redis_data:/data` | password: `rootroot` |
+| postgresql | postgresql:LATEST_STABLE | 5432:5432 | `./postgres_data:/var/lib/postgresql/data` | password: `rootroot` |
+| mongo | mongo:LATEST_STABLE | 27017:27017 | `./mongo_data:/data/db` | root/`rootroot` |
 
 ## Step 6: Update .gitignore
 
