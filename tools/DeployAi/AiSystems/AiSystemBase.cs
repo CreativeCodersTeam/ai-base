@@ -23,6 +23,18 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         foreach (var skill in skills)
         {
             CopyFile(skill.FileName, FileSys.Path.Combine(targetDir, skill.Name, "SKILL.md"));
+
+            foreach (var skillAdditionalFile in skill.AdditionalFiles)
+            {
+                var targetFile =
+                    FileSys.Path.Combine(targetDir, skill.Name,
+                        FileSys.Path.GetRelativePath(
+                            FileSys.Path.GetDirectoryName(skill.FileName) ??
+                            throw new InvalidOperationException("Skill file path cannot be null"),
+                            skillAdditionalFile));
+
+                CopyFile(skillAdditionalFile, targetFile);
+            }
         }
     }
 
