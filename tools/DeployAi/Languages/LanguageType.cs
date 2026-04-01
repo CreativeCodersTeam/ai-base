@@ -53,13 +53,18 @@ public class LanguageType(string name, string displayName)
 
         if (!FileSys.Directory.Exists(skillsDir))
         {
-            return Array.Empty<LanguageSkill>();
+            return [];
         }
 
         return from skillDir in FileSys.Directory.EnumerateDirectories(skillsDir)
             let skillName = FileSys.Path.GetFileName(skillDir)
             let skillFile = FileSys.Path.Combine(skillDir, "SKILL.md")
             where FileSys.File.Exists(skillFile)
-            select new LanguageSkill(skillName, skillFile);
+            select new LanguageSkill(skillName, skillFile)
+            {
+                AdditionalFiles = FileSys.Directory
+                    .EnumerateFiles(skillDir, "*", SearchOption.AllDirectories)
+                    .Where(x => x != skillFile).ToArray()
+            };
     }
 }
