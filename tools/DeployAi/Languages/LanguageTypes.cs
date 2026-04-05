@@ -9,7 +9,8 @@ public class LanguageTypes : ILanguageTypes
         new LanguageType("javascript", "JavaScript"),
         new LanguageType("typescript", "TypeScript"),
         new LanguageType("java", "Java"),
-        new LanguageType("docker", "Docker")
+        new LanguageType("docker", "Docker"),
+        new LanguageType("superpowers", "Superpowers")
     ];
 
     public IEnumerable<LanguageType> GetLanguageTypes() => _languageTypes;
