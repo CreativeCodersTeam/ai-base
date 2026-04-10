@@ -118,7 +118,7 @@ _service = Ensure.NotNull(service);
 - Explain the logging levels and when to use each.
 - Demonstrate integration with Application Insights for telemetry collection.
 - Show how to implement custom telemetry and correlation IDs for request tracking.
-- Explain how to monitor API performance, errors, and usage patterns.
+- Explain how to monitor API performance, errors and usage patterns.
 
 ## Testing
 
@@ -142,3 +142,8 @@ _service = Ensure.NotNull(service);
 - Demonstrate deployment to Azure App Service, Azure Container Apps, or other hosting options.
 - Show how to implement health checks and readiness probes.
 - Explain environment-specific configurations for different deployment stages.
+
+## Console
+- Use AnsiConsole for console input and output. Always use IAnsiConsole via dependency injection.
+- Use colored output where it makes sense. For example, use green for success messages, red for errors and yellow for warnings.
+- Use tables for structured output when displaying lists of data or multiple pieces of related information.
