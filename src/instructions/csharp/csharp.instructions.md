@@ -66,6 +66,7 @@ _service = Ensure.NotNull(service);
 - Prefer **switch expressions** over switch statements
 - Use **pattern matching** wherever possible
 - Use **primary constructors** when no constructor body is needed
+- Use private fields with guards instead of using primary constructor parameters directly, unless the parameter is assigned to a property.
 
 ## Async/Await
 
@@ -122,7 +123,7 @@ _service = Ensure.NotNull(service);
 ## Testing
 
 - Always include test cases for critical paths of the application.
-- Use the `tester` skill for detailed testing conventions and workflows.
+- Always use the `dotnet-tester` skill for detailed testing conventions and workflows when writing tests.
 
 ## Performance Optimization
 
