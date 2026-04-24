@@ -45,46 +45,9 @@ ai-base/
 
 ### Using in Other Repositories
 
-Create a workflow file in your repository (e.g., `.github/workflows/sync-ai-config.yml`):
+Create a workflow file in your repository (e.g., `.github/workflows/sync-ai-config.yml`).
 
-```yaml
-name: Sync AI Configuration
-
-on:
-  workflow_dispatch:
-    inputs:
-      create-pull-request:
-        description: 'Create a pull request instead of committing directly to the branch'
-        required: false
-        type: boolean
-        default: true
-      ai-base-version:
-        description: 'Version/branch of ai-base to use'
-        required: false
-        type: string
-        default: 'main'
-  schedule:
-    - cron: '0 0 * * *' # Every day at midnight
-
-jobs:
-  sync-scheduled:
-    if: github.event_name == 'schedule'
-    uses: CreativeCodersTeam/ai-base/.github/workflows/sync-ai-config.yml@main
-    with:
-      languages: 'csharp,typescript'
-      ai-systems: 'copilot,claude,junie'
-      ai-base-version: 'main'
-      create-pull-request: true
-
-  sync-manual:
-    if: github.event_name == 'workflow_dispatch'
-    uses: CreativeCodersTeam/ai-base/.github/workflows/sync-ai-config.yml@main
-    with:
-      languages: 'csharp,typescript'
-      ai-systems: 'copilot,claude,junie'
-      ai-base-version: ${{ inputs.ai-base-version }}
-      create-pull-request: ${{ inputs.create-pull-request }}
-```
+See the [sample workflow](samples/sync-ai-config.yml) for a ready-to-use example.
 
 ### Local Testing
 
@@ -130,11 +93,12 @@ The `deploy-ai-config.sh` script invokes the `DeployAi` .NET program which gener
 
 ### GitHub Action Inputs
 
-| Parameter | Description | Required | Default |
-|-----------|-------------|----------|---------|
-| `languages` | Comma-separated list of languages | Yes | - |
-| `ai-systems` | Comma-separated list of AI systems | Yes | - |
-| `ai-base-version` | Version/branch of ai-base | No | `main` |
+| Parameter                | Description                                                                                                     | Required | Default |
+|--------------------------|---------------------------------------------------------------------------------------------------------------- |----------|---------|
+| `languages`              | Comma-separated list of languages                                                                               | Yes      | -       |
+| `ai-systems`             | Comma-separated list of AI systems                                                                              | Yes      | -       |
+| `ai-base-version`        | Version/branch of ai-base                                                                                       | No       | `main`  |
+| `project-markdown-file`  | Path to a project-specific markdown file (relative to repo root) to append to the general instruction file      | No       | `''`    |
 
 ### Script Parameters
 

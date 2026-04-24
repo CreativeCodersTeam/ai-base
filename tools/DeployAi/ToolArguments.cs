@@ -11,4 +11,6 @@ public class ToolArguments
     public bool CleanupBeforeDeployment { get; set; }
 
     public bool PreferAgentsMd { get; set; }
+
+    public string ProjectMarkdownFile { get; set; } = string.Empty;
 }

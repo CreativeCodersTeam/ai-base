@@ -25,6 +25,11 @@ on:
         required: false
         type: boolean
         default: false
+      project-markdown-file:
+        description: 'Path to a project-specific markdown file (relative to target repo root) to append to the general instruction file'
+        required: false
+        type: string
+        default: ''
       create-pull-request:
         description: 'Create a pull request instead of committing directly to the branch'
         required: false
@@ -58,6 +63,7 @@ jobs:
             --languages="${{ inputs.languages }}" \
             --ai="${{ inputs.ai-systems }}" \
             ${{ inputs.clear-ai-configs && '--cleanup' || '' }} \
+            ${{ inputs.project-markdown-file && format('--project-markdown="../../target-repo/{0}"', inputs.project-markdown-file) || '' }} \
             --output="../../target-repo"
 
       - name: Check for changes

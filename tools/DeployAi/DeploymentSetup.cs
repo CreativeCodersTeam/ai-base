@@ -14,6 +14,8 @@ public class DeploymentSetup
 
     public required LanguageType General { get; init; }
 
+    public string ProjectMarkdownFile { get; init; } = string.Empty;
+
     public IEnumerable<LanguageType> GetAllLanguageTypes()
     {
         return LanguageTypes.Concat([General]);
