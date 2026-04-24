@@ -42,6 +42,10 @@ internal static class Program
             {
                 config.PreferAgentsMd = true;
             }
+            else if (arg.StartsWith("--project-markdown="))
+            {
+                config.ProjectMarkdownFile = arg["--project-markdown=".Length..];
+            }
         }
 
         if (config.Languages.Contains("copilot", StringComparer.OrdinalIgnoreCase) && config.PreferAgentsMd)

@@ -131,6 +131,13 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         var contentBuilder = new StringBuilder();
 
         contentBuilder.AppendLine(FileSys.File.ReadAllText(generalFile));
+
+        if (!string.IsNullOrEmpty(setup.ProjectMarkdownFile) && FileSys.File.Exists(setup.ProjectMarkdownFile))
+        {
+            contentBuilder.AppendLine();
+            contentBuilder.AppendLine(FileSys.File.ReadAllText(setup.ProjectMarkdownFile));
+        }
+
         contentBuilder.AppendLine("-----------------------------------------------------------");
         contentBuilder.AppendLine();
         contentBuilder.AppendLine();

@@ -31,6 +31,7 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
             OutputDir = FileSys.Path.GetFullPath(arguments.OutputDir),
             SourceBaseDir = FileSys.Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "..")),
             PreferAgentsMd = arguments.PreferAgentsMd,
+            ProjectMarkdownFile = arguments.ProjectMarkdownFile,
             LanguageTypes = languagesToDeploy,
             General = languageTypes.General
         };
