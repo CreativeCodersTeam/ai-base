@@ -50,8 +50,13 @@ _service = Ensure.NotNull(service);
 - Ensure that the final return statement of a method is on its own line.
 - Use pattern matching and switch expressions wherever possible.
 - Use `nameof` instead of string literals when referring to member names.
-- Use the `csharp-docs` skill to ensure XML documentation follows best practices.
 - Use `[UsedImplicitly]` from JetBrains.Annotations when types are only used via DI or reflection
+
+## Documentation
+
+- Document all public members with XML documentation.
+- Use the `csharp-docs` skill to ensure XML documentation follows best practices.
+- If you change code, always update the relevant XML documentation.
 
 ## Project Setup and Structure
 
