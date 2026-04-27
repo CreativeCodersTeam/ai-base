@@ -84,3 +84,5 @@ _service = Ensure.NotNull(service);
 - Use the `ef-core` skill for Entity Framework Core data access patterns.
 - Use the `dotnet-sdk-builder` skill for creating .NET SDK/client libraries.
 - Use the `nuget-manager` skill for NuGet package management.
+- Use the `dotnet-inspect` skill to query .NET APIs in NuGet packages, platform libraries (System.*, Microsoft.AspNetCore.*), or local .dll/.nupkg files — discover types and members, diff API surfaces between versions, find extension methods/implementors, locate SourceLink URLs, and triage breakages caused by package upgrades.
+
