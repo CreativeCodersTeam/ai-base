@@ -14,6 +14,7 @@ warn() { printf '\033[1;33m!!\033[0m %s\n'  "$*" >&2; }
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 INSTALL_SCRIPT="$SCRIPT_DIR/install-serena.sh"
+SETUP_HOOKS_SCRIPT="$SCRIPT_DIR/setup-serena-hooks.sh"
 
 serena_installed=false
 if command -v serena >/dev/null 2>&1 \
@@ -24,7 +25,8 @@ fi
 
 if ! $serena_installed; then
     log "Serena is not fully installed — delegating to install-serena.sh"
-    exec bash "$INSTALL_SCRIPT" "$@"
+    bash "$INSTALL_SCRIPT" "$@"
+    exec bash "$SETUP_HOOKS_SCRIPT" "$@"
 fi
 
 log "Serena is installed; upgrading"
@@ -37,6 +39,8 @@ if ! uv tool upgrade serena-agent --prerelease=allow; then
     warn "'uv tool upgrade' failed — falling back to clean reinstall"
     uv tool install -p 3.13 serena-agent@latest --prerelease=allow --reinstall
 fi
+
+bash "$SETUP_HOOKS_SCRIPT" "$@"
 
 log "Upgrade complete"
 serena --version || true
