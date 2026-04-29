@@ -24,7 +24,7 @@ MARKETPLACES=(
 # Plugins to install. Use the "plugin@marketplace" form so the source is
 # unambiguous and the install is reproducible.
 PLUGINS=(
-    "superpowers@superpowers"
+    "superpowers@superpowers-dev"
     "context-mode@context-mode"
 )
 
