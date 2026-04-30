@@ -29,7 +29,7 @@ public class LanguageType(string name, string displayName)
 
         if (!FileSys.Directory.Exists(agentsDir))
         {
-            return Array.Empty<string>();
+            return [];
         }
 
         return FileSys.Directory.EnumerateFiles(GetAgentsDir(setup), "*.md");
@@ -39,12 +39,9 @@ public class LanguageType(string name, string displayName)
     {
         var instructionsDir = GetInstructionsDir(setup);
 
-        if (!FileSys.Directory.Exists(instructionsDir))
-        {
-            return Array.Empty<string>();
-        }
-
-        return FileSys.Directory.EnumerateFiles(instructionsDir, "*.instructions.md");
+        return !FileSys.Directory.Exists(instructionsDir)
+            ? []
+            : FileSys.Directory.EnumerateFiles(instructionsDir, "*.instructions.md");
     }
 
     public IEnumerable<LanguageSkill> GetSkills(DeploymentSetup setup)
@@ -60,11 +57,48 @@ public class LanguageType(string name, string displayName)
             let skillName = FileSys.Path.GetFileName(skillDir)
             let skillFile = FileSys.Path.Combine(skillDir, "SKILL.md")
             where FileSys.File.Exists(skillFile)
+            let ignoredRoots = FileSys.Directory
+                .EnumerateFiles(skillDir, ".ai-ignore-files", SearchOption.AllDirectories)
+                .Select(marker => FileSys.Path.GetDirectoryName(marker)!)
+                .Select(dir => dir.TrimEnd(FileSys.Path.DirectorySeparatorChar, FileSys.Path.AltDirectorySeparatorChar))
+                .ToArray()
             select new LanguageSkill(skillName, skillFile)
             {
                 AdditionalFiles = FileSys.Directory
                     .EnumerateFiles(skillDir, "*", SearchOption.AllDirectories)
-                    .Where(x => x != skillFile).ToArray()
+                    .Where(x => x != skillFile)
+                    .Where(x => !IsUnderAnyRoot(x, ignoredRoots))
+                    .ToArray()
             };
+    }
+
+    private static bool IsUnderAnyRoot(string filePath, string[] roots)
+    {
+        if (roots.Length == 0)
+        {
+            return false;
+        }
+
+        var dir = FileSys.Path.GetDirectoryName(filePath);
+        if (dir is null)
+        {
+            return false;
+        }
+
+        var sep = FileSys.Path.DirectorySeparatorChar;
+        foreach (var root in roots)
+        {
+            if (string.Equals(dir, root, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (dir.StartsWith(root + sep, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
