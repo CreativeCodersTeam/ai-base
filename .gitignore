@@ -28,3 +28,5 @@ output/
 
 .DS_Store
 Thumbs.db
+
+src/skills/csharp/dotnet-reviewer/tests/fixtures/repo-*/
