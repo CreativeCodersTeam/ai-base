@@ -23,7 +23,7 @@ The user may add language preferences (e.g., "in German") — apply that to the 
 
 - `git` repo with `main` branch (for branch mode).
 - `dotnet ≥ 10` SDK if any of build/format/test will run.
-- `bash` 4+ available.
+- `bash` 3.2+ available (macOS default works).
 - `python3` available (used by scripts for safe JSON encoding).
 
 ## Workflow

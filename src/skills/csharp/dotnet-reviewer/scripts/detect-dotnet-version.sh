@@ -41,6 +41,11 @@ if [[ -f "$REPO_ROOT/global.json" ]]; then
     echo "malformed global.json: $REPO_ROOT/global.json" >&2
     exit 5
   fi
+  sdk_major=${SDK%%.*}
+  if [[ "$sdk_major" =~ ^[0-9]+$ ]] && [[ "$sdk_major" -lt 10 ]]; then
+    echo "global.json pins SDK $SDK; this skill targets .NET 10+" >&2
+    exit 4
+  fi
 fi
 
 # --- find all *.csproj and extract <TargetFramework(s)> ---

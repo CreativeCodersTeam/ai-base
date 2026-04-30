@@ -44,10 +44,16 @@ case "$MODE" in uncommitted|branch) ;; *) echo "invalid --mode: $MODE" >&2; exit
 cd "$REPO_ROOT"
 
 if [[ "$MODE" == "branch" ]]; then
-  if ! git rev-parse --verify --quiet "$BASELINE" >/dev/null; then
+  if ! git rev-parse --verify --quiet "$BASELINE" -- >/dev/null; then
     echo "baseline branch not found: $BASELINE" >&2
     exit 3
   fi
+fi
+
+# Guard: uncommitted mode against an empty repo (no HEAD yet) — abort cleanly.
+if [[ "$MODE" == "uncommitted" ]] && ! git rev-parse --verify --quiet HEAD -- >/dev/null; then
+  echo "repository has no commits yet (HEAD missing)" >&2
+  exit 3
 fi
 
 # pathspec exclusions on top of .gitignore
