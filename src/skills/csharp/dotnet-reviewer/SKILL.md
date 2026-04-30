@@ -1,7 +1,6 @@
 ---
 name: dotnet-reviewer
 description: Performs structured code reviews on .NET 10+ projects. Activates ONLY on explicit name — use the phrases "dotnet-reviewer", "dotnet code review", or "dotnet review". Reviews either uncommitted working-tree changes or committed changes on the current feature branch (vs. main). Produces a Markdown report under docs/reviews/ with severity-tagged findings ([Critical|Major|Minor|Suggestion|Nitpick][Security|Performance|Architecture|Code-Quality|Tests|.NET-Idioms]) and fix suggestions. Must NOT activate on generic "review my code" requests; other-language reviewers must not be hijacked.
-license: Complete terms in LICENSE.txt
 ---
 
 # dotnet-reviewer
@@ -129,7 +128,6 @@ Output to chat: the file path and a one-line summary (e.g., `"Wrote review with 
 ## Things This Skill Never Does
 
 - Auto-patches or auto-commits the report.
-- Reviews non-.NET code.
 - Bypasses git hooks (`--no-verify`, `--no-gpg-sign`).
 - Runs destructive operations as "fixes" (no `git reset`, no deletions).
 - Includes secrets in logs or the report.
