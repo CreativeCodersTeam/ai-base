@@ -13,4 +13,6 @@ public class ClaudePaths(string outputDir)
     public string SkillsDir { get; } = FileSys.Path.Combine(outputDir, ClaudeRootDir, "skills");
 
     public string AgentsDir { get; } = FileSys.Path.Combine(outputDir, ClaudeRootDir, "agents");
+
+    public string RulesDir { get; } = FileSys.Path.Combine(outputDir, ClaudeRootDir, "rules");
 }

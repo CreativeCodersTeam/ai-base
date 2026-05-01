@@ -16,6 +16,8 @@ public class ClaudeAiSystem() : AiSystemBase("claude", "Claude")
         CopyAgentFiles(setup, paths.AgentsDir);
 
         CopySkillFiles(setup, paths.SkillsDir);
+
+        CopyInstructionFiles(setup, paths.RulesDir);
     }
 
     public override void Cleanup(DeploymentSetup setup)
@@ -28,4 +30,7 @@ public class ClaudeAiSystem() : AiSystemBase("claude", "Claude")
         CleanupDir(paths.AgentsDir);
         CleanupDir(paths.SkillsDir);
     }
+
+    protected override string TransformInstructionContent(string content)
+        => ClaudeRulesFrontmatter.Convert(content);
 }

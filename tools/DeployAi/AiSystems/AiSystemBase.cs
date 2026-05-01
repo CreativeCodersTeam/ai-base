@@ -50,6 +50,8 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         }
     }
 
+    protected virtual string TransformInstructionContent(string content) => content;
+
     protected void CopyInstructionFiles(DeploymentSetup setup, string targetDir)
     {
         AnsiConsole.WriteLine($"Copying instructions for {DisplayName}...");
@@ -58,7 +60,10 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
 
         foreach (var instructionFile in instructionFiles)
         {
-            CopyFile(instructionFile, FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(instructionFile)));
+            var targetFile = FileSys.Path.Combine(targetDir, FileSys.Path.GetFileName(instructionFile));
+            var content = FileSys.File.ReadAllText(instructionFile);
+
+            WriteFile(targetFile, TransformInstructionContent(content));
         }
     }
 
