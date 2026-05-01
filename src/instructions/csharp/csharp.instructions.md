@@ -62,7 +62,7 @@ _service = Ensure.NotNull(service);
 ## Testing
 
 - Always include test cases for code changes.
-- Always use the `dotnet-tester` skill for testing conventions and workflows for writing tests.
+- Always use the `dotnet-tester` skill for writing tests.
 
 ## Console
 
@@ -82,7 +82,7 @@ _service = Ensure.NotNull(service);
 - Use the `ef-core` skill for Entity Framework Core data access patterns.
 - Use the `dotnet-sdk-builder` skill for creating .NET SDK/client libraries.
 - Use the `dotnet-reviewer` skill for Reviewing .NET Code.
-- Use the `dotnet-tester` skill for testing conventions and workflows when writing tests.
+- Use the `dotnet-tester` skill for writing tests.
 - Use the `nuget-manager` skill for NuGet package management.
 - Use the `dotnet-inspect` skill to query .NET APIs in NuGet packages, platform libraries (System.*, Microsoft.AspNetCore.*), or local .dll/.nupkg files — discover types and members, diff API surfaces between versions, find extension methods/implementors, locate SourceLink URLs, and triage breakages caused by package upgrades.
 - Use the `csharp-docs` skill to ensure XML documentation follows best practices.
