@@ -63,8 +63,8 @@ _service = Ensure.NotNull(service);
 
 ## Testing
 
-- Always include test cases for critical paths of the application.
-- Always use the `dotnet-tester` skill for testing conventions and workflows when writing tests.
+- Always include test cases for code changes.
+- Always use the `dotnet-tester` skill for testing conventions and workflows for writing tests.
 
 ## Console
 
