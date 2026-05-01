@@ -46,6 +46,7 @@ _service = Ensure.NotNull(service);
 
 - In **library code** always use `.ConfigureAwait(false)`
 - In **tests** do not use `.ConfigureAwait(false)` (disable for tests via tests/.editorconfig)
+- YOU MUST NOT USE `.GetAwaiter().GetResult()` OR `.Result` OR `.Wait()` TO BLOCK ON ASYNC CODE. If there is no other way ask the user what to do.
 
 ## Nullable Reference Types
 
