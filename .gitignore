@@ -30,3 +30,4 @@ output/
 Thumbs.db
 
 src/skills/csharp/dotnet-reviewer/tests/fixtures/repo-*/
+.tokensave
