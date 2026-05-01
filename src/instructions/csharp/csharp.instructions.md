@@ -5,8 +5,6 @@ applyTo: '**/*.cs'
 
 # C# Development
 
-## C# Instructions
-
 - Always use the latest stable C# version available in the project's target framework.
 
 ## General Instructions
