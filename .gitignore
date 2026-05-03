@@ -28,3 +28,6 @@ output/
 
 .DS_Store
 Thumbs.db
+.tokensave
+
+src/skills/csharp/dotnet-reviewer/tests/fixtures/repo-*/
