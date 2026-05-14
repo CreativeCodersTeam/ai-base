@@ -13,7 +13,9 @@ public class JunieAiSystem() : AiSystemBase("junie", "Junie")
 
         var instructionsFile = setup.PreferAgentsMd ? paths.AgentsFile : paths.GuidelinesFile;
 
-        WriteFile(instructionsFile, CombineInstructionFiles(setup));
+        WriteFile(instructionsFile,
+            CombineInstructionFiles(setup,
+                setup.AiSystemsToDeploy.Any(x => x.Name.Equals("copilot", StringComparison.OrdinalIgnoreCase))));
     }
 
     public override void Cleanup(DeploymentSetup setup)

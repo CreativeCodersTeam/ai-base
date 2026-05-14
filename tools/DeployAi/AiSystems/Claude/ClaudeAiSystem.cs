@@ -13,7 +13,9 @@ public class ClaudeAiSystem() : AiSystemBase("claude", "Claude")
 
         if (setup.ClaudeCombineInstructionsToClaudeMd)
         {
-            WriteFile(paths.ClaudeMdFile, CombineInstructionFiles(setup));
+            WriteFile(paths.ClaudeMdFile,
+                CombineInstructionFiles(setup,
+                    setup.AiSystemsToDeploy.Any(x => x.Name.Equals("copilot", StringComparison.OrdinalIgnoreCase))));
         }
         else
         {
