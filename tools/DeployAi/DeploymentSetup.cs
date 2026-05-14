@@ -1,3 +1,4 @@
+using DeployAi.AiSystems;
 using DeployAi.Languages;
 
 namespace DeployAi;
@@ -15,6 +16,10 @@ public class DeploymentSetup
     public required LanguageType General { get; init; }
 
     public string ProjectMarkdownFile { get; init; } = string.Empty;
+
+    public bool ClaudeCombineInstructionsToClaudeMd { get; set; } = true;
+
+    public IAiSystem[] AiSystemsToDeploy { get; set; } = [];
 
     public IEnumerable<LanguageType> GetAllLanguageTypes()
     {

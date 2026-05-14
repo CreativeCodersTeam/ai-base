@@ -33,7 +33,8 @@ public class AiConfigDeployment(IAiSystems aiSystems, ILanguageTypes languageTyp
             PreferAgentsMd = arguments.PreferAgentsMd,
             ProjectMarkdownFile = arguments.ProjectMarkdownFile,
             LanguageTypes = languagesToDeploy,
-            General = languageTypes.General
+            General = languageTypes.General,
+            AiSystemsToDeploy = aiSystemsToDeploy
         };
 
         AnsiConsole.WriteLine(

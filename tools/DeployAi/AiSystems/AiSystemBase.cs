@@ -130,7 +130,7 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         return FileSys.Path.Combine(GetDirPath(baseDir, "instructions", "general"), "general.instructions.md");
     }
 
-    protected static string CombineInstructionFiles(DeploymentSetup setup)
+    protected static string CombineInstructionFiles(DeploymentSetup setup, bool copilotIsDeployed)
     {
         var files = setup.LanguageTypes.SelectMany(x => x.GetInstructionFiles(setup)).ToArray();
 
@@ -149,12 +149,16 @@ public abstract class AiSystemBase(string name, string displayName) : IAiSystem
         contentBuilder.AppendLine("-----------------------------------------------------------");
         contentBuilder.AppendLine();
         contentBuilder.AppendLine();
-        contentBuilder.AppendLine(
-            "GitHub Copilot must ignore the following content in this file, cause Copilot gets this infos from the files in the .github/instructions directory:");
-        contentBuilder.AppendLine();
-        contentBuilder.AppendLine("-----------------------------------------------------------");
-        contentBuilder.AppendLine();
-        contentBuilder.AppendLine();
+
+        if (copilotIsDeployed)
+        {
+            contentBuilder.AppendLine(
+                "GitHub Copilot must ignore the following content in this file, cause Copilot gets this infos from the files in the .github/instructions directory:");
+            contentBuilder.AppendLine();
+            contentBuilder.AppendLine("-----------------------------------------------------------");
+            contentBuilder.AppendLine();
+            contentBuilder.AppendLine();
+        }
 
         foreach (var file in files)
         {
