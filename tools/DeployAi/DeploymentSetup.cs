@@ -16,6 +16,8 @@ public class DeploymentSetup
 
     public string ProjectMarkdownFile { get; init; } = string.Empty;
 
+    public bool ClaudeCombineInstructionsToClaudeMd { get; set; } = true;
+
     public IEnumerable<LanguageType> GetAllLanguageTypes()
     {
         return LanguageTypes.Concat([General]);

@@ -11,14 +11,18 @@ public class ClaudeAiSystem() : AiSystemBase("claude", "Claude")
 
         var paths = new ClaudePaths(setup.OutputDir);
 
-        CopyFile(GetGeneralInstructionFilePath(setup.SourceBaseDir), paths.ClaudeMdFile);
-        //WriteFile(paths.ClaudeMdFile, CombineInstructionFiles(setup));
+        if (setup.ClaudeCombineInstructionsToClaudeMd)
+        {
+            WriteFile(paths.ClaudeMdFile, CombineInstructionFiles(setup));
+        }
+        else
+        {
+            CopyFile(GetGeneralInstructionFilePath(setup.SourceBaseDir), paths.ClaudeMdFile);
+            CopyInstructionFiles(setup, paths.RulesDir);
+        }
 
         CopyAgentFiles(setup, paths.AgentsDir);
-
         CopySkillFiles(setup, paths.SkillsDir);
-
-        CopyInstructionFiles(setup, paths.RulesDir);
     }
 
     public override void Cleanup(DeploymentSetup setup)
