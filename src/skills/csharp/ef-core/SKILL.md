@@ -100,6 +100,7 @@ See [concurrency-control.md](./references/concurrency-control.md) for `[Timestam
 
 ## Related Skills
 
+- **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — DI lifetimes for `DbContext`, Options pattern for connection strings, modern C# idioms used in entity types
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Generates DbContext-backed unit and integration tests (SQLite in-memory, Testcontainers)
 - **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Wires EF Core into ASP.NET Core via DI (scoped DbContext lifetimes)
 - **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Reviews EF Core data-access code for performance and security issues

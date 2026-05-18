@@ -135,6 +135,7 @@ Output to chat: the file path and a one-line summary (e.g., `"Wrote review with 
 
 ## Related Skills
 
+- **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — Review findings reference DI lifetime, Options, and configuration best practices
 - **[csharp-docs](../csharp-docs/SKILL.md)** — Code-quality checklist references XML documentation conventions
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Test-quality findings reference this skill's expectations
 - **[ef-core](../ef-core/SKILL.md)** — EF Core findings reference these data-access best practices

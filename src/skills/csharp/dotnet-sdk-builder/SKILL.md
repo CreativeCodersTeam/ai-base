@@ -126,6 +126,7 @@ After documentation is complete, invoke the `dotnet-tester` skill to generate un
 
 ## Related Skills
 
+- **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — Provides the DI, Options, and configuration patterns this skill emits in generated SDKs
 - **[csharp-docs](../csharp-docs/SKILL.md)** — Invoked in Step 8 to document generated SDKs with XML comments
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Invoked in Step 9 to generate unit and integration tests
 - **[nuget-manager](../nuget-manager/SKILL.md)** — Invoked in Step 7 to add SDK runtime dependencies
