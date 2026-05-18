@@ -132,3 +132,12 @@ Output to chat: the file path and a one-line summary (e.g., `"Wrote review with 
 - Runs destructive operations as "fixes" (no `git reset`, no deletions).
 - Includes secrets in logs or the report.
 - Reviews .NET versions below 10 — aborts with a clear message.
+
+## Related Skills
+
+- **[csharp-docs](../csharp-docs/SKILL.md)** — Code-quality checklist references XML documentation conventions
+- **[dotnet-tester](../dotnet-tester/SKILL.md)** — Test-quality findings reference this skill's expectations
+- **[ef-core](../ef-core/SKILL.md)** — EF Core findings reference these data-access best practices
+- **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — ASP.NET Core findings reference this skill's conventions
+- **[nuget-manager](../nuget-manager/SKILL.md)** — Surfaced outdated/vulnerable packages are addressed via this skill
+- **[dotnet-inspect](../dotnet-inspect/SKILL.md)** — Used to investigate API surface and version diffs during review

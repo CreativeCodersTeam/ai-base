@@ -5,6 +5,13 @@ description: Manages NuGet packages in .NET projects and solutions. Use when add
 
 # NuGet Manager
 
+## When to Use
+
+- Adding, removing, or updating NuGet packages in a .NET project or solution
+- Listing outdated packages and planning version bumps
+- Verifying a specific package version exists before bumping it
+- Working in a solution that uses `Directory.Packages.props` central version management
+
 ## Prerequisites
 
 - .NET SDK installed (typically .NET 8.0 SDK or later, or a version compatible with the target solution).
@@ -73,4 +80,6 @@ The output shows the current version, the latest resolved version, and the lates
 - **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Invokes this skill for health-check, resilience, and middleware packages
 - **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Invokes this skill in Step 7 to add SDK runtime dependencies
 - **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Used when a review surfaces outdated or vulnerable packages
+- **[dotnet-inspect](../dotnet-inspect/SKILL.md)** — Inspect package APIs before upgrading or replacing them
+- **[ef-core](../ef-core/SKILL.md)** — Adds EF Core providers, Testcontainers, and SQLite packages
 

@@ -5,6 +5,13 @@ description: Adds and reviews C# XML documentation comments following Microsoft'
 
 # C# Documentation Best Practices
 
+## When to Use
+
+- Writing or reviewing XML documentation comments (`///`) on C# types and members
+- Adding documentation to public APIs of a new or existing C# library
+- Reviewing missing, insufficient, or non-Microsoft-style XML docs in C# code
+- Generating documentation that feeds OpenAPI/Swagger output or NuGet symbols
+
 ## General Guidelines
 
 - Public members should be documented with XML comments.
