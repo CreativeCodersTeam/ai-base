@@ -12,7 +12,7 @@ Write comprehensive unit tests for the specified code. Follow a multi-step proce
 - **Assertions**: AwesomeAssertions (a fork of FluentAssertions with identical API — use `Should()` as usual)
 - **Structure**: Each test method has Arrange/Act/Assert blocks, marked with comments
 - **Language**: English for code, comments, and test names
-- **Style**: Adopt the existing test style from nearby test files in the project
+- **Style**: The stack above is the default. If the project already uses a different stack (NUnit, MSTest, Moq, FluentAssertions, …), match the existing convention instead of switching.
 
 ## Phase 1: Write Tests
 
@@ -119,3 +119,8 @@ At the end, provide a summary:
 - Use **descriptive test names** in the format `MethodName_Scenario_ExpectedBehavior`
 - For `[Theory]` tests: Use `[InlineData]` for simple types, `[MemberData]` for complex objects
 - Use `A.CallTo(...).MustHaveHappened()` sparingly – only when the call is the expected behavior
+
+## Related Skills
+
+- **[ef-core](../ef-core/SKILL.md)** — DbContext-backed unit and integration tests (SQLite in-memory, Testcontainers)
+- **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Test-quality checks during code review

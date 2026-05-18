@@ -26,3 +26,9 @@ description: Adds and reviews C# XML documentation comments following Microsoft'
 ## Member-Specific Rules
 
 See [member-documentation-rules.md](./references/member-documentation-rules.md) for detailed wording conventions for methods (`<param>`, `<returns>`), constructors, properties (`<value>`, Gets/Sets patterns), and exceptions (`<exception cref>`).
+
+## Related Skills
+
+- **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — XML docs feed OpenAPI/Swagger output
+- **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Invokes this skill in Step 8 to document generated SDKs
+- **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Code-quality checklist references these conventions for public-API docs

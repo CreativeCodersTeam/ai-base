@@ -1,6 +1,6 @@
 ---
 name: dotnet-sdk-builder
-description: Generates complete .NET SDK libraries with DI support, interfaces, typed HTTP clients, Options pattern, and typed exceptions. Use when asked to create a .NET SDK, build a .NET client library, wrap a REST API in C#, or generate a typed HTTP client. Invokes csharp-docs for XML documentation and tester for tests.
+description: Generates complete .NET SDK libraries with DI support, interfaces, typed HTTP clients, Options pattern, and typed exceptions. Use when asked to create a .NET SDK, build a .NET client library, wrap a REST API in C#, or generate a typed HTTP client. Invokes csharp-docs for XML documentation and dotnet-tester for tests.
 ---
 
 # .NET SDK Library Builder
@@ -92,18 +92,7 @@ Generate all components. See [di-patterns.md](references/di-patterns.md) and [ht
 | `XxxException` (+ subtypes) | Typed exceptions with diagnostic properties |
 | Model classes | Request/response DTOs |
 
-**NuGet packages to add:**
-
-```xml
-<PackageReference Include="Microsoft.Extensions.Http" Version="*" />
-<PackageReference Include="Microsoft.Extensions.Options" Version="*" />
-<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="*" />
-<!-- If resilience requested: -->
-<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="*" />
-```
-
-Always use the latest stable, compatible with target framework version.
-Always use skill 'nuget-manager' for managing NuGet packages and package versions. 
+**Required NuGet packages:** `Microsoft.Extensions.Http`, `Microsoft.Extensions.Options`, `Microsoft.Extensions.DependencyInjection.Abstractions` — plus `Microsoft.Extensions.Http.Resilience` if Step 5 selected resilience. Use the `nuget-manager` skill to add them; do not edit `.csproj` directly.
 
 ### Step 8: Document the Code
 
@@ -111,7 +100,7 @@ After generating all source files, invoke the `csharp-docs` skill to add XML doc
 
 ### Step 9: Write Tests
 
-After documentation is complete, invoke the `tester` skill to generate unit and integration tests for the library.
+After documentation is complete, invoke the `dotnet-tester` skill to generate unit and integration tests for the library.
 
 ## Key Design Principles
 

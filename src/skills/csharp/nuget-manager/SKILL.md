@@ -68,3 +68,9 @@ dotnet list package --outdated
 
 The output shows the current version, the latest resolved version, and the latest available version for each package. Use this as the basis for deciding which packages to update, then follow the **Updating Package Versions** workflow for each.
 
+## Related Skills
+
+- **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Invokes this skill for health-check, resilience, and middleware packages
+- **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Invokes this skill in Step 7 to add SDK runtime dependencies
+- **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Used when a review surfaces outdated or vulnerable packages
+

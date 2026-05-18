@@ -69,6 +69,8 @@ MyCompany.GitHub/
 - No `Services/` or `Abstractions/` sub-folders for small libraries — keep it flat.
 - For larger libraries with multiple API areas, group by area: `Repositories/`, `Users/`, etc.
 
+> This layout applies to **library** projects. Web/API applications should organize by feature/domain instead — see the `dotnet-aspnet` skill.
+
 ## Naming Conventions
 
 | Artifact | Pattern | Example |
