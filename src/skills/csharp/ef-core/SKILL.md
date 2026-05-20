@@ -68,7 +68,7 @@ See [concurrency-control.md](./references/concurrency-control.md) for `[Timestam
 
 ## Security
 
-- Avoid SQL injection by using parameterized queries
+- Use parameterized queries to prevent SQL injection
 - Implement appropriate data access permissions
 - Be careful with raw SQL queries
 - Consider data encryption for sensitive information
