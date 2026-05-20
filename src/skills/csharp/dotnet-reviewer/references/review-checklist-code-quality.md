@@ -42,7 +42,7 @@
 
 ## Comments and Docs
 
-- Public API has XML docs, especially for libraries. See the `csharp-docs` skill for the tag conventions (`<summary>`, `<param>`, `<returns>`, `<exception>`, etc.).
+- Public API has XML docs, especially for libraries. See the `dotnet-xmldocs` skill for the tag conventions (`<summary>`, `<param>`, `<returns>`, `<exception>`, etc.).
 - Comments explain *why*, not *what*. Flag comments that restate the code.
 - TODOs without a ticket reference are a smell; flag.
 

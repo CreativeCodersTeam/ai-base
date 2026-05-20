@@ -1,6 +1,6 @@
 ---
 name: dotnet-sdk-builder
-description: Generates complete .NET SDK libraries with DI support, interfaces, typed HTTP clients, Options pattern, and typed exceptions. Use when asked to create a .NET SDK, build a .NET client library, wrap a REST API in C#, or generate a typed HTTP client. Invokes csharp-docs for XML documentation and dotnet-tester for tests.
+description: Generates complete .NET SDK libraries with DI support, interfaces, typed HTTP clients, Options pattern, and typed exceptions. Use when asked to create a .NET SDK, build a .NET client library, wrap a REST API in C#, or generate a typed HTTP client. Invokes dotnet-xmldocs for XML documentation and dotnet-tester for tests.
 ---
 
 # .NET SDK Library Builder
@@ -103,7 +103,7 @@ Generate all components. See [di-patterns.md](references/di-patterns.md) and [ht
 
 ### Step 8: Document the Code
 
-After generating all source files, invoke the `csharp-docs` skill to add XML documentation comments to all public types and members.
+After generating all source files, invoke the `dotnet-xmldocs` skill to add XML documentation comments to all public types and members.
 
 ### Step 9: Write Tests
 
@@ -127,7 +127,7 @@ After documentation is complete, invoke the `dotnet-tester` skill to generate un
 ## Related Skills
 
 - **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — Provides the DI, Options, and configuration patterns this skill emits in generated SDKs
-- **[csharp-docs](../csharp-docs/SKILL.md)** — Invoked in Step 8 to document generated SDKs with XML comments
+- **[dotnet-xmldocs](../dotnet-xmldocs/SKILL.md)** — Invoked in Step 8 to document generated SDKs with XML comments
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Invoked in Step 9 to generate unit and integration tests
 - **[nuget-manager](../nuget-manager/SKILL.md)** — Invoked in Step 7 to add SDK runtime dependencies
 - **[dotnet-inspect](../dotnet-inspect/SKILL.md)** — Queries existing libraries when generating SDK wrappers

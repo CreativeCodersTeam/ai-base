@@ -19,7 +19,7 @@ app.MapOpenApi();
   ```
 - Use `[Tags]`, `[EndpointSummary]`, `[EndpointDescription]` for metadata
 - Use `WithName()` and `WithTags()` on minimal API endpoints
-- Use the `csharp-docs` skill for writing XML documentation comments
+- Use the `dotnet-xmldocs` skill for writing XML documentation comments
 
 ## Health Checks
 

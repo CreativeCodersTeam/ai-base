@@ -36,7 +36,7 @@ Always ask the user for confirmation before creating a new project if not explic
 **Key settings:**
 - `<Nullable>enable</Nullable>` — always for new projects when .NET version supports it.
 - `<GenerateDocumentationFile>true</GenerateDocumentationFile>` — required for XML doc generation.
-- `<NoWarn>CS1591</NoWarn>` — suppress "missing XML comment" warnings during development; remove after `csharp-docs` skill adds all docs.
+- `<NoWarn>CS1591</NoWarn>` — suppress "missing XML comment" warnings during development; remove after `dotnet-xmldocs` skill adds all docs.
 - `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` — enforces code quality.
 - `<LangVersion>latest</LangVersion>` — enables the latest C# features for the target framework.
 
