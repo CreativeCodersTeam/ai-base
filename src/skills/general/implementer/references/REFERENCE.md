@@ -47,12 +47,19 @@ Prevent wasted effort from misunderstood requirements or unclear scope.
 This step builds the **capability-slot map** used by all later phases. Never hardcode skill
 names — classify by each skill's `description`.
 
-1. **Detect the tech stack** per affected file/module (repos may be multi-stack):
-   - `*.csproj` / `*.sln` → .NET / C#
-   - `pom.xml` / `build.gradle` → Java
-   - `package.json` / `tsconfig.json` → TypeScript / Node
-   - `requirements.txt` / `pyproject.toml` → Python
-   - (extend as needed — the principle is artifact-based detection)
+1. **Detect the tech stack** per affected file/module (repos may be multi-stack). Detect by
+   *signals*, not a fixed list — this keeps detection working for stacks not yet imagined:
+   - **Manifest / build files** declaring language, dependencies, or build config
+     (e.g. a `*.csproj`, `pom.xml`/`build.gradle`, `package.json`, `pyproject.toml`,
+     `go.mod`, `Cargo.toml`, `composer.json`, `Gemfile`). These are the strongest signal.
+   - **Source file extensions** of the affected files (e.g. `.cs`, `.java`, `.ts`, `.go`).
+   - **Lockfiles, toolchain configs, and CI files** that name a runtime or framework.
+   - **Framework markers** inside manifests/configs (a dependency name often identifies the
+     framework, not just the language).
+
+   The list above is illustrative, not exhaustive. The rule is: infer language + framework
+   from whatever build/manifest/config/source signals are present, then map that stack to
+   capability slots — regardless of whether this skill ever mentioned that stack.
 2. **List the available skills** using your runtime's own skill-listing mechanism. Do NOT
    assume a fixed directory — the location varies across platforms (Claude Code, Copilot,
    Codex) and across repos.

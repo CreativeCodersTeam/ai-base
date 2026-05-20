@@ -45,9 +45,10 @@ them. Concrete skill names change over time — names are never hardcoded here.
 
 **How discovery works:**
 
-1. **Detect the tech stack** from project artifacts, per affected file/module — repos may
-   mix stacks (e.g. `*.csproj`/`*.sln` → .NET; `pom.xml`/`build.gradle` → Java;
-   `package.json`/`tsconfig.json` → TypeScript).
+1. **Detect the tech stack** by *signals* (manifest/build files, source extensions, configs),
+   per affected file/module — repos may mix stacks. Examples like `*.csproj` → .NET or
+   `package.json` → TypeScript are illustrative only; infer any stack from its signals
+   (see REFERENCE.md Phase 1.5).
 2. **List the available skills** using your runtime's skill-listing mechanism (do not assume
    a fixed directory).
 3. **Classify each skill by its `description`** — match purpose and technology from the text,
