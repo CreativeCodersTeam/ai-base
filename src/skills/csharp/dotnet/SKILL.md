@@ -1,16 +1,16 @@
 ---
 name: dotnet
-description: Entry point and router for .NET and C# work — directs you to the right specialised .NET skill. Use when a request mentions .NET or C# in general but the specific tool is not obvious, or to get an overview of the available .NET skills. Routes to knowledge skills (dotnet-fundamentals, dotnet-aspnet, ef-core, dotnet-xmldocs) and workflow skills (dotnet-sdk-builder, dotnet-tester, dotnet-reviewer, dotnet-inspect, nuget-manager). When the matching skill is already clear, invoke that skill directly instead.
+description: Entry point and router for .NET and C# work — directs you to the right specialized .NET skill. Use when a request mentions .NET or C# in general but the specific tool is not obvious, or to get an overview of the available .NET skills. Routes to knowledge skills (dotnet-fundamentals, dotnet-aspnet, ef-core, dotnet-xmldocs) and workflow skills (dotnet-sdk-builder, dotnet-tester, dotnet-reviewer, dotnet-inspect, nuget-manager). When the matching skill is already clear, invoke that skill directly instead.
 ---
 
 # .NET / C# Skill Router
 
-Signpost to the specialised .NET skills. This skill holds no best-practice knowledge
-of its own — it maps a request to the appropriate specialised skill.
+Signpost to the specialized .NET skills. This skill holds no best-practice knowledge
+of its own — it maps a request to the appropriate specialized skill.
 
 ## When to Use
 
-- A task concerns .NET or C#, but it is unclear which specialised skill applies.
+- A task concerns .NET or C#, but it is unclear which specialized skill applies.
 - You need an overview of the available .NET skills and their responsibilities.
 
 When the matching skill is already clear, load it directly — the router is only
