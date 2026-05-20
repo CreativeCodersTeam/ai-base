@@ -24,10 +24,8 @@ description: Writes and improves JUnit 5 unit tests for Java projects. Use when 
 
 ## Standard Tests
 
-- Keep tests focused on a single behavior.
-- Avoid testing multiple conditions in one test method.
-- Make tests independent and idempotent (can run in any order).
-- Avoid test interdependencies.
+- Test one logical condition per method, keeping each test focused on a single behavior.
+- Make tests independent and idempotent: no shared mutable state, no ordering assumptions, runnable in any order.
 
 ## Data-Driven (Parameterized) Tests
 

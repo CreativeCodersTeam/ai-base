@@ -9,6 +9,7 @@
 - Always ask for help if you are stuck.
 - If a skill was explicitly requested in the prompt, use it without asking. If you can't find the skill, always ask if you should proceed without it.
 - Use subagents as much as possible to avoid context pollution.
+- ALWAYS verify that your changes are complete and work correctly. Use verification steps best suited for your changes.
 
 # Git Commit Instructions
 - You MUST not git commit files unless explicitly asked to do so by the user.
