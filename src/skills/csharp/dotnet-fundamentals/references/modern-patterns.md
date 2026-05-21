@@ -4,21 +4,6 @@ Conventions for code written against current .NET. Use these consistently in new
 
 ## Primary Constructors (C# 12)
 
-Declare constructor parameters directly on the type — captured as private fields, no boilerplate assignments.
-
-```csharp
-public class OrdersController(IOrderService orderService) : ControllerBase
-{
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
-        => await orderService.GetByIdAsync(id, ct) is { } order
-            ? Ok(order)
-            : NotFound();
-}
-```
-
-- Use for classes whose entire purpose is to receive injected dependencies (controllers, services, middleware, handlers).
-- The captured parameter is accessible by name throughout the type — no `_orderService` field required.
 - For middleware, inject scoped services via `InvokeAsync` parameters, not the primary constructor.
 
 ## `required` Properties + `init`-Only Setters
