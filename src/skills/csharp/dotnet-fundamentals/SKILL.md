@@ -7,17 +7,16 @@ description: Applies modern .NET fundamentals — dependency injection, Options 
 
 ## When to Use
 
-- Everytime you work with .NET/C# Code
+- Working with .NET/C# Code
 - Registering services in any `IServiceCollection` (ASP.NET Core, Worker Service, Console app, MAUI, library DI extension methods)
 - Choosing a DI lifetime (Transient, Scoped, Singleton) or registering keyed services (.NET 8+)
 - Binding configuration sections to a strongly-typed Options class
 - Setting up `appsettings.json`, environment-specific overrides, User Secrets, or environment variables
 - Adopting primary constructors, `required` properties, nullable reference types, or `CancellationToken` propagation in new code
 
-This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, and SDK builders all sit on top of these fundamentals.
-
 ## Core Principles
 
+- This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, and SDK builders all sit on top of these fundamentals.
 - **Interface-first registration** — register services via their abstraction (`AddScoped<IFoo, Foo>()`), not the concrete type. Enables substitution and testing.
 - **No service locator** — never inject `IServiceProvider` into business logic. Constructor-inject the dependencies you actually need.
 - **Options over constructor parameters for configuration** — bind config sections to `IOptions<T>`, do not pass raw `IConfiguration` values around.
