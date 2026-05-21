@@ -33,9 +33,9 @@ description: Applies modern .NET fundamentals — dependency injection, Options 
 
 ## Related Skills
 
-- **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Builds the HTTP layer on top of these fundamentals (middleware, controllers, minimal APIs)
-- **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Emits SDK libraries that use these patterns (DI extension methods, typed Options, typed HTTP clients)
-- **[ef-core](../ef-core/SKILL.md)** — Registers `DbContext` via DI, binds connection strings via Options
-- **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Reviews code against these fundamentals during code review
-- **[dotnet-tester](../dotnet-tester/SKILL.md)** — Tests DI-registered services using `FakeItEasy` and `ServiceCollection` overrides
-- **[nuget-manager](../nuget-manager/SKILL.md)** — Adds `Microsoft.Extensions.*` packages required for DI, Options, and Configuration
+- **dotnet-aspnet** — Builds the HTTP layer (controllers, minimal APIs, middleware, routing, auth, ProblemDetails) on an ASP.NET Core host
+- **dotnet-sdk-builder** — Generates .NET SDK / client libraries (DI extension methods, typed HTTP clients, typed Options, typed exceptions)
+- **ef-core** — Entity Framework Core data access (DbContext, entities, LINQ, migrations); registered via DI and configured via Options
+- **dotnet-reviewer** — Structured .NET code review producing a severity-tagged Markdown report
+- **dotnet-tester** — Writes and runs C#/.NET unit tests (xUnit, FakeItEasy, AwesomeAssertions) and identifies missing test cases
+- **nuget-manager** — Use whenever NuGet packages are added, removed, or updated in a project (dotnet CLI, central version management, version verification)

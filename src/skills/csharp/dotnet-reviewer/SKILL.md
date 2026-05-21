@@ -1,21 +1,15 @@
 ---
 name: dotnet-reviewer
-description: Performs structured code reviews on .NET 10+ projects. Activates ONLY on explicit name — use the phrases "dotnet-reviewer", "dotnet code review", or "dotnet review". Reviews either uncommitted working-tree changes or committed changes on the current feature branch (vs. main). Produces a Markdown report under docs/reviews/ with severity-tagged findings ([Critical|Major|Minor|Suggestion|Nitpick][Security|Performance|Architecture|Code-Quality|Tests|.NET-Idioms]) and fix suggestions. Must NOT activate on generic "review my code" requests; other-language reviewers must not be hijacked.
+description: Performs structured code reviews on .NET 10+ projects. Reviews either uncommitted working-tree changes or committed changes on the current feature branch (vs. main). Produces a Markdown report under docs/reviews/ with severity-tagged findings ([Critical|Major|Minor|Suggestion|Nitpick][Security|Performance|Architecture|Code-Quality|Tests|.NET-Idioms]) and fix suggestions. Must NOT activate on generic "review my code" requests; other-language reviewers must not be hijacked.
 ---
 
 # dotnet-reviewer
 
-Structured code review for .NET 10+ projects. The skill is invoked by explicit name only and produces a Markdown report.
+Structured code review for .NET 10+ projects.
 
 ## When to Use This Skill
 
-Use ONLY when the user invokes one of:
-- `dotnet-reviewer`
-- `dotnet code review`
-- `dotnet review`
-
-Do NOT activate on generic phrases like "review my code", "can you check this PR", "look at my changes". Those go to other reviewers (or to no skill at all).
-
+A Code review for a .NET 10+ project is needed.
 The user may add language preferences (e.g., "in German") — apply that to the report only. The skill itself remains in English.
 
 ## Prerequisites
