@@ -7,6 +7,7 @@ description: Applies modern .NET fundamentals — dependency injection, Options 
 
 ## When to Use
 
+- Everytime you work with .NET/C# Code
 - Registering services in any `IServiceCollection` (ASP.NET Core, Worker Service, Console app, MAUI, library DI extension methods)
 - Choosing a DI lifetime (Transient, Scoped, Singleton) or registering keyed services (.NET 8+)
 - Binding configuration sections to a strongly-typed Options class
@@ -22,7 +23,7 @@ This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, 
 - **Options over constructor parameters for configuration** — bind config sections to `IOptions<T>`, do not pass raw `IConfiguration` values around.
 - **Fail fast** — use `ValidateDataAnnotations().ValidateOnStart()` so misconfiguration surfaces at startup, not at first use.
 - **Immutable configuration** — Options classes use `required` properties and `init`-only setters.
-- **Cancellation flows everywhere** — every async method takes a `CancellationToken` as its last parameter and forwards it.
+- **Cancellation flows everywhere** — every async method takes a `CancellationToken` with default as its last parameter and forwards it.
 
 ## Reference Index
 
