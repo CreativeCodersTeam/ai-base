@@ -5,7 +5,7 @@ applyTo: '**/.github/skills/**/SKILL.md, **/.claude/skills/**/SKILL.md'
 
 # Agent Skills File Guidelines
 
-Instructions for creating effective and portable Agent Skills that enhance GitHub Copilot with specialized capabilities, workflows, and bundled resources.
+Instructions for creating effective and portable Agent Skills that enhance GitHub Copilot and Claude Code with specialized capabilities, workflows, and bundled resources.
 
 ## What Are Agent Skills?
 

@@ -7,22 +7,22 @@ description: Applies modern .NET fundamentals — dependency injection, Options 
 
 ## When to Use
 
+- Working with .NET/C# Code
 - Registering services in any `IServiceCollection` (ASP.NET Core, Worker Service, Console app, MAUI, library DI extension methods)
 - Choosing a DI lifetime (Transient, Scoped, Singleton) or registering keyed services (.NET 8+)
 - Binding configuration sections to a strongly-typed Options class
 - Setting up `appsettings.json`, environment-specific overrides, User Secrets, or environment variables
 - Adopting primary constructors, `required` properties, nullable reference types, or `CancellationToken` propagation in new code
 
-This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, and SDK builders all sit on top of these fundamentals.
-
 ## Core Principles
 
+- This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, and SDK builders all sit on top of these fundamentals.
 - **Interface-first registration** — register services via their abstraction (`AddScoped<IFoo, Foo>()`), not the concrete type. Enables substitution and testing.
 - **No service locator** — never inject `IServiceProvider` into business logic. Constructor-inject the dependencies you actually need.
 - **Options over constructor parameters for configuration** — bind config sections to `IOptions<T>`, do not pass raw `IConfiguration` values around.
 - **Fail fast** — use `ValidateDataAnnotations().ValidateOnStart()` so misconfiguration surfaces at startup, not at first use.
 - **Immutable configuration** — Options classes use `required` properties and `init`-only setters.
-- **Cancellation flows everywhere** — every async method takes a `CancellationToken` as its last parameter and forwards it.
+- **Cancellation flows everywhere** — every async method takes a `CancellationToken` with default as its last parameter and forwards it.
 
 ## Reference Index
 
@@ -33,9 +33,9 @@ This skill is **technology-agnostic across .NET hosts**. ASP.NET Core, EF Core, 
 
 ## Related Skills
 
-- **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Builds the HTTP layer on top of these fundamentals (middleware, controllers, minimal APIs)
-- **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Emits SDK libraries that use these patterns (DI extension methods, typed Options, typed HTTP clients)
-- **[ef-core](../ef-core/SKILL.md)** — Registers `DbContext` via DI, binds connection strings via Options
-- **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Reviews code against these fundamentals during code review
-- **[dotnet-tester](../dotnet-tester/SKILL.md)** — Tests DI-registered services using `FakeItEasy` and `ServiceCollection` overrides
-- **[nuget-manager](../nuget-manager/SKILL.md)** — Adds `Microsoft.Extensions.*` packages required for DI, Options, and Configuration
+- **dotnet-aspnet** — Builds the HTTP layer (controllers, minimal APIs, middleware, routing, auth, ProblemDetails) on an ASP.NET Core host
+- **dotnet-sdk-builder** — Generates .NET SDK / client libraries (DI extension methods, typed HTTP clients, typed Options, typed exceptions)
+- **ef-core** — Entity Framework Core data access (DbContext, entities, LINQ, migrations); registered via DI and configured via Options
+- **dotnet-reviewer** — Structured .NET code review producing a severity-tagged Markdown report
+- **dotnet-tester** — Writes and runs C#/.NET unit tests (xUnit, FakeItEasy, AwesomeAssertions) and identifies missing test cases
+- **nuget-manager** — Use whenever NuGet packages are added, removed, or updated in a project (dotnet CLI, central version management, version verification)

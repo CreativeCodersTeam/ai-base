@@ -39,8 +39,16 @@ _service = Ensure.NotNull(service);
 
 ## Modern C# Features
 
-- Use **primary constructors** when no constructor body is needed.
-- Use private fields with guards instead of using primary constructor parameters directly, unless the parameter is assigned to a property.
+- **Default to a primary constructor**, also with `Ensure.*` guards — put the guard in the field initializer, not a constructor body:
+  ```csharp
+  public sealed class Foo(IBar bar) : IFoo
+  {
+      private readonly IBar _bar = Ensure.NotNull(bar);
+  }
+  ```
+- Reference the fields, never the raw parameters (avoids capturing unguarded params).
+- Use a classic constructor only when init needs real statements (control flow, ordering, multistep setup, logic before base(...)/this(...)). Guards/initializers don't count.
+- A parameter assigned to a property goes via the property initializer, not a backing field.
 
 ## Async/Await
 

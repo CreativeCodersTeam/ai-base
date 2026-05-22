@@ -22,20 +22,20 @@ orientation, not an intermediate step.
 
 | Concern | Skill |
 |---------|-------|
-| Dependency Injection, Options pattern, Configuration, modern C# idioms (for any .NET host) | [dotnet-fundamentals](../dotnet-fundamentals/SKILL.md) |
-| ASP.NET Core Web/REST APIs: controllers, Minimal APIs, middleware, routing, auth, ProblemDetails, OpenAPI | [dotnet-aspnet](../dotnet-aspnet/SKILL.md) |
-| Entity Framework Core: DbContext, entities/relationships, LINQ, migrations, N+1/performance | [ef-core](../ef-core/SKILL.md) |
-| C# XML doc comments (`<summary>`, `<param>`, `<returns>`, …) | [dotnet-xmldocs](../dotnet-xmldocs/SKILL.md) |
+| Dependency Injection, Options pattern, Configuration, modern C# idioms (for any .NET host) | `dotnet-fundamentals` |
+| ASP.NET Core Web/REST APIs: controllers, Minimal APIs, middleware, routing, model binding, validation, auth, ProblemDetails, OpenAPI, health checks, CORS, rate limiting | `dotnet-aspnet` |
+| Entity Framework Core: DbContext, entities/relationships, LINQ, migrations, repository patterns, N+1/performance | `ef-core` |
+| C# XML doc comments (`<summary>`, `<param>`, `<returns>`, …) | `dotnet-xmldocs` |
 
 ### Workflow skills (active tools, scripts, agents)
 
 | Concern | Skill |
 |---------|-------|
-| Generate a .NET SDK / client library / typed HTTP client | [dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md) |
-| Write/run unit tests (xUnit, FakeItEasy, AwesomeAssertions) | [dotnet-tester](../dotnet-tester/SKILL.md) |
-| Structured code review for .NET 10+ (explicit invocation only, see below) | [dotnet-reviewer](../dotnet-reviewer/SKILL.md) |
-| Query .NET APIs in NuGet packages, platform libraries, or local files | [dotnet-inspect](../dotnet-inspect/SKILL.md) |
-| Manage NuGet packages (add/remove/update, `--outdated`, Central Package Management) | [nuget-manager](../nuget-manager/SKILL.md) |
+| Generate a .NET SDK / client library / typed HTTP client | `dotnet-sdk-builder` |
+| Write/run unit tests (xUnit, FakeItEasy, AwesomeAssertions) | `dotnet-tester` |
+| Structured code review for .NET 10+ (explicit invocation only, see below) | `dotnet-reviewer` |
+| Query .NET APIs in NuGet packages, platform libraries, or local files | `dotnet-inspect` |
+| Manage NuGet packages (add/remove/update, `--outdated`, Central Package Management) | `nuget-manager` |
 
 ## Notes
 
