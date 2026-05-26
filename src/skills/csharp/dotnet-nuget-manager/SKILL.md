@@ -1,5 +1,5 @@
 ---
-name: nuget-manager
+name: dotnet-nuget-manager
 description: Manages NuGet packages in .NET projects and solutions. Use when adding, removing, or updating NuGet package references or versions. Enforces dotnet CLI for package operations, supports Directory.Packages.props central version management, and provides version verification workflows. Handles dotnet add/remove package, dotnet list package --outdated, and dotnet restore.
 ---
 
@@ -82,5 +82,5 @@ The output shows the current version, the latest resolved version, and the lates
 - **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Invokes this skill in Step 7 to add SDK runtime dependencies
 - **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Used when a review surfaces outdated or vulnerable packages
 - **[dotnet-inspect](../dotnet-inspect/SKILL.md)** — Inspect package APIs before upgrading or replacing them
-- **[ef-core](../ef-core/SKILL.md)** — Adds EF Core providers, Testcontainers, and SQLite packages
+- **[dotnet-ef-core](../dotnet-ef-core/SKILL.md)** — Adds EF Core providers, Testcontainers, and SQLite packages
 

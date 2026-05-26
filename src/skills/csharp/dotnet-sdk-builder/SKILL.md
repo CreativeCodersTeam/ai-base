@@ -99,7 +99,7 @@ Generate all components. See [di-patterns.md](references/di-patterns.md) and [ht
 | `XxxException` (+ subtypes) | Typed exceptions with diagnostic properties |
 | Model classes | Request/response DTOs |
 
-**Required NuGet packages:** `Microsoft.Extensions.Http`, `Microsoft.Extensions.Options`, `Microsoft.Extensions.DependencyInjection.Abstractions` — plus `Microsoft.Extensions.Http.Resilience` if Step 5 selected resilience. Use the `nuget-manager` skill to add them; do not edit `.csproj` directly.
+**Required NuGet packages:** `Microsoft.Extensions.Http`, `Microsoft.Extensions.Options`, `Microsoft.Extensions.DependencyInjection.Abstractions` — plus `Microsoft.Extensions.Http.Resilience` if Step 5 selected resilience. Use the `dotnet-nuget-manager` skill to add them; do not edit `.csproj` directly.
 
 ### Step 8: Document the Code
 
@@ -129,6 +129,6 @@ After documentation is complete, invoke the `dotnet-tester` skill to generate un
 - **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — Provides the DI, Options, and configuration patterns this skill emits in generated SDKs
 - **[dotnet-xmldocs](../dotnet-xmldocs/SKILL.md)** — Invoked in Step 8 to document generated SDKs with XML comments
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Invoked in Step 9 to generate unit and integration tests
-- **[nuget-manager](../nuget-manager/SKILL.md)** — Invoked in Step 7 to add SDK runtime dependencies
+- **[dotnet-nuget-manager](../dotnet-nuget-manager/SKILL.md)** — Invoked in Step 7 to add SDK runtime dependencies
 - **[dotnet-inspect](../dotnet-inspect/SKILL.md)** — Queries existing libraries when generating SDK wrappers
 - **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Generates typed HTTP clients for consuming ASP.NET Core APIs

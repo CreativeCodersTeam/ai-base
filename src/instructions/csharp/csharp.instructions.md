@@ -88,10 +88,10 @@ _service = Ensure.NotNull(service);
 ## Skills Reference
 
 - You MUST use the `dotnet-aspnet` skill for ASP.NET Core projects (project structure, middleware, auth, validation, error handling, API versioning, OpenAPI).
-- You MUST use the `ef-core` skill for Entity Framework Core data access patterns.
+- You MUST use the `dotnet-ef-core` skill for Entity Framework Core data access patterns.
 - You MUST use the `dotnet-sdk-builder` skill for creating .NET SDK/client libraries.
 - You MUST use the `dotnet-reviewer` skill for Reviewing .NET Code.
 - You MUST use the `dotnet-tester` skill for writing and editing tests.
-- You MUST use the `nuget-manager` skill for NuGet package management.
+- You MUST use the `dotnet-nuget-manager` skill for NuGet package management.
 - You MUST use the `dotnet-inspect` skill to query .NET APIs in NuGet packages, platform libraries (System.*, Microsoft.AspNetCore.*), or local .dll/.nupkg files — discover types and members, diff API surfaces between versions, find extension methods/implementors, locate SourceLink URLs, and triage breakages caused by package upgrades.
 - You MUST use the `dotnet-xmldocs` skill to ensure XML documentation follows best practices.

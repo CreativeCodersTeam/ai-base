@@ -1,5 +1,5 @@
 ---
-name: ef-core
+name: dotnet-ef-core
 description: Applies Entity Framework Core best practices for .NET projects. Use when designing DbContext, creating entities or relationships, writing LINQ queries, managing migrations, implementing repository patterns, or troubleshooting N+1 queries and performance issues with EF Core.
 ---
 
@@ -104,4 +104,4 @@ See [concurrency-control.md](./references/concurrency-control.md) for `[Timestam
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Generates DbContext-backed unit and integration tests (SQLite in-memory, Testcontainers)
 - **[dotnet-aspnet](../dotnet-aspnet/SKILL.md)** — Wires EF Core into ASP.NET Core via DI (scoped DbContext lifetimes)
 - **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Reviews EF Core data-access code for performance and security issues
-- **[nuget-manager](../nuget-manager/SKILL.md)** — Adds EF Core providers, Testcontainers, and SQLite packages
+- **[dotnet-nuget-manager](../dotnet-nuget-manager/SKILL.md)** — Adds EF Core providers, Testcontainers, and SQLite packages

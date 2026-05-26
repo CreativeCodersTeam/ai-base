@@ -38,9 +38,9 @@ Detailed patterns and code samples live in `references/`:
 ## Related Skills
 
 - **[dotnet-fundamentals](../dotnet-fundamentals/SKILL.md)** — Foundation: DI, Options pattern, configuration, modern C# idioms used by every endpoint and service in this skill
-- **[ef-core](../ef-core/SKILL.md)** — Data access with Entity Framework Core
+- **[dotnet-ef-core](../dotnet-ef-core/SKILL.md)** — Data access with Entity Framework Core
 - **[dotnet-tester](../dotnet-tester/SKILL.md)** — Unit and integration testing for endpoints
 - **[dotnet-xmldocs](../dotnet-xmldocs/SKILL.md)** — XML documentation comments (feed OpenAPI)
-- **[nuget-manager](../nuget-manager/SKILL.md)** — Invoked for adding health-check, resilience, and middleware packages
+- **[dotnet-nuget-manager](../dotnet-nuget-manager/SKILL.md)** — Invoked for adding health-check, resilience, and middleware packages
 - **[dotnet-sdk-builder](../dotnet-sdk-builder/SKILL.md)** — Generates typed HTTP clients for consuming these APIs
 - **[dotnet-reviewer](../dotnet-reviewer/SKILL.md)** — Reviews ASP.NET Core code for security, performance, and architecture issues
