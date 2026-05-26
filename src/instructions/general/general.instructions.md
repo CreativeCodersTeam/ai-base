@@ -30,7 +30,6 @@ Before implementing:
 - No features beyond what was asked.
 - No "flexibility" or "configurability" that wasn't requested.
 - No error handling for impossible scenarios. No error handling for scenarios guaranteed impossible by the type system or a same-file invariant. If justifying the skip requires reasoning about callers, keep the check.
-- If a smaller version solves the same problem, rewrite it before sending.
 
 ## 3. Surgical Changes
 
