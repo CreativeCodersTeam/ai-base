@@ -3,10 +3,12 @@ name: dotnet-implementer
 description: >
   Iterative implementation workflow for .NET/C# requirements. Use when asked to
   implement a feature, user story, requirement, or change request in a .NET project.
-  Guides through 5 phases: requirement review, implementation planning,
-  sub-agent-driven implementation (code, tests, documentation), code review with
-  rework loop, and final summary. Directly invokes the appropriate dotnet-*
-  skills at each phase. Never commits code — the user always commits manually.
+  Guides through 5 phases: requirement review, implementation planning with a
+  mandatory step-by-step clarification gate (structure, architecture, naming,
+  contracts, errors, tests, persistence, packages), sub-agent-driven implementation
+  (code, tests, documentation), code review with rework loop, and final summary.
+  Directly invokes the appropriate dotnet-* skills at each phase. Never commits
+  code — the user always commits manually.
 allowed-tools: Read Grep Glob Edit Create Task
 ---
 
@@ -34,12 +36,27 @@ projects. Covers production code, tests, and documentation in every cycle.
 > backed by an OBJECTIVE technical reason (see the `n/a` rules below); user
 > preference, pressure, or speed are never valid `n/a` reasons.
 
+> **CRITICAL RULE — CLARIFICATION GATE IS NON-SKIPPABLE.** Phase 2 starts
+> with a mandatory Clarification Gate (Phase 2a) covering eight items:
+> project/folder structure, architecture & layering, naming, public API /
+> contracts, errors & edge cases, test strategy, persistence / EF Core,
+> dependencies / NuGet. Each item is presented to the user **one at a
+> time**, with a concrete proposal, and waits for explicit confirmation
+> before the next item begins. The agent MUST run the Gate even when it
+> believes it already knows the answer — "the requirement text says so"
+> or "the codebase convention is obvious" is NOT a substitute for the
+> user's confirmation. No batching, no silent defaults, no agent-decided
+> `n/a`. Task breakdown (Phase 2b) does not start until all eight items
+> are confirmed.
+
 ## Flow Overview
 
 ```
 Phase 1: Requirement Review
     ↓
 Phase 2: Implementation Plan
+    │  Phase 2a — Clarification Gate (8 items, one-by-one, user-confirmed)
+    │  Phase 2b — Task Breakdown
     ↓
 Phase 3: Implementation (Sub-Agents) ◄──┐
     ↓                                    │
@@ -100,6 +117,73 @@ Analyze the requirement before any code is written:
 identified scope, and the list of dotnet-* skills required for the work.
 
 ## Phase 2 — Implementation Plan
+
+Phase 2 has two parts that MUST run in order:
+
+- **Phase 2a — Clarification Gate** (mandatory, non-skippable)
+- **Phase 2b — Task Breakdown**
+
+Phase 2b does NOT begin until every item in Phase 2a has been explicitly
+confirmed by the user.
+
+### Phase 2a — Clarification Gate
+
+Walk the user through the following **eight items one at a time**, in
+order. For each item:
+
+1. Present a concrete proposal (1–3 sentences, with alternatives where
+   reasonable). If the existing codebase already enforces a convention,
+   cite it (file, type, or rule) so the user can confirm against a real
+   reference.
+2. STOP and wait for the user's response (`ok`, a correction, or a
+   different choice). Do not start the next item before a reply.
+3. Record the final decision in one line as `[x] <item>: <decision>`.
+4. Move to the next item.
+
+**The eight mandatory items (always all eight, always in this order):**
+
+| # | Item                            | Must clarify                                                                                                          |
+|---|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| 1 | Project & folder structure      | Target `*.csproj`, namespace, folder layout, new projects yes/no                                                      |
+| 2 | Architecture & layering         | Layers (controller/service/repo or vertical slice), DI lifetimes, public vs internal surface                          |
+| 3 | Naming conventions              | Type/method/file/namespace names, suffixes (`Service`, `Handler`, `Options`, `Async`), test naming                    |
+| 4 | Public API / contracts          | DTO shape, request/response, ProblemDetails, versioning, OpenAPI annotations                                          |
+| 5 | Errors & edge cases             | Exception strategy, Result vs throws, validation style, logging granularity                                           |
+| 6 | Test strategy                   | Unit vs integration, mock boundaries, naming, fakes vs real dependencies, coverage expectation                        |
+| 7 | Persistence / EF Core           | Entity shape, migrations yes/no, owned types, indexes, query style (LINQ vs spec)                                     |
+| 8 | Dependencies / NuGet            | Allowed/forbidden packages, Central Package Management versions                                                       |
+
+**Gate rules — strict:**
+
+- **No "I already know" shortcut.** Present the proposal and wait, even
+  if the requirement text appears to answer the item. The user's wording
+  in the original request is NOT a substitute for explicit confirmation
+  in the Gate. Knowing the answer ≠ user confirming the answer.
+- **No batching.** Each item is its own round-trip. Presenting all eight
+  at once is a violation — it pressures the user to skim and
+  rubber-stamp.
+- **`n/a` requires user confirmation.** If the agent believes an item
+  does not apply (e.g. item 7 when no persistence is touched), it still
+  presents the assessment: *"Item 7: I propose `n/a` because no
+  DbContext / IQueryable / migration changes — confirm?"* The user
+  confirms or overrides. Agent-decided `n/a` without confirmation is a
+  violation.
+- **No silent defaults.** "Use the existing convention" is a valid
+  proposal only if the agent names the convention it points to (file,
+  type, or rule).
+- **User urgency does not waive the Gate.** "Skip the clarification",
+  "just go", "I trust you", "you decide" do not waive any item. Offer to
+  speed-run by proposing aggressive defaults — but each item still gets
+  its own explicit confirmation. The whole point of this Gate is the
+  audit trail of user decisions.
+
+**Output of Phase 2a:** an eight-row decision log appended to the plan,
+each row in the form `[x] <item>: <user-confirmed decision>`. The Gate
+is closed only when all eight rows carry a user-confirmed value (a
+decision or a confirmed `n/a`). A plan whose Phase 2b begins before the
+Gate is closed is INVALID and must be discarded.
+
+### Phase 2b — Task Breakdown
 
 Create a structured plan with trackable tasks:
 
@@ -172,6 +256,13 @@ checklist. A task missing its checklist is not a valid plan entry.
 Execute tasks using sub-agents for parallel work where possible:
 
 1. For each task (or group of independent tasks):
+   - **Phase 2a precondition.** Before Step 0 fires, verify Phase 2a is
+     closed — every one of the eight Clarification Gate items must carry
+     a `[x]` with a user-confirmed value (a decision or a confirmed
+     `n/a`). If any row is still open, return to Phase 2a and finish it;
+     do NOT implement against unconfirmed structure / architecture /
+     naming / contracts / errors / tests / persistence / packages
+     decisions.
    - **Step 0 — invoke every required dotnet-* skill.** Before any `Write`,
      `Edit`, or code-producing `Bash` call for this task, call the `Skill`
      tool **once per binding** the task is assigned to. If the task touches
@@ -276,7 +367,14 @@ Run a thorough code review using a sub-agent:
 3. Evaluate review findings:
    - **Rework needed:** Create new tasks for findings and return to **Phase 3**.
      Each new task gets its own Skill-prerequisite checklist (Phase 2 rules
-     apply).
+     apply). Rework tasks **inherit** the closed Phase 2a decision log —
+     do NOT re-run the full Gate. If, and only if, a review finding
+     challenges a specific Gate item (e.g. reviewer flags the chosen
+     naming or layering), re-open ONLY that item with the user, capture
+     the revised decision in the existing log, and continue. Inheriting
+     decisions also means: rework code must remain consistent with the
+     log. A rework that silently contradicts a Gate decision is itself a
+     review finding.
    - **All good:** Proceed to **Phase 5**.
 
 ## Phase 5 — Summary
@@ -289,7 +387,14 @@ Provide a comprehensive summary of all work done:
 4. List all documentation changes (XML docs, READMEs, etc.).
 5. Note any decisions made during implementation.
 6. Highlight anything the user should review before committing.
-7. **Publish the Skill-invocation log.** For every task in the plan,
+7. **Re-publish the Phase 2a decision log.** Reproduce all eight
+   Clarification Gate rows verbatim from Phase 2a, in the form
+   `[x] <item>: <user-confirmed decision>`. This is the audit trail the
+   user uses to confirm the delivered code matches what was agreed in
+   the Gate. A missing row, an unconfirmed row, or a row whose decision
+   was silently changed during implementation makes Phase 5 INVALID —
+   re-open the affected Gate item with the user before declaring done.
+8. **Publish the Skill-invocation log.** For every task in the plan,
    reproduce the Skill-prerequisite checklist from Phase 2 with each entry
    resolved. Each line MUST carry one of three states, with evidence:
 
@@ -358,6 +463,12 @@ skill:
 | "I'll invoke `dotnet-nuget-manager` then hand-edit the csproj anyway"                             | Skill invocation without following the skill's CLI workflow does not satisfy the binding. See the Artifact-substance bar.                                                                                                                                                  |
 | "I'll batch all five `Skill(...)` calls up front, then write everything"                          | Bulk loading is fine for the invocation order, but each skill's workflow must actually shape the corresponding artifact. If you batched, you must afterwards re-check each artifact against each loaded skill's guidance before declaring `[x]`.                           |
 | "Phase 1 is just clarification — I can speed-run it"                                              | Phase 1 is where ambiguities surface. A speed-run that produces no clarifying questions on an ambiguous requirement is a failure mode the user will pay for later. If the requirement is truly unambiguous, say so explicitly; do not skip the check.                      |
+| "Requirement text already answers structure/naming — skip the Gate"                               | Skipping is forbidden. The user's wording in the request is not a substitute for explicit per-item confirmation in Phase 2a. Run the Gate.                                                                                                                                 |
+| "I'll batch all eight clarification items in one message to save time"                            | Batching is a violation. Each item is its own round-trip. The Gate exists to prevent rubber-stamping.                                                                                                                                                                      |
+| "Item N obviously doesn't apply, I'll mark it n/a and move on"                                    | Agent-decided `n/a` is a violation. Propose the `n/a` to the user with reason, wait for confirmation, then record.                                                                                                                                                         |
+| "User said 'you decide' / 'I trust you' — Gate is waived"                                         | It is not waived. Offer aggressive defaults if speed matters, but each item still gets explicit confirmation. The audit trail is the point.                                                                                                                                |
+| "I'll start drafting tasks while we clarify — saves a round-trip"                                 | Phase 2b does not start until Phase 2a is closed. Drafting tasks against unconfirmed decisions wastes effort and pressures the user.                                                                                                                                       |
+| "Codebase convention is obvious — no need to ask"                                                 | Cite the convention (file, type, rule) in your proposal and let the user confirm. "Obvious" is exactly the failure mode this Gate addresses.                                                                                                                               |
 
 ---
 

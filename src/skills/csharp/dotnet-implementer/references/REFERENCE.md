@@ -64,13 +64,13 @@ which dotnet-* skills the work will involve:
 - **Conditional on the stack the requirement touches:**
   - `dotnet-aspnet` — controllers, minimal APIs, middleware, auth, OpenAPI,
     health checks, CORS, rate limiting, ProblemDetails.
-  - `ef-core` — DbContext, entities, LINQ, migrations, repository patterns.
+  - `dotnet-ef-core` — DbContext, entities, LINQ, migrations, repository patterns.
   - `dotnet-sdk-builder` — generating a typed SDK / typed HTTP client /
     client library.
 - **Conditional on the work itself:**
   - `dotnet-inspect` — whenever an external/platform/NuGet API surface needs
     to be inspected, diffed, or located.
-  - `nuget-manager` — whenever a NuGet package is added, removed, or has its
+  - `dotnet-nuget-manager` — whenever a NuGet package is added, removed, or has its
     version changed.
 - **Tie-breaker:** `dotnet` — when the right specialized skill is not obvious.
 
@@ -95,10 +95,63 @@ Wait for user confirmation before proceeding to Phase 2.
 
 ### Goal
 
-Create a clear, trackable plan that breaks the requirement into discrete tasks.
-Each task should be self-contained and include code, tests, and documentation.
+Phase 2 has two parts that MUST run in order:
 
-### Steps
+- **Phase 2a — Clarification Gate** (mandatory, non-skippable)
+- **Phase 2b — Task Breakdown**
+
+The Gate produces a user-confirmed decision log over eight items
+(structure, architecture, naming, public API, errors, tests,
+persistence, packages). Task breakdown does NOT start until the Gate is
+closed. See SKILL.md for the authoritative Gate definition; this
+section adds operational detail.
+
+### Phase 2a — Clarification Gate (Detail)
+
+#### 2a.1 Run Order
+
+Walk the user through items 1 → 8, one at a time. For each item:
+
+1. Present a concrete proposal in 1–3 sentences with alternatives where
+   reasonable. Cite the existing convention you are pointing to (file,
+   type, or rule) so the user can confirm against a real reference, not
+   a vague "as usual".
+2. STOP and wait for the user's `ok`, correction, or alternative. Do
+   not begin the next item before the reply is in.
+3. Record the outcome as `[x] <item>: <user-confirmed decision>`.
+
+Items are NEVER batched, NEVER skipped, NEVER agent-decided `n/a`. The
+user's wording in the original request does not pre-confirm any item.
+
+#### 2a.2 What Each Item Must Cover
+
+| # | Item                       | Typical clarifying questions |
+|---|----------------------------|------------------------------|
+| 1 | Project & folder structure | Which `*.csproj`? Which namespace? New folders / new projects? |
+| 2 | Architecture & layering    | Controller/Service/Repo or vertical slice? DI lifetimes? Public vs internal? |
+| 3 | Naming conventions         | Type / method / file / namespace names? Suffixes? Async-suffix? Test naming? |
+| 4 | Public API / contracts     | DTO shape? Request/response? ProblemDetails format? OpenAPI annotations? Versioning? |
+| 5 | Errors & edge cases        | Exception vs Result? Validation style? Logging granularity? Cancellation? |
+| 6 | Test strategy              | Unit vs integration? Mock boundaries? Naming? Fakes vs real dependencies? Coverage? |
+| 7 | Persistence / EF Core      | Entity shape? Migrations yes/no? Owned types? Indexes? Query style? |
+| 8 | Dependencies / NuGet       | Allowed/forbidden packages? Central Package Management versions? |
+
+#### 2a.3 `n/a` with User Confirmation
+
+If an item legitimately does not apply (e.g. item 7 when no persistence
+is touched), the agent presents the assessment and waits for user
+confirmation, e.g. *"Item 7: I propose `n/a` because no DbContext /
+IQueryable / migration changes — confirm?"* Only after the user agrees
+is the row recorded as `[n/a] <item>: <confirmed reason>`. Agent-only
+`n/a` is a workflow violation.
+
+#### 2a.4 Output
+
+An eight-row decision log, appended to the plan, every row carrying a
+user-confirmed value. The log is republished in Phase 5 as the audit
+trail.
+
+### Phase 2b — Task Breakdown (Detail)
 
 #### 2.1 Define Tasks
 
@@ -130,7 +183,7 @@ that the task will invoke in Phase 3. Use the binding list from Phase 1.5.
   - EF Core configuration & migrations before repositories / services
   - Services before controllers / minimal API endpoints
   - DTO / contract types before consumers
-  - Package changes (`nuget-manager`) before code that uses them
+  - Package changes (`dotnet-nuget-manager`) before code that uses them
 
 #### 2.4 Parallelization Strategy
 
@@ -168,7 +221,10 @@ corresponding artifact is produced.
 For each task (or parallel group of independent tasks):
 
 1. **Update task status** to `in_progress`.
-2. **Step 0 — invoke every required dotnet-* skill** for this task (see the
+2. **Phase 2a precondition.** Verify the Clarification Gate is closed —
+   all eight items carry a user-confirmed `[x]`. If any item is open,
+   return to Phase 2a before implementing.
+3. **Step 0 — invoke every required dotnet-* skill** for this task (see the
    task's Skill-prerequisite checklist). One `Skill(...)` call per binding.
    No collapsing.
 3. **Choose the right sub-agent type:**
@@ -197,7 +253,7 @@ For each task (or parallel group of independent tasks):
 - **Invoke `dotnet-aspnet`** before writing ASP.NET Core code (controllers,
   minimal APIs, middleware, auth, ProblemDetails, OpenAPI, health checks,
   CORS, rate limiting).
-- **Invoke `ef-core`** before writing EF Core code (DbContext, entities,
+- **Invoke `dotnet-ef-core`** before writing EF Core code (DbContext, entities,
   configurations, LINQ, migrations, repositories).
 - **Invoke `dotnet-sdk-builder`** when building a typed SDK or HTTP client.
 - **Invoke `dotnet-inspect`** when you need to verify an external API surface
@@ -226,7 +282,7 @@ For each task (or parallel group of independent tasks):
 
 #### 3.5 Build & Dependencies
 
-- **Invoke `nuget-manager`** whenever you add, remove, or change versions of
+- **Invoke `dotnet-nuget-manager`** whenever you add, remove, or change versions of
   NuGet packages. The skill enforces the `dotnet` CLI, supports
   `Directory.Packages.props` central versions, and provides verification
   workflows (`dotnet add/remove package`, `dotnet list package --outdated`,
@@ -297,7 +353,10 @@ After the review:
   dotnet-* skills before edits), then proceed to Phase 5.
 - **Significant issues found:**
   1. Create new tasks for each finding (each with its own Skill-prerequisite
-     checklist).
+     checklist). Rework tasks **inherit** the closed Phase 2a decision
+     log — do NOT re-run the Gate. If a finding specifically challenges
+     a Gate item (e.g. naming or layering), re-open ONLY that item with
+     the user and update its row in place.
   2. Return to Phase 3 to address them.
   3. After fixing, run Phase 4 again (rework loop).
 
@@ -340,7 +399,16 @@ Create a structured summary containing:
 9. **Things to Check:** Anything the user should manually verify before
    committing.
 
-#### 5.2 Skill-Invocation Log
+#### 5.2 Phase 2a Decision Log (Re-publish)
+
+Reproduce all eight rows of the Clarification Gate decision log
+verbatim, in the form `[x] <item>: <user-confirmed decision>` (or
+`[n/a] <item>: <confirmed reason>`). This is the audit trail the user
+uses to confirm the delivered code matches what was agreed. If any
+delivered code silently contradicts a Gate decision, name it as a
+violation here and re-open the affected item before declaring done.
+
+#### 5.3 Skill-Invocation Log
 
 Reproduce the Skill-prerequisite checklist from Phase 2 for every task, each
 entry resolved as `[x] <skill> — invoked at <evidence>`, `[n/a] <skill> —
@@ -348,7 +416,7 @@ did not apply (<reason>)`, or `[!] <skill> — NOT invoked` (a workflow
 violation that must be named, prevent task completion, and trigger a
 follow-up pass).
 
-#### 5.3 Final Reminder
+#### 5.4 Final Reminder
 
 End with a clear reminder:
 
@@ -397,18 +465,18 @@ End with a clear reminder:
 
 ### Skill Bindings — Quick Reference
 
-| Binding | Skill | Phase |
-|---------|-------|-------|
-| Core C# / DI / Options / modern C# | `dotnet-fundamentals` | 3.2 |
-| ASP.NET Core | `dotnet-aspnet` | 3.2 |
-| EF Core | `ef-core` | 3.2 |
-| SDK / typed HTTP client | `dotnet-sdk-builder` | 3.2 |
-| API surface lookup | `dotnet-inspect` | 1.4, 3.2 |
-| Tests | `dotnet-tester` | 3.3 |
-| XML documentation | `dotnet-xmldocs` | 3.4 |
-| NuGet packages | `nuget-manager` | 3.5 |
-| Code review | `dotnet-reviewer` | 4 |
-| Router (tie-breaker) | `dotnet` | any |
+| Binding | Skill                  | Phase |
+|---------|------------------------|-------|
+| Core C# / DI / Options / modern C# | `dotnet-fundamentals`  | 3.2 |
+| ASP.NET Core | `dotnet-aspnet`        | 3.2 |
+| EF Core | `dotnet-ef-core`       | 3.2 |
+| SDK / typed HTTP client | `dotnet-sdk-builder`   | 3.2 |
+| API surface lookup | `dotnet-inspect`       | 1.4, 3.2 |
+| Tests | `dotnet-tester`        | 3.3 |
+| XML documentation | `dotnet-xmldocs`       | 3.4 |
+| NuGet packages | `dotnet-nuget-manager` | 3.5 |
+| Code review | `dotnet-reviewer`      | 4 |
+| Router (tie-breaker) | `dotnet`               | any |
 
 **Rule:** A binding MUST be invoked (via the `Skill` tool, in this
 conversation, for this task) before its corresponding artifact is produced.
