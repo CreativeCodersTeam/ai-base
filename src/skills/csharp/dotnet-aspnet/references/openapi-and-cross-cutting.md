@@ -43,7 +43,7 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 - Separate liveness (`/health`) and readiness (`/health/ready`) endpoints
 - Tag health checks for selective filtering
 - Use NuGet packages `AspNetCore.HealthChecks.*` for common dependencies
-- Use the `nuget-manager` skill for adding health check packages
+- Use the `dotnet-nuget-manager` skill for adding health check packages
 
 ## CORS
 
