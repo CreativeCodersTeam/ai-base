@@ -27,7 +27,7 @@ description: Applies modern Angular fundamentals — dependency injection, the t
 ## Reference Index
 
 - **[dependency-injection.md](references/dependency-injection.md)** — provider scopes, `providedIn`, `InjectionToken`/abstract-class tokens, `inject()`, multi providers, anti-service-locator
-- **[options-pattern.md](references/options-pattern.md)** — typed configuration objects, `provideXxx(config)` library APIs, validation at bootstrap, environment- vs runtime-loaded config
+- **[typed-configuration.md](references/typed-configuration.md)** — typed configuration objects, `provideXxx(config)` library APIs, validation at bootstrap, environment- vs runtime-loaded config
 - **[configuration.md](references/configuration.md)** — `environment.ts` files, build-time `fileReplacements`, runtime config from `assets/config.json`, and why front-end apps have no real secrets
 - **[modern-patterns.md](references/modern-patterns.md)** — standalone APIs, signals, `inject()`, strict null checks, discriminated unions, `DestroyRef`/`takeUntilDestroyed`
 

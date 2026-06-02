@@ -45,7 +45,6 @@ orientation, not an intermediate step.
 - **Composition:** `angular-library-builder` invokes `angular-tsdoc` and
   `angular-tester`; `angular-components` and `angular-state` build on
   `angular-fundamentals`.
-- **No package-API inspector:** the .NET stack has a `dotnet-inspect` skill for
-  querying compiled library APIs; the npm/Angular ecosystem has no equivalent
-  CLI, so there is no `angular-inspect`. Use `angular-package-manager` for
-  package version/metadata questions instead.
+- **No package-API inspector:** the npm/Angular ecosystem has no CLI for
+  querying compiled library APIs, so there is no `angular-inspect`. Use
+  `angular-package-manager` for package version/metadata questions instead.

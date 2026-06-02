@@ -49,7 +49,7 @@ getUser(id: number): User {
 
 ## Discriminated Unions & Pattern Matching
 
-The TypeScript analogue of C# pattern matching is a discriminated union narrowed by `switch`.
+Discriminated unions narrowed by `switch` give you exhaustive, type-safe pattern matching in TypeScript.
 
 ```typescript
 type Discount =

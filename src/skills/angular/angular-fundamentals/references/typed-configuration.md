@@ -1,6 +1,6 @@
 # Typed Configuration (the `provide` pattern)
 
-Bind configuration to a strongly-typed object and expose it through a `provideXxx()` function with validation. This is Angular's equivalent of .NET's Options pattern.
+Bind configuration to a strongly-typed object and expose it through a `provideXxx()` function with validation.
 
 ## Basic Typed Config
 
@@ -37,12 +37,12 @@ export class EmailService {
 
 ## Static vs Reactive Config
 
-.NET distinguishes `IOptions` / `IOptionsSnapshot` / `IOptionsMonitor`. In Angular:
+Distinguish config read once at startup from config that can change at runtime:
 
 | Need | Approach |
 |------|----------|
-| Config read once at startup (the common case) | `InjectionToken` + `useValue` (immutable, like `IOptions<T>`) |
-| Config that can change at runtime (feature flags, theme) | A service exposing a `signal<T>()` or `Observable<T>` consumers read reactively (like `IOptionsMonitor<T>`) |
+| Config read once at startup (the common case) | `InjectionToken` + `useValue` (immutable) |
+| Config that can change at runtime (feature flags, theme) | A service exposing a `signal<T>()` or `Observable<T>` consumers read reactively |
 | Per-route/feature variation | Provide a different config object in that route's `providers` |
 
 ```typescript
@@ -74,7 +74,7 @@ export function provideApiConfig(cfg: ApiConfig): EnvironmentProviders {
 
 ## Named / Multiple Configs
 
-Use distinct tokens for multiple instances (analogue of named options):
+Use distinct tokens for multiple named instances:
 
 ```typescript
 export const SMTP_PRIMARY = new InjectionToken<SmtpConfig>('SMTP_PRIMARY');

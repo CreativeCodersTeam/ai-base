@@ -1,6 +1,6 @@
 # Optimistic Updates & Concurrency
 
-Client-side patterns for responsive updates and for resolving conflicts when the server detects a concurrent change. The server holds the real concurrency token (an ETag / rowversion); the client sends it back and reacts to `409 Conflict`.
+Client-side patterns for responsive updates and for resolving conflicts when the server detects a concurrent change. The server holds the real concurrency token (an ETag); the client sends it back and reacts to `409 Conflict`.
 
 ## Optimistic Update with Rollback
 
@@ -28,7 +28,7 @@ export class ProductStore {
 
 ## Version Tokens (ETag / If-Match)
 
-Send the last-known version with the mutation so the server can reject a stale write — the client analogue of EF Core's `[Timestamp]`/`rowversion` check.
+Send the last-known version with the mutation so the server can reject a stale write.
 
 ```typescript
 rename(id: number, name: string, etag: string) {
@@ -40,7 +40,7 @@ rename(id: number, name: string, etag: string) {
 
 ## Handling 409 Conflict
 
-When two users edit the same entity, the second write returns `409`. Resolve like EF Core's `DbUpdateConcurrencyException`: refetch server values, then choose client-wins, store-wins, or merge.
+When two users edit the same entity, the second write returns `409`. Resolve by refetching server values, then choose client-wins, store-wins, or merge.
 
 ```typescript
 this.api.rename(id, name, etag).pipe(

@@ -72,7 +72,7 @@ For Angular specifically, run `ng update` with **no arguments** — it inspects 
 
 - **Lockfile is source of truth for CI.** Use `npm ci` (not `npm install`) for clean, reproducible installs from `package-lock.json`; use `npm install` when intentionally changing dependencies.
 - Commit `package.json` **and** the lockfile together.
-- npm has **no central package-version manifest** like .NET's `Directory.Packages.props`. In a monorepo, dependency versions are deduplicated by the lockfile and can be aligned via workspace root dependencies — there is no separate central-version file to edit.
+- npm has **no central package-version manifest**. In a monorepo, dependency versions are deduplicated by the lockfile and can be aligned via workspace root dependencies — there is no separate central-version file to edit.
 
 ## Related Skills
 
