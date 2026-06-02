@@ -4,7 +4,7 @@
 
 - Methods are verbs; properties/signals are nouns. Outputs are events (`saved`, `selectionChange`).
 - Booleans read as questions: `isValid`, `hasItems`, `canRetry`.
-- Component selectors are prefixed and kebab-case (`app-order-card`); files follow Angular conventions (`order-card.component.ts`).
+- Component selectors are prefixed and kebab-case (`app-order-card`); file names follow the project's convention consistently — either legacy `order-card.component.ts` or the v20 suffix-less `order-card.ts`, not a mix.
 - Observables conventionally end in `$` (`orders$`); signals do not.
 - No abbreviations that obscure meaning; consistent casing for acronyms (`Url`, `Id`, `Api`).
 

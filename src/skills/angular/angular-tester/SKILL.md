@@ -18,10 +18,9 @@ Do **not** use this skill for non-Angular test code, or for end-to-end tests (Cy
 
 ## Conventions
 
-- **Test Framework**: Jasmine (Angular CLI default). If the project is configured for **Jest**, match it (`jest.fn()`, `jest.spyOn()` instead of Jasmine spies).
-- **Test runner**: Karma (CLI default) or Jest if configured.
+- **Test Framework / runner**: Match the project's existing setup. New Angular projects default to **Vitest** (the CLI's default runner from v21; Karma is deprecated and frozen). **Jasmine + Karma** (older CLI default) and **Jest** remain fully supported — detect which is configured and follow it (`jest.fn()`/`vi.fn()` vs Jasmine spies). Do not switch a project's runner as a side effect of writing tests.
 - **Test bed**: `TestBed` for components/services that use DI; plain instantiation for pure classes/pipes with no dependencies.
-- **Mocking**: `jasmine.createSpyObj` / spy objects for dependencies; `jest.fn()` under Jest. For `HttpClient`, use `HttpClientTestingModule` + `HttpTestingController`.
+- **Mocking**: `jasmine.createSpyObj` / spy objects for dependencies (`jest.fn()`/`vi.fn()` under Jest/Vitest). For `HttpClient`, register `provideHttpClient()` + `provideHttpClientTesting()` and inject `HttpTestingController` (the `HttpClientTestingModule` is deprecated).
 - **Structure**: Each `it` has Arrange/Act/Assert blocks, marked with comments.
 - **Language**: English for code, comments, and test names.
 - **Style**: The stack above is the default. If the project already uses a different stack (Jest, Spectator, ng-mocks, …), match the existing convention instead of switching.
@@ -29,7 +28,7 @@ Do **not** use this skill for non-Angular test code, or for end-to-end tests (Cy
 ## Phase 1: Write Tests
 
 1. **Analyze code**: Read the code to be tested and understand:
-  - Public API (methods, `@Input()`/`@Output()`, exposed signals/observables)
+  - Public API (methods, inputs/outputs — `input()`/`output()`/`model()` or `@Input()`/`@Output()` — exposed signals/observables)
   - Dependencies (which injected services need to be mocked?)
   - Different code paths (if/else, switch, `catchError`, RxJS operators)
   - Edge Cases (null, empty collections, boundary values, error notifications)
@@ -77,7 +76,8 @@ describe('UserListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [UserListComponent, HttpClientTestingModule],
+      imports: [UserListComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     fixture = TestBed.createComponent(UserListComponent);
     httpMock = TestBed.inject(HttpTestingController);
@@ -126,7 +126,7 @@ describe('UserListComponent', () => {
 
 ## Phase 2: Execute Tests
 
-1. Run the test command for the project: `ng test --watch=false --browsers=ChromeHeadless` (Karma) or `npx jest` (Jest). Scope to the relevant spec(s) where possible (`ng test --include='**/order.service.spec.ts'`).
+1. Run the test command for the project: `ng test` (Vitest/Karma, depending on the configured runner), `ng test --watch=false --browsers=ChromeHeadless` (Karma explicitly headless), or `npx jest` / `npx vitest run` (Jest/Vitest). Scope to the relevant spec(s) where possible (`ng test --include='**/order.service.spec.ts'`).
 2. Analyze the results:
   - On **failures**: Identify the cause and fix the test or test setup
   - On **success**: Continue to Phase 3
@@ -173,7 +173,7 @@ At the end, provide a summary:
 - Do **not mock simple value objects or DTOs** – create real instances
 - Test **behavior**, not implementation details (assert rendered output / emitted values, not private fields)
 - Use **descriptive test names** in the format `MethodName_Scenario_ExpectedBehavior` or a readable `should …` sentence
-- Always `httpMock.verify()` in `afterEach` when using `HttpClientTestingModule`
+- Always `httpMock.verify()` in `afterEach` when using `provideHttpClientTesting()`
 - Use `fakeAsync` + `tick()` for timer/async control; prefer it over real timeouts
 - Verify a spy call (`expect(spy).toHaveBeenCalledWith(...)`) sparingly – only when the call itself is the expected behavior
 

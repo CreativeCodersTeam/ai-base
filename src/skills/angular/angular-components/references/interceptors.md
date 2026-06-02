@@ -54,6 +54,10 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
 - **Cache**: short-circuit GETs by returning a cached `HttpResponse` via `of(...)`; otherwise pass through and `tap` the response into the cache.
 - **Retry**: wrap with `retry({ count, delay })` and only retry idempotent methods / transient status codes (`429`, `503`).
 
+## Reactive Reads (`httpResource`)
+
+`httpResource()` (signal-driven GETs, see [angular-state](../../angular-state/SKILL.md)) is built on `HttpClient`, so it flows through **this same interceptor chain** — auth, base URL, caching, retry, and error mapping all apply. Use `httpResource` for reactive reads; keep `HttpClient` for mutations and streaming.
+
 ## Related Skills
 
 - **[angular-fundamentals](../../angular-fundamentals/SKILL.md)** — Interceptors resolve config/services via `inject()`

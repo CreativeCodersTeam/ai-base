@@ -53,6 +53,17 @@ readonly results = toSignal(
 );
 ```
 
+## SSR Hydration & Event Replay
+
+With Angular SSR, enable hydration to reuse server-rendered DOM instead of re-rendering on the client. Prefer **incremental hydration** and **event replay**:
+
+```typescript
+provideClientHydration(withIncrementalHydration(), withEventReplay());
+```
+
+- **Incremental hydration** hydrates parts of the page on demand (e.g. on viewport/interaction via `@defer` triggers) rather than all at once — smaller, faster initial work.
+- **Event replay** captures user events fired before hydration completes and replays them afterward, so early clicks aren't lost.
+
 ## Related Skills
 
 - **[angular-fundamentals](../../angular-fundamentals/SKILL.md)** — Cross-cutting services registered via DI

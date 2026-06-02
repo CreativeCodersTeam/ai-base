@@ -62,10 +62,13 @@ silently assumed.
 2. **Architecture & layering** — smart/dumb component split; state approach
    (signals / RxJS service / NgRx); DI scopes (root/route/component); public vs
    internal surface.
-3. **Naming conventions** — component/service/file/selector names; suffixes
-   (`Component`, `Service`, `Store`, `Pipe`, `Guard`, `Directive`); spec naming.
-4. **Public API / contracts** — `@Input()`/`@Output()` shape, exported library
-   surface, DTO shape, route params/data, OpenAPI mapping for clients.
+3. **Naming conventions** — file/class/selector names; the project's suffix
+   convention — legacy `*.component.ts` / `OrderListComponent`, or the v20
+   suffix-less style (`order-list.ts` / class `OrderList`); spec naming. Match the
+   existing project convention; don't mix.
+4. **Public API / contracts** — signal `input()`/`output()`/`model()` shape
+   (decorators only for legacy interop), exported library surface, DTO shape,
+   route params/data, OpenAPI mapping for clients.
 5. **Errors & edge cases** — error strategy (`ErrorHandler` / interceptor /
    `catchError`), validation style, user-facing messages, logging granularity.
 6. **Test strategy** — unit and/or integration, `TestBed` usage, spies vs real
@@ -122,8 +125,10 @@ for teardown, `track` in `@for`. Never leave subscriptions un-torn-down; prefer
 `async` pipe / `toSignal()` over manual `subscribe`.
 
 ### Tests
-`angular-tester` always when code is written/changed — Jasmine/Karma (or Jest) +
-`TestBed` + `HttpTestingController`, plus its second-agent missing-case pass.
+`angular-tester` always when code is written/changed — match the project's runner
+(Vitest for new projects from v21; Jasmine/Karma and Jest also supported) +
+`TestBed` + `provideHttpClient()`/`provideHttpClientTesting()` with
+`HttpTestingController`, plus its second-agent missing-case pass.
 Cover new/changed behavior and the edge cases from Phase 1.
 
 ### Documentation

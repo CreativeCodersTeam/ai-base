@@ -8,6 +8,10 @@ Apply when `detect-angular-version.sh` reports an Angular major `>= 17`.
 - **New control flow** — `@if` / `@for` / `@switch` over the legacy `*ngIf` / `*ngFor` / `*ngSwitch`. Flag new structural-directive usage in new templates.
 - **`@for` track** — every `@for` must declare `track`. Flag missing `track` (or legacy `trackBy` absence) — it forces full re-render.
 - **`input()` / `output()` / `model()`** — prefer the signal-based `input()`/`output()` functions over `@Input()`/`@Output()` decorators in new components.
+- **Signal queries** — prefer `viewChild()`/`viewChildren()`/`contentChild()`/`contentChildren()` over the `@ViewChild`/`@ContentChild` decorators in new code.
+- **`readonly` on framework-assigned members** — `input`, `model`, `output`, and queries should be `readonly`. Flag reassignable ones.
+- **`protected` for template-only members** — members read only by the template should be `protected`, not `public`. Flag needlessly-public template helpers.
+- **`class` / `style` bindings** — prefer `[class.x]`/`[style.x]` (and object form) over `NgClass`/`NgStyle`. Flag new `ngClass`/`ngStyle` usage.
 - **`inject()`** — prefer `inject()` over constructor parameter injection in new code.
 - **`OnPush`** — new components use `ChangeDetectionStrategy.OnPush`. Flag default change detection on new components.
 

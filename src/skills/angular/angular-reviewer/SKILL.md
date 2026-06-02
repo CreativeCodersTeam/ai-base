@@ -56,7 +56,7 @@ Run `scripts/collect-diff.sh --repo-root <repo> --mode <mode> --baseline main`.
 If `loc > 2000` OR `files > 50`, ask the user to choose:
 
 - **(B) Review everything** — note token cost in report header.
-- **(C) Prioritize** — review files matching `*.service.ts`, `*.component.ts`, `*.store.ts`, files without a sibling `*.spec.ts` first; summarize the rest.
+- **(C) Prioritize** — review files matching `*.service.ts`/`*-service.ts`, `*.component.ts`, `*.store.ts`/`*-store.ts`, and (under the v20 suffix-less convention) the non-spec `.ts` files that declare a `@Component`/`@Injectable`/`@Directive`; review files without a sibling `*.spec.ts` first; summarize the rest.
 - **(D) Chunk file-by-file** — review each file independently; group findings by file.
 
 If C is chosen but no files match the priority heuristics, fall back to D and note the fallback transparently in the report.

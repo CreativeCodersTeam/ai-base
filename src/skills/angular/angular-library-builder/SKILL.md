@@ -104,7 +104,7 @@ After generating all source files, invoke the `angular-tsdoc` skill to add TSDoc
 
 ### Step 9: Write Tests
 
-After documentation is complete, invoke the `angular-tester` skill to generate unit tests for the library (using `HttpClientTestingModule` / `HttpTestingController`).
+After documentation is complete, invoke the `angular-tester` skill to generate unit tests for the library (using `provideHttpClient()` + `provideHttpClientTesting()` and `HttpTestingController`; the `HttpClientTestingModule` is deprecated).
 
 ## Key Design Principles
 

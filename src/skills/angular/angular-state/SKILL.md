@@ -25,8 +25,27 @@ description: Applies Angular best practices for reactive data access and client-
   |-------|-----|
   | Local component view state | `signal()` / `computed()` in the component |
   | Feature state shared across a routed area | a `providedIn`-scoped service exposing signals or `BehaviorSubject` |
+  | Feature state, signal-first, with less boilerplate than the full Redux flow | **NgRx SignalStore** (`signalStore`, `withState`/`withComputed`/`withMethods`) |
   | Complex, app-wide, multi-source state with strict traceability | **NgRx Store** (actions/reducers/selectors/effects) |
   | Local, self-contained reactive workflows | **NgRx Component Store** |
+
+## Async Data: `resource()` / `httpResource()`
+
+For **reactive reads** (load-on-signal-change), prefer the resource APIs over hand-rolled `subscribe`/`toSignal` plumbing. They expose `value`, `status`, `error`, and `isLoading` as signals and auto-cancel superseded requests when their reactive params change.
+
+- **`resource()`** — wraps any async loader (a `Promise`-returning function); the `request`/`params` signal drives reloads. Use for non-HTTP or custom async sources.
+- **`rxResource()`** — same, but the loader returns an `Observable` (integrates an existing RxJS service).
+- **`httpResource()`** — declarative, signal-driven `HttpClient` GET; returns `HttpResourceRef` whose `value` is a signal. Use for reactive reads that depend on signals.
+
+```typescript
+export class OrderDetail {
+  readonly id = input.required<number>();
+  // refetches whenever id() changes; exposes value()/isLoading()/error()
+  readonly order = httpResource<Order>(() => `/api/orders/${this.id()}`);
+}
+```
+
+Keep using **`HttpClient`** directly for commands/mutations (POST/PUT/DELETE), streaming, and interceptor-heavy flows — resources are for reactive reads, not write operations.
 
 ## State Shape (Model) Design
 
@@ -42,6 +61,7 @@ description: Applies Angular best practices for reactive data access and client-
 - Derive with **memoized** `computed()` / NgRx selectors instead of recomputing in templates.
 - **Avoid over-fetching:** dedupe in-flight requests (`shareReplay({ bufferSize: 1, refCount: true })`), cache reads, and load only the fields/pages you need (pagination with page/size).
 - Use `async` pipe or `toSignal()` rather than manual `subscribe` to prevent leaks and redundant change detection.
+- **Zoneless change detection** (`provideZonelessChangeDetection()`, developer preview in v20) removes Zone.js and updates the view only from signal reads, `markForCheck`, and async pipe — the end state of a signal-first app. Adopt it deliberately: ensure state flows through signals/`OnPush`, test in staging, and don't flip a large production app in one step.
 
 ## Persistence & Hydration
 
@@ -52,6 +72,7 @@ description: Applies Angular best practices for reactive data access and client-
 ## Selectors & Derived State
 
 - Compute derived values with `computed()` (signals) or memoized selectors (NgRx); don't store what you can derive.
+- For **writable** derived state that resets when its source changes, use **`linkedSignal()`** (e.g. a selected-item signal that defaults from a list but can be overridden) instead of syncing with an `effect()`.
 - Compose selectors from smaller selectors; keep them pure.
 - For RxJS-derived data, choose operators deliberately (`map`, `filter`, `combineLatest`, `switchMap` for cancel-previous, `exhaustMap` to ignore-while-busy, `concatMap` to queue).
 
@@ -76,7 +97,7 @@ See [concurrency-control.md](./references/concurrency-control.md) for optimistic
 
 - Test stores/services by asserting emitted state after actions — assert **behavior/output**, not internal fields.
 - Use marble testing (`TestScheduler`) for non-trivial RxJS operator chains.
-- Mock HTTP with `HttpClientTestingModule` + `HttpTestingController`; mock dependencies with spies.
+- Mock HTTP with `provideHttpClient()` + `provideHttpClientTesting()` and inject `HttpTestingController` (the `HttpClientTestingModule` is deprecated); mock dependencies with spies.
 - For NgRx, test reducers as pure functions, selectors with `projector`, and effects with `provideMockActions`.
 - Use the `angular-tester` skill for generating unit tests after state changes.
 

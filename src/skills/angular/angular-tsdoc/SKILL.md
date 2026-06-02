@@ -9,7 +9,7 @@ description: Adds and reviews TSDoc/JSDoc documentation comments on Angular/Type
 
 - Writing or reviewing TSDoc/JSDoc comments (`/** ... */`) on TypeScript types and members
 - Adding documentation to the public API of a new or existing Angular library or shared module
-- Documenting components, services, directives, pipes, and their `@Input()`/`@Output()` members
+- Documenting components, services, directives, pipes, and their input/output members (signal `input()`/`output()`/`model()` or `@Input()`/`@Output()`)
 - Reviewing missing, insufficient, or non-standard doc comments in TypeScript code
 - Generating documentation that feeds Compodoc output or published library typings
 
@@ -39,7 +39,7 @@ description: Adds and reviews TSDoc/JSDoc documentation comments on Angular/Type
 - Use `@see {@link Symbol}` for standalone "see also" references — the equivalent of `<seealso>`.
 - Use `{@inheritDoc Symbol}` to inherit documentation from a base class or implemented interface.
   - Unless there is a major behavior change, in which case document the differences explicitly.
-- For Angular declarables, document the **public binding surface**: `@Input()` and `@Output()` members, public methods, and exposed signals/observables. Compodoc renders these per component.
+- For Angular declarables, document the **public binding surface**: inputs and outputs (`input()`/`output()`/`model()` or `@Input()`/`@Output()`), public methods, and exposed signals/observables. Compodoc renders these per component.
 
 ## Member-Specific Rules
 
@@ -47,6 +47,6 @@ See [member-documentation-rules.md](./references/member-documentation-rules.md) 
 
 ## Related Skills
 
-- **[angular-components](../angular-components/SKILL.md)** — Component `@Input()`/`@Output()` and public methods are documented with these conventions
+- **[angular-components](../angular-components/SKILL.md)** — Component inputs/outputs (`input()`/`output()`/`model()`) and public methods are documented with these conventions
 - **[angular-library-builder](../angular-library-builder/SKILL.md)** — Invokes this skill to document generated Angular libraries
 - **[angular-reviewer](../angular-reviewer/SKILL.md)** — Code-quality checklist references these conventions for public-API docs

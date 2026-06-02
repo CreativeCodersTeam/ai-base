@@ -119,8 +119,8 @@ presented with `n/a — <code-referenced reason>` and still acknowledged.
 |---|---|---|
 | 1 | Project & folder structure | Target project/library, feature folder, standalone vs NgModule, new files/projects yes/no |
 | 2 | Architecture & layering | Smart/dumb component split, state approach (signals / RxJS service / NgRx), DI scopes, public vs internal surface |
-| 3 | Naming conventions | Component/service/file/selector names, suffixes (`Component`, `Service`, `Store`, `Pipe`, `Guard`), spec naming |
-| 4 | Public API / contracts | `@Input()`/`@Output()` shape, exported library surface, DTO shape, route params/data, OpenAPI mapping |
+| 3 | Naming conventions | File/class/selector names; the project's suffix convention — legacy `*.component.ts` / `OrderListComponent`, or the v20 suffix-less style (`order-list.ts` / class `OrderList`); spec naming. Match existing project convention; don't mix |
+| 4 | Public API / contracts | Signal `input()`/`output()`/`model()` shape (decorators only for legacy interop), exported library surface, DTO shape, route params/data, OpenAPI mapping |
 | 5 | Errors & edge cases | Error strategy (`ErrorHandler` / HTTP interceptor / `catchError`), validation style, user-facing messages, logging |
 | 6 | Test strategy | Unit and/or integration, `TestBed` usage, spies vs real deps, `HttpTestingController`, coverage expectation |
 | 7 | State / data | State shape, store vs signals, persistence/hydration, `HttpClient` usage, caching, optimistic updates |

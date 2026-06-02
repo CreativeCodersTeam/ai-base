@@ -8,24 +8,31 @@ Organize by feature, not by technical layer. Each feature folder contains its co
 src/app/
   features/
     orders/
-      orders.routes.ts          # lazy route config for the feature
-      order-list.component.ts    # container (smart) component
-      order-card.component.ts    # presentational (dumb) component
+      orders.routes.ts     # lazy route config for the feature
+      order-list.ts        # container (smart) component → class OrderList
+      order-card.ts        # presentational (dumb) component → class OrderCard
       order.models.ts
-      order.service.ts
+      order-service.ts     # class OrderService
     products/
       ...
-  app.config.ts                  # root providers (provideRouter, provideHttpClient, …)
+  app.config.ts            # root providers (provideRouter, provideHttpClient, …)
   app.routes.ts
   main.ts
 ```
+
+### Naming (v20 style guide)
+
+The v20 style guide names a file after its class, hyphenated, **without an enforced type suffix**: component `UserProfile` lives in `user-profile.ts` / `user-profile.html` / `user-profile.css`, tests in `user-profile.spec.ts` — not `user-profile.component.ts`. New CLI schematics generate this suffix-less style by default.
+
+- **Be consistent with the project.** A codebase already on the `*.component.ts` / `OrderListComponent` convention should stay on it; apply the suffix-less style to new code or a deliberate migration, not as a piecemeal mix.
+- Descriptive class suffixes that aid clarity (`OrderService`, `OrderStore`, `AuthGuard`) remain common and are fine — the change removed the *mandatory* `Component`/`Directive` suffix, it did not forbid meaningful names.
 
 ## Container vs Presentational Components
 
 Both are valid roles; keep them distinct.
 
 - **Container (smart)** — injects services, owns state, handles navigation and side effects. Few of them.
-- **Presentational (dumb)** — `@Input()` data in, `@Output()` events out, no service injection, easy to test and reuse. Many of them.
+- **Presentational (dumb)** — data in via `input()`, events out via `output()`, no service injection, easy to test and reuse. Many of them.
 
 ### Container Pattern
 
@@ -33,7 +40,7 @@ Both are valid roles; keep them distinct.
 @Component({
   selector: 'app-order-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [OrderCardComponent, AsyncPipe],
+  imports: [OrderCard],
   template: `
     @for (order of orders(); track order.id) {
       <app-order-card [order]="order" (select)="open($event)" />
@@ -42,11 +49,11 @@ Both are valid roles; keep them distinct.
     }
   `,
 })
-export class OrderListComponent {
+export class OrderList {
   private readonly service = inject(OrderService);
   private readonly router = inject(Router);
   readonly orders = toSignal(this.service.list(), { initialValue: [] as Order[] });
-  open(id: number) { this.router.navigate(['/orders', id]); }
+  protected open(id: number) { this.router.navigate(['/orders', id]); }
 }
 ```
 
@@ -58,7 +65,7 @@ export class OrderListComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<button (click)="select.emit(order().id)">{{ order().title }}</button>`,
 })
-export class OrderCardComponent {
+export class OrderCard {
   readonly order = input.required<Order>();
   readonly select = output<number>();
 }
@@ -79,10 +86,10 @@ export const routes: Routes = [
 
 // features/orders/orders.routes.ts
 export const ORDERS_ROUTES: Routes = [
-  { path: '', loadComponent: () => import('./order-list.component').then((m) => m.OrderListComponent) },
+  { path: '', loadComponent: () => import('./order-list').then((m) => m.OrderList) },
   {
     path: ':id',
-    loadComponent: () => import('./order-detail.component').then((m) => m.OrderDetailComponent),
+    loadComponent: () => import('./order-detail').then((m) => m.OrderDetail),
     resolve: { order: orderResolver },
   },
 ];

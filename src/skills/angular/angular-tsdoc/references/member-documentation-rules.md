@@ -30,8 +30,9 @@ This reference covers detailed wording conventions for documenting TypeScript/An
 
 ## Angular bindings
 
-- **`@Input()`**: summarize what the input controls and its effect, e.g. "The label shown above the field." Note the default and whether it is required (`input.required<T>()` / `@Input({ required: true })`).
-- **`@Output()`**: summarize the event and *when* it fires, e.g. "Emits the selected item when the user confirms the dialog."
+- **Inputs** (`input()` / `input.required<T>()` / `@Input()`): summarize what the input controls and its effect, e.g. "The label shown above the field." Note the default and whether it is required (`input.required<T>()` / `@Input({ required: true })`).
+- **Outputs** (`output()` / `@Output()`): summarize the event and *when* it fires, e.g. "Emits the selected item when the user confirms the dialog."
+- **Two-way (`model()`)**: describe the bound value and that it is read and written by the parent.
 - **Signals**: for an exposed `signal`/`computed`, describe the value it represents; for a `WritableSignal` also note who is expected to update it.
 
 ## Errors

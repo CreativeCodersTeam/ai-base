@@ -23,6 +23,7 @@ description: Applies modern Angular fundamentals — dependency injection, the t
 - **Fail fast** — validate required configuration at bootstrap (via `provideAppInitializer` / `APP_INITIALIZER`) so misconfiguration surfaces at startup, not at first use.
 - **Immutable configuration** — config objects use `readonly` members and are not mutated after provisioning.
 - **Teardown flows everywhere** — long-lived subscriptions and async work are torn down with `takeUntilDestroyed()` / `DestroyRef` (Angular's analogue to threading a `CancellationToken`), and HTTP cancellation happens by unsubscribing.
+- **Signal-first APIs** — author component surfaces with `input()`/`output()`/`model()` and signal queries (`viewChild()`/`contentChild()`), not decorators. Mark Angular-initialized members (`input`, `model`, `output`, queries) `readonly` so the framework-assigned value cannot be overwritten.
 
 ## Reference Index
 
