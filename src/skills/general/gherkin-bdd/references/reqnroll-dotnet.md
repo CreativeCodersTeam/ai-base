@@ -1,7 +1,7 @@
 # Reqnroll (.NET) Implementation
 
-Reqnroll is the actively maintained successor to SpecFlow. Step-definition syntax is
-the same; attributes live in the `Reqnroll` namespace.
+Reqnroll is the BDD framework for .NET; binding attributes live in the `Reqnroll`
+namespace.
 
 ## Setup
 

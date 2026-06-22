@@ -1,6 +1,7 @@
 ---
 name: gherkin-bdd-reviewer
-description: Reviews existing Gherkin feature files and BDD step definitions against Gherkin best practices and anti-patterns. Use when asked to review .feature files, audit BDD scenarios, check Given/When/Then quality, or assess step-definition reuse and binding correctness (Reqnroll, Cucumber-JVM, Cucumber.js). Produces a severity-tagged Markdown report under docs/reviews/. Must NOT activate on generic "review my code" requests. For writing or implementing BDD tests, use gherkin-bdd instead.
+description: Reviews existing Gherkin feature files and BDD step definitions against Gherkin best practices and anti-patterns. Use when asked to review .feature files, audit BDD scenarios, check Given/When/Then quality, or assess step-definition reuse and binding correctness (Reqnroll, Cucumber-JVM, Cucumber.js). Produces a severity-tagged Markdown report (written under docs/reviews/ by default, or inline on request). Must NOT activate on generic "review my code" requests. For writing or implementing BDD tests, use gherkin-bdd instead.
+license: MIT
 ---
 
 # Gherkin & BDD Reviewer Skill
@@ -18,12 +19,17 @@ Do **NOT** activate on a generic "review my code" request — that belongs to a 
 review skill. Only activate for Gherkin/BDD-focused review. For writing or
 implementing BDD tests, use `gherkin-bdd`.
 
+For a **mixed request** (review existing scenarios *and* author new ones), review
+first with this skill, then switch to `gherkin-bdd` for the authoring part.
+
 ## Load Standards First
 
 This skill owns **no rules of its own**. Before reviewing:
 
-1. Invoke the `gherkin-bdd` skill (via the Skill tool) to load the canonical Gherkin
-   best-practice rule set and the framework reference for the project under review.
+1. Load the `gherkin-bdd` skill to get the canonical Gherkin best-practice rule set
+   and the framework reference for the project under review. If your platform does not
+   auto-load it, read the `gherkin-bdd` skill's `SKILL.md` and
+   `references/gherkin-style.md` directly so you never review without the rule set.
 2. Adopt `gherkin-bdd`'s **Rule Precedence**: judge against repo-local conventions
    first, and the built-in rules only as fallback. A scenario that breaks a built-in
    rule but matches an explicit repo convention is **not** a finding; breaking an
@@ -60,7 +66,10 @@ Severity rubric (assign by impact, not by rule):
 
 ## Report Output
 
-Write a Markdown report to `docs/reviews/<YYYY-MM-DD>-bdd-review.md` with:
+By default, write a Markdown report to `docs/reviews/<YYYY-MM-DD>-bdd-review.md`
+(create the `docs/reviews/` directory if it does not exist). If the user asks for an
+inline review or does not want a file written, emit the same report in the reply
+instead. Either way the report contains:
 
 - A one-paragraph summary (files reviewed, framework, overall health).
 - A findings list; each finding has the `[Severity][Category]` tag, a

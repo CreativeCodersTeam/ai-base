@@ -25,8 +25,8 @@
 </dependencies>
 ```
 
-Place `.feature` files under `src/test/resources/` and glue (step) code under
-`src/test/java/`.
+Place `.feature` files under `src/test/resources/features/` (the runner below selects
+the `features` classpath resource) and glue (step) code under `src/test/java/`.
 
 ## Runner (JUnit Platform Suite)
 

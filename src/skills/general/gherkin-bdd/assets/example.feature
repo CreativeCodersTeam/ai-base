@@ -14,7 +14,7 @@ Feature: Checkout
     Then the order total is 10
 
   @discount
-  Scenario Outline: Bulk discount is applied
+  Scenario Outline: Order total scales with quantity
     Given the cart contains <count> copies of "book"
     When the user checks out
     Then the order total is <total>

@@ -1,6 +1,7 @@
 ---
 name: gherkin-bdd
-description: Authoring Gherkin feature files and implementing BDD tests. Use when asked to write .feature files, Given/When/Then scenarios, scenario outlines, BDD specs, or to implement step definitions/bindings and wire up a BDD runner (Reqnroll/SpecFlow, Cucumber-JVM, Cucumber.js). Covers Gherkin syntax, best practices, anti-patterns, and framework-specific step implementation. For reviewing existing BDD tests, use gherkin-bdd-reviewer instead.
+description: Authoring Gherkin feature files and implementing BDD tests. Use when asked to write .feature files, Given/When/Then scenarios, scenario outlines, BDD specs, or to implement step definitions/bindings and wire up a BDD runner (Reqnroll, Cucumber-JVM, Cucumber.js). Covers Gherkin syntax, best practices, anti-patterns, and framework-specific step implementation. For reviewing existing BDD tests, use gherkin-bdd-reviewer instead.
+license: MIT
 ---
 
 # Gherkin & BDD Skill
@@ -34,14 +35,15 @@ conventions. Check these sources (first match wins, in order):
 3. Existing `.feature` files and step-definition folders — infer the established
    style (spoken language tag, file/scenario naming, step phrasing, tag taxonomy)
    and follow it.
-4. Framework config that constrains conventions: `reqnroll.json`/`specflow.json`,
+4. Framework config that constrains conventions: `reqnroll.json`,
    `cucumber.js`/`cucumber.json`, `@CucumberOptions`.
 
 When a repo convention is silent on a point, fall back to the rules below. When the
 repo conflicts with a rule below, follow the repo and note the override to the user.
 
-**Defaults when the repo is silent:** write scenarios in English with no `# language:`
-header (add one only if existing `.feature` files use a different spoken language).
+**Defaults when the repo is silent:** write scenarios in English. The `# language:`
+header is optional for English (Gherkin assumes English without it); add it explicitly
+only when existing `.feature` files do, or when the spoken language is not English.
 
 ## Gherkin Core
 
@@ -57,9 +59,51 @@ A feature file uses these keywords:
   `Then` (observable outcome). `And` / `But` continue the previous keyword.
 - Tags (`@smoke`, `@wip`) attach metadata to features/scenarios for filtering.
 
-Write **declarative** business-language steps ("Given the user has an active
-account"), not **imperative** UI steps ("Given I click the #login button"). Keep the
-solution domain out of the spec.
+These keywords combine into one file (each keyword annotated):
+
+```gherkin
+@checkout                                   # tag: metadata for filtering
+Feature: Checkout                           # the capability under test (one per file)
+  As a shopper                              # optional free-text description
+  I want to pay for items in my cart
+  So that I receive my order
+
+  Background:                               # runs before every scenario (shared setup)
+    Given the store sells "book" for 10
+
+  Scenario: Pay for a single item           # one concrete behavior
+    Given the cart contains a "book"        # context / precondition
+    When the user checks out                # the single action under test
+    Then the order total is 10              # observable outcome
+
+  Scenario Outline: Bulk discount applies   # parameterized — runs once per row
+    Given the cart contains <count> copies of "book"
+    When the user checks out
+    Then the order total is <total>
+
+    Examples:                               # data rows for the outline
+      | count | total |
+      | 5     | 45    |
+      | 10    | 80    |
+```
+
+Write **declarative** business-language steps, not **imperative** UI steps. Keep the
+solution domain out of the spec:
+
+```gherkin
+# ❌ Imperative — couples the spec to the UI
+Scenario: Login
+  Given I open "/login"
+  When I type "alice" into "#username"
+  And I click "#submit"
+  Then I see "Welcome"
+
+# ✅ Declarative — survives UI changes, reads as business behavior
+Scenario: Returning user signs in
+  Given Alice has a registered account
+  When she signs in with valid credentials
+  Then she sees her dashboard
+```
 
 ## Best Practices & Anti-Patterns
 
@@ -75,6 +119,28 @@ per *Rule Precedence*). See `references/gherkin-style.md` for depth and examples
 | `Background` only for shared setup | Background steps used by some scenarios only |
 | Meaningful tags, no dead tags | Tag sprawl / tags no runner uses |
 | Independent scenarios | Scenarios depending on execution order/shared state |
+
+Example — "one behavior, one `When`" in practice:
+
+```gherkin
+# ❌ Two behaviors and two When steps crammed into one scenario
+Scenario: Manage cart
+  When the user adds an item
+  Then the cart shows 1 item
+  When the user removes the item
+  Then the cart is empty
+
+# ✅ Split: each scenario has exactly one When and one behavior
+Scenario: Adding an item fills the cart
+  Given an empty cart
+  When the user adds an item
+  Then the cart shows 1 item
+
+Scenario: Removing the last item empties the cart
+  Given a cart with one item
+  When the user removes the item
+  Then the cart is empty
+```
 
 ## Workflow
 
@@ -93,7 +159,7 @@ per *Rule Precedence*). See `references/gherkin-style.md` for depth and examples
 
 | Signal | Framework | Reference |
 |---|---|---|
-| `.csproj` referencing `Reqnroll` or `SpecFlow` | Reqnroll (.NET) | `references/reqnroll-dotnet.md` |
+| `.csproj` referencing `Reqnroll` | Reqnroll (.NET) | `references/reqnroll-dotnet.md` |
 | `pom.xml` / `build.gradle` with `io.cucumber` | Cucumber-JVM | `references/cucumber-jvm.md` |
 | `package.json` with `@cucumber/cucumber` | Cucumber.js | `references/cucumber-js.md` |
 
