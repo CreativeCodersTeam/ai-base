@@ -6,7 +6,7 @@
 
 **Architecture:** Both skills live under `src/skills/general/`. `gherkin-bdd` owns the canonical rule set, framework references (Reqnroll/.NET, Cucumber-JVM/Java, Cucumber.js/TS), and a rule-precedence policy (repo conventions override built-in rules). `gherkin-bdd-reviewer` has no own rules — it invokes `gherkin-bdd` via the Skill tool, inherits the precedence, and emits a severity-tagged Markdown report under `docs/reviews/`.
 
-**Tech Stack:** Markdown skill files (`SKILL.md` + `references/` + `assets/`). Verification via shell checks (frontmatter, line count, Gherkin validity) and the repo's deploy tool `tools/deploy-ai-config.sh`.
+**Tech Stack:** Markdown skill files (`SKILL.md` + `references/` + `assets/`). Verification via shell checks (frontmatter, line count, Gherkin validity, relative paths).
 
 **Spec:** `docs/superpowers/specs/2026-06-22-gherkin-bdd-skill-design.md`
 
@@ -29,9 +29,9 @@ src/skills/general/gherkin-bdd-reviewer/
 └── SKILL.md                      # Task 7
 ```
 
-Final task (Task 8) runs the deploy tool and full validation across both skills.
+Final task (Task 8) runs full validation across both skills.
 
-**Note on "tests":** These are markdown skill files, so verification is structural (frontmatter validity, `name` format, line-count guideline, relative paths, valid Gherkin, deploy pickup) rather than unit tests. Each task ends with a concrete verification command and a commit.
+**Note on "tests":** These are markdown skill files, so verification is structural (frontmatter validity, `name` format, line-count guideline, relative paths, valid Gherkin) rather than unit tests. Each task ends with a concrete verification command and a commit.
 
 ---
 
@@ -777,7 +777,7 @@ git commit -m "feat: add gherkin-bdd-reviewer skill"
 
 ---
 
-### Task 8: Validate both skills and deploy pickup
+### Task 8: Validate both skills
 
 **Files:**
 - No new files; verification only.
@@ -803,31 +803,6 @@ grep -RnE '\]\((/|[A-Za-z]:\\)' src/skills/general/gherkin-bdd* || echo "no abso
 ```
 Expected: prints `no absolute resource paths`.
 
-- [ ] **Step 3: Run the deploy tool for the `general` language to confirm pickup**
-
-Run:
-```bash
-sh ./tools/deploy-ai-config.sh --languages=general --ai-systems=claude --output-dir=./output
-```
-Expected: the tool completes without error and the new skills appear under
-`output/.claude/skills/gherkin-bdd/` and `output/.claude/skills/gherkin-bdd-reviewer/`.
-Confirm:
-```bash
-ls output/.claude/skills/gherkin-bdd/SKILL.md output/.claude/skills/gherkin-bdd-reviewer/SKILL.md
-```
-Expected: both paths exist. (If the deploy tool is unavailable in this environment,
-note it and rely on Steps 1–2 for validation.)
-
-- [ ] **Step 4: Commit any generated output (only if the repo tracks `output/`)**
-
-```bash
-git status --short output/ 2>/dev/null
-# If output/ shows tracked changes, commit them:
-git add output/.claude/skills/gherkin-bdd output/.claude/skills/gherkin-bdd-reviewer 2>/dev/null && \
-git commit -m "chore: deploy gherkin-bdd skills to output" || echo "nothing to commit for output/"
-```
-Expected: either a commit is created or `nothing to commit for output/`.
-
 ---
 
 ## Self-Review Notes
@@ -835,7 +810,7 @@ Expected: either a commit is created or `nothing to commit for output/`.
 - **Spec coverage:** authoring skill (Tasks 1–6), framework references for all three
   ecosystems (Tasks 3–5), rule precedence (Task 1 §Rule Precedence), reviewer skill
   with Skill-tool invocation + inherited precedence + severity report (Task 7),
-  validation + deploy (Task 8). Python deliberately excluded; no LICENSE.txt — matches
+  validation (Task 8). Python deliberately excluded; no LICENSE.txt — matches
   spec scope.
 - **Naming consistency:** skill names `gherkin-bdd` and `gherkin-bdd-reviewer` and the
   reference filenames are used identically across all tasks and cross-references.
