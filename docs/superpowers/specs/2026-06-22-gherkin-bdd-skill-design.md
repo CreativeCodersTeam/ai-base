@@ -21,6 +21,12 @@ The standards live in **one place** (`gherkin-bdd`). The reviewer invokes the
 authoring skill to load those standards, then applies them as review criteria —
 so the rules never drift between the two skills.
 
+**Rule precedence:** Whenever repo-local Gherkin/BDD conventions exist and conflict
+with the skill's built-in rules, the **repo conventions always win**. The skill's
+own rules are the fallback for anything the repo does not specify. This precedence is
+defined in `gherkin-bdd` and inherited by the reviewer, so authoring and review apply
+the same effective rule set.
+
 ## Scope
 
 In scope:
@@ -79,16 +85,33 @@ src/skills/general/gherkin-bdd/
 
 1. **Title + overview** — one-paragraph summary of what the skill enables.
 2. **When to Use This Skill** — trigger scenarios reinforcing the description.
-3. **Gherkin Core** — structural keywords and Given-When-Then rules; declarative
+3. **Rule Precedence (read first)** — repo-local Gherkin/BDD conventions **always
+   override** the skill's built-in rules on conflict; the skill rules are the fallback.
+   Before authoring or implementing, scan the repo for existing conventions and adopt
+   them. Sources to check (first match wins, in order):
+   - Project instruction files: `CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md`,
+     and any `*.md` style/contribution guides mentioning Gherkin/BDD.
+   - Linter/formatter config: `.gherkin-lintrc`, `gherkin-lint` config, `.editorconfig`
+     entries for `*.feature`.
+   - Existing `.feature` files and step-definition folders — infer the established
+     style (language tag, naming, step phrasing, tag taxonomy) and follow it.
+   - Framework config that constrains conventions (e.g., `cucumber.js`, `specflow.json`/
+     `reqnroll.json`, `@CucumberOptions`).
+
+   When a repo convention is silent on a point, fall back to the skill's own rules.
+   When the repo conflicts with a skill rule, follow the repo and note the override.
+4. **Gherkin Core** — structural keywords and Given-When-Then rules; declarative
    vs. imperative guidance.
-4. **Best Practices & Anti-Patterns** — compact table (one behavior per scenario,
+5. **Best Practices & Anti-Patterns** — compact table (one behavior per scenario,
    single `When`, reusable/parameterized steps, no UI-implementation detail in steps,
-   business language, tag discipline). This table is the **canonical rule set** the
-   reviewer consumes. Links to `references/gherkin-style.md` for depth.
-5. **Workflow** — numbered: (1) write/refine `.feature`, (2) detect stack,
-   (3) load matching framework reference, (4) generate step definitions,
-   (5) run the suite, (6) verify output. Each step references the relevant doc.
-6. **Framework Detection** — table mapping project signals to reference:
+   business language, tag discipline). This table is the **canonical fallback rule set**
+   the reviewer consumes (subordinate to repo conventions per section 3). Links to
+   `references/gherkin-style.md` for depth.
+6. **Workflow** — numbered: (1) scan repo conventions (section 3), (2) write/refine
+   `.feature`, (3) detect stack, (4) load matching framework reference, (5) generate
+   step definitions, (6) run the suite, (7) verify output. Each step references the
+   relevant doc.
+7. **Framework Detection** — table mapping project signals to reference:
 
    | Signal | Framework | Reference |
    |---|---|---|
@@ -142,6 +165,11 @@ standards and the relevant framework reference, then evaluate the target files
 against them. This single-sources the standards: editing `gherkin-bdd` automatically
 changes what the reviewer enforces.
 
+It also inherits the **rule precedence** defined in `gherkin-bdd`: the reviewer judges
+against repo-local conventions first and the skill's built-in rules only as fallback.
+A scenario that violates a built-in rule but matches an explicit repo convention is
+**not** a finding (and vice versa: violating an established repo convention is a finding).
+
 ### Structure
 
 ```
@@ -190,6 +218,9 @@ No own `references/` — the standards come from `gherkin-bdd`.
 - `gherkin-bdd-reviewer` loads on review/audit prompts (not generic code review),
   invokes `gherkin-bdd` for standards, and emits a severity-tagged Markdown report
   under `docs/reviews/`.
+- Rule precedence holds: when a repo-local Gherkin/BDD convention conflicts with a
+  built-in rule, both skills follow the repo convention; built-in rules apply only
+  where the repo is silent.
 - Both SKILL.md files stay under the 500-line guideline (authoring target < 200);
   large detail lives in `references/`.
 - Both pass the repo's skill validation checklist (valid frontmatter,
