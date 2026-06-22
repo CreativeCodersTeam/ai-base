@@ -48,6 +48,16 @@ Tag each finding `[Severity][Category]`:
 - Severity: `[Critical|Major|Minor|Suggestion|Nitpick]`
 - Category: `[Gherkin-Style|Step-Defs|Coverage|Maintainability]`
 
+Severity rubric (assign by impact, not by rule):
+
+| Severity | Use for |
+|---|---|
+| `Critical` | The test is broken or misleading: undefined/ambiguous steps that fail or mis-bind, a scenario asserting the wrong outcome, scenarios coupled by shared state so results are non-deterministic. |
+| `Major` | A core rule is violated in a way that undermines the spec's value: multiple behaviors / multiple `When` in one scenario, pervasive imperative/UI-detail steps, dead or duplicated step definitions. |
+| `Minor` | A localized rule violation: a single chained step, one imperative step, a misused `Background` step. |
+| `Suggestion` | A maintainability improvement that is not a violation: parameterizing near-duplicate steps, better naming. |
+| `Nitpick` | Cosmetic: wording, ordering, optional tags. |
+
 ## Report Output
 
 Write a Markdown report to `docs/reviews/<YYYY-MM-DD>-bdd-review.md` with:

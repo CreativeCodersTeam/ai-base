@@ -40,6 +40,9 @@ conventions. Check these sources (first match wins, in order):
 When a repo convention is silent on a point, fall back to the rules below. When the
 repo conflicts with a rule below, follow the repo and note the override to the user.
 
+**Defaults when the repo is silent:** write scenarios in English with no `# language:`
+header (add one only if existing `.feature` files use a different spoken language).
+
 ## Gherkin Core
 
 A feature file uses these keywords:
