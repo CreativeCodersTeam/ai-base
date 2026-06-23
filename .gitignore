@@ -31,3 +31,4 @@ Thumbs.db
 .tokensave
 
 src/skills/csharp/dotnet-reviewer/tests/fixtures/repo-*/
+src/skills/general/gherkin-bdd-reviewer/tests/fixtures/repo-*/
